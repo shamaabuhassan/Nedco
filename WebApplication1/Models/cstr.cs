@@ -11,7 +11,8 @@ namespace WebApplication1.Models
     {
         public static string con
         {
-            get { return "Server=localhost\\SQLEXPRESS;Database=nedco;User Id=sa;Password=123;"; }
+            get { return "Server=localhost\\SQLEXPRESS;Database=nedco;User Id=sa;Password=123;"; }  
+            //redo
         }
 
     }
