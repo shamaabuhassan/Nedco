@@ -128,6 +128,7 @@
     <Compile Include="Models\cstr.cs" />
     <Compile Include="Models\customer.cs" />
     <Compile Include="Models\meter.cs" />
+    <Compile Include="Models\Model1.cs" />
     <Compile Include="Models\topup.cs" />
     <Compile Include="Models\transfer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
