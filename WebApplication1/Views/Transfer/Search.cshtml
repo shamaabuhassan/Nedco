@@ -3,7 +3,10 @@
 
 @{
     Layout = null;
-    Transfer[] transfers = ViewBag.transfers;
+    if (ViewBag.transfers != null)
+    {
+        Transfer[] transfers = ViewBag.transfers;
+    }
 
 }
 

@@ -19,8 +19,11 @@ namespace WebApplication1.Controllers
         public ActionResult Search(int ?MeterId)
         {
             int rc;
-            Topup[] topups = Topup.GetTopups(new TopupParameters { MeterId = MeterId }, out rc);
-            ViewBag.topups = topups;
+            if (MeterId != null)
+            {
+                Topup[] topups = Topup.GetTopups(new TopupParameters { MeterId = MeterId }, out rc);
+                ViewBag.topups = topups;
+            }
             return View();
 
         }

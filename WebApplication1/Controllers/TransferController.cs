@@ -19,8 +19,11 @@ namespace WebApplication1.Controllers
         public ActionResult Search(int? MeterId)
         {
             int rc;
-            Transfer[] transfers = Transfer.GetTransfers(new TransferParameters { MeterId = MeterId }, out rc);
-            ViewBag.transfers = transfers;
+            if (MeterId != null)
+            {
+                Transfer[] transfers = Transfer.GetTransfers(new TransferParameters { MeterId = MeterId }, out rc);
+                ViewBag.transfers = transfers;
+            }
             return View();
         }
 

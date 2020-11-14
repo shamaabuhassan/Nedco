@@ -19,8 +19,11 @@ namespace WebApplication1.Controllers
         public ActionResult Search(int? CountryId)
         {
             int rc;
-            Customer[] customers = Customer.GetCustomers(new CustomerParameters { CountryId = CountryId }, out rc);
-            ViewBag.customers = customers;
+            if (CountryId != null)
+            {
+                Customer[] customers = Customer.GetCustomers(new CustomerParameters { CountryId = CountryId }, out rc);
+                ViewBag.customers = customers;
+            }
             return View();
         }
 

@@ -3,7 +3,10 @@
 
 @{ 
     Layout = null;
-    Meter[] meters = ViewBag.meters;
+    if (ViewBag.meters != null)
+    {
+        Meter[] meters = ViewBag.meters;
+    }
 }
 
 

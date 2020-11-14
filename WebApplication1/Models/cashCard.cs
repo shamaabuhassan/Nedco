@@ -15,7 +15,6 @@ namespace WebApplication1.Models
         public string Password { get; set; }
         public decimal? Amount { get; set; }
         public string Status { get; set; }
-
         public int? Cardid { get; set; }
 
 
@@ -132,6 +131,7 @@ namespace WebApplication1.Models
                         if (r["password"] != DBNull.Value) c.Password = Convert.ToString(r["password"]);
                         if (r["customer_id"] != DBNull.Value) c.CustomerId = Convert.ToInt32(r["customer_id"]);
                         if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
+                        if (r["card_id"] != DBNull.Value) c.Cardid = Convert.ToInt32(r["card_id"]);
 
                         l.Add(c);
                     }

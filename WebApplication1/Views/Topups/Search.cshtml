@@ -4,7 +4,10 @@
 
 @{
     Layout = null;
-    Topup[] topups = ViewBag.topups;
+    if (ViewBag.topups != null)
+    {
+        Topup[] topups = ViewBag.topups;
+    }
 
 }
 

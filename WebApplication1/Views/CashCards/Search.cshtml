@@ -3,7 +3,10 @@
 
 @{
     Layout = null;
-    CashCard[] cashCards = ViewBag.cashCards;
+    if (ViewBag.cashCards != null)
+    {
+        CashCard[] cashCards = ViewBag.cashCards;
+    }
 }
 
 @using(Html.BeginForm("Search","CashCards",FormMethod.Post))

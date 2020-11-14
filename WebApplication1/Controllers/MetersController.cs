@@ -19,8 +19,11 @@ namespace WebApplication1.Controllers
         public ActionResult Search(int ? UserId)
         {
             int rc;
-            Meter[] meters = Meter.GetMeters(new MeterParameters { UserId = UserId }, out rc);
-            ViewBag.meters = meters;
+            if (UserId != null)
+            {
+                Meter[] meters = Meter.GetMeters(new MeterParameters { UserId = UserId }, out rc);
+                ViewBag.meters = meters;
+            }
             return View();
         }
 

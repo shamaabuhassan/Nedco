@@ -3,7 +3,10 @@
 
 @{
     Layout = null;
-    Customer[] customers = ViewBag.customers;
+    if (ViewBag.customers != null)
+    {
+        Customer[] customers = ViewBag.customers;
+    }
 }
 
 @using (Html.BeginForm("Search", "Customers", FormMethod.Post))

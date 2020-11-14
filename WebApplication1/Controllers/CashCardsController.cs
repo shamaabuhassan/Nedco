@@ -21,8 +21,11 @@ namespace WebApplication1.Controllers
         public ActionResult Search(int? CustomerId)
         {
             int rc;
-            CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { CustomerId = CustomerId }, out rc);
-            ViewBag.cashCards = cashCards;
+            if (CustomerId != null)
+            {
+                CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { CustomerId = CustomerId }, out rc);
+                ViewBag.cashCards = cashCards;
+            }
             return View();
         }
 
