@@ -1,0 +1,31 @@
+﻿@using WebApplication1.Models;
+@{
+    ViewBag.Title = "Index";
+}
+@{
+    int? id = ViewBag.id;
+    int rc;
+    Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
+}
+
+
+<table style="">
+    <thead>
+        <tr>
+            <td>الاسم</td>
+            <td>رقم العداد</td>
+            <td>الكمية </td>
+            <td>رقم المستخدم</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Meter meter in meters)
+        {
+            <tr>
+                <td>@meter.Id</td>
+                <td>@meter.Amount</td>
+                <td>@meter.UserId</td>
+            </tr>
+        }
+    </tbody>
+</table>

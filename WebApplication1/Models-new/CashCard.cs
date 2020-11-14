@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using WebApplication1.Models;
 
 namespace WebApplication1.Models_new
 {
@@ -53,6 +56,7 @@ namespace WebApplication1.Models_new
                 cmd.Connection = new SqlConnection(cstr.con);
                 cmd.Connection.Open();
                 cmd.CommandText = "SaveCashCardData";
+
                 if (Id != null) cmd.Parameters.AddWithValue("id", Id);
                 if (Password != null) cmd.Parameters.AddWithValue("password", Password);
                 if (CustomerId != null) cmd.Parameters.AddWithValue("customer_id", CustomerId);

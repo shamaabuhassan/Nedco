@@ -120,22 +120,22 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CashCardsController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MetersController.cs" />
+    <Compile Include="Controllers\TopupsController.cs" />
+    <Compile Include="Controllers\TransferController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models-new\CashCard.cs" />
-    <Compile Include="Models-new\Customer.cs" />
-    <Compile Include="Models-new\Meter.cs" />
-    <Compile Include="Models-new\Topup.cs" />
-    <Compile Include="Models-new\Transfer.cs" />
-    <Compile Include="Models\cashCard.cs" />
+    <Compile Include="Models\CashCard.cs" />
     <Compile Include="Models\cstr.cs" />
-    <Compile Include="Models\customer.cs" />
-    <Compile Include="Models\meter.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Meter.cs" />
     <Compile Include="Models\Model1.cs" />
-    <Compile Include="Models\topup.cs" />
-    <Compile Include="Models\transfer.cs" />
+    <Compile Include="Models\Topup.cs" />
+    <Compile Include="Models\Transfer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +143,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -174,6 +175,21 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\CashCards\Index.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Meters\Index.cshtml" />
+    <Content Include="Views\Topups\index.cshtml" />
+    <Content Include="Views\Transfer\index.cshtml" />
+    <Content Include="Views\Transfer\Search.cshtml" />
+    <Content Include="Views\Topups\Search.cshtml" />
+    <Content Include="Views\Meters\Search.cshtml" />
+    <Content Include="Views\Customers\Search.cshtml" />
+    <Content Include="Views\CashCards\Search.cshtml" />
+    <Content Include="Views\CashCards\Save.cshtml" />
+    <Content Include="Views\Customers\Save.cshtml" />
+    <Content Include="Views\Meters\Save.cshtml" />
+    <Content Include="Views\Topups\Save.cshtml" />
+    <Content Include="Views\Transfer\Save.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

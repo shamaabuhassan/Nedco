@@ -1,0 +1,28 @@
+﻿@using WebApplication1.Models;
+@{
+    int rc;
+    int ?ID = ViewBag.ID;
+    CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { }, out rc);
+}
+
+<table style="">
+    <thead>
+        <tr>
+            <td>رقم البطاقة</td>
+            <td>المبلغ المتوفر</td>
+            <td>رقم المستخدم</td>
+    
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (CashCard cashcards in cashCards)
+        {
+        <tr>
+            <td>@cashcards.Id</td>
+            <td>@cashcards.Amount</td>
+            <td>@cashcards.CustomerId</td>
+
+        </tr>
+        }
+    </tbody>
+</table>

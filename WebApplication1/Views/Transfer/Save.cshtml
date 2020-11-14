@@ -1,0 +1,45 @@
+﻿@using WebApplication1.Models
+@model TransferParameters
+
+@{
+    int rc;
+    int rcc;
+    Layout = null;
+    int result = ViewBag.result;
+
+    Topup[] topups = Topup.GetTopups(new TopupParameters { }, out rc);
+    Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rcc);
+
+}
+
+@using (Html.BeginForm("Save", "Transfer", FormMethod.Post))
+{
+
+    <table>
+
+        <tbody>
+
+            <tr><td>Id</td></tr>
+
+            <tr><td>@Html.TextBoxFor(o => o.Id)</td></tr>
+
+            <tr><td>senderotp</td></tr>
+
+            <tr><td></td></tr>
+
+            <tr><td>meterid</td></tr>
+
+            <tr><td></td></tr>
+
+            <tr><td>amount</td></tr>
+
+            <tr><td>@Html.TextBoxFor(o => o.Amount)</td></tr>
+
+        </tbody>
+    </table>
+
+    <input type="submit" value="Save" />
+
+    <p> the result is:@result</p>
+
+}

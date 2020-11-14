@@ -1,0 +1,60 @@
+﻿@using WebApplication1.Models
+@model TopupParameters
+
+@{
+    int rc;
+    int rcc;
+    Layout = null;
+    int result = ViewBag.result;
+
+    Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
+    CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { }, out rcc);
+}
+
+@using (Html.BeginForm("Save", "Customers", FormMethod.Post))
+{
+    <table>
+
+        <tbody>
+
+            <tr><td>Id</td></tr>
+
+            <tr><td>@Html.TextBoxFor(o => o.Id)</td></tr>
+
+            <tr><td>meterid</td></tr>
+
+            <tr><td></td></tr>
+
+            <tr><td>amount</td></tr>
+
+            <tr><td>@Html.TextBoxFor(o => o.Amount)</td></tr>
+
+            <tr><td>cardid</td></tr>
+
+            <tr><td></td></tr>
+
+
+            <tr><td>otp</td></tr>
+
+            <tr><td></td></tr>
+
+            <tr><td>chargedate</td></tr>
+
+            <tr><td></td></tr>
+
+            <tr><td>activationdate</td></tr>
+
+            <tr><td></td></tr>
+
+            <tr><td>status</td></tr>
+
+            <tr><td></td></tr>
+          
+
+        </tbody>
+    </table>
+
+    <input type="submit" value="Save" />
+
+    <p> the result is:@result</p>
+}

@@ -1,0 +1,70 @@
+﻿@using WebApplication1.Models
+@model CustomerParameters
+
+@{
+    int rc;
+    int rcc;
+    Layout = null;
+    int result = ViewBag.result;
+
+    Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
+    CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { }, out rcc);
+}
+
+@using (Html.BeginForm("Save", "Customers", FormMethod.Post))
+{
+    <table>
+
+        <tbody>
+
+            <tr><td>Id</td></tr>
+
+            <tr><td>@Html.TextBoxFor(o => o.Id)</td></tr>
+
+            <tr><td>username</td></tr>
+
+            <tr><td>@Html.TextBoxFor(o => o.Username)</td></tr>
+
+            <tr><td>meterid</td></tr>
+
+            <tr><td></td></tr>
+
+            <tr><td>cardid</td></tr>
+
+            <tr><td></td></tr>
+
+            <tr><td>telephone</td></tr>
+
+            <tr><td>@Html.TextBoxFor(o => o.Telephone)</td></tr>
+
+            <tr><td>countryid</td></tr>
+
+            <tr><td>@Html.TextBoxFor(o => o.CountryId)</td></tr>
+
+
+            <tr><td>cityid</td></tr>
+
+            <tr><td>@Html.TextBoxFor(o => o.CityId)</td></tr>
+
+            <tr><td>area</td></tr>
+
+            <tr><td>@Html.TextBoxFor(o => o.Area)</td></tr>
+
+            <tr><td>street</td></tr>
+
+            <tr><td>@Html.TextBoxFor(o => o.Street)</td></tr>
+
+            <tr><td>password</td></tr>
+
+            <tr><td>@Html.TextBoxFor(o => o.Password)</td></tr>
+            <tr>
+                <td>
+                </td>
+
+        </tbody>
+    </table>
+
+    <input type="submit" value="Save" />
+
+    <p> the result is:@result</p>
+}

@@ -7,18 +7,32 @@ using System.Web;
 
 namespace WebApplication1.Models
 {
-    public class topup
+    public class TopupParameters
     {
-        public int? id { get; set; }
-        public int? meter_id { get; set; }
-        public decimal? amount { get; set; }
-        public int? card_id { get; set; }
-        public string otp { get; set; }
-        public DateTime chargeDate { get; set; }
-        public DateTime activationDate { get; set; }
-        public string status { get; set; }
+        public int? Id { get; set; }
+        public int? MeterId { get; set; }
+        public decimal? Amount { get; set; }
+        public int? CardId { get; set; }
+        public string OTP { get; set; }
+        public DateTime? ChargeDate { get; set; }
+        public DateTime? ActivationDate { get; set; }
+        public string Status { get; set; }
 
-        public topup(int ID)
+
+    }
+    public class Topup
+    {
+        public int? Id { get; set; }
+        public int? MeterId { get; set; }
+        public decimal? Amount { get; set; }
+        public int? CardId { get; set; }
+        public string OTP { get; set; }
+        public DateTime? ChargeDate { get; set; }
+        public DateTime? ActivationDate { get; set; }
+        public string Status { get; set; }
+
+        public Topup() { }
+        public Topup(int id)
         {
 
             using (SqlCommand cmd = new SqlCommand())
@@ -33,20 +47,14 @@ namespace WebApplication1.Models
                 if (r.HasRows)
                 {
                     r.Read();
-                    if (r["id"] != DBNull.Value)
-                    {
-                        this.id = Convert.ToInt32(r["id"]);
-                        this.meter_id = Convert.ToInt32(r["meter_id"]);
-                        this.amount = Convert.ToInt32(r["amount"]);
-                        this.card_id = Convert.ToInt32(r["card_id"]);
-                        this.otp = Convert.ToString(r["otp"]);
-                        this.chargeDate = Convert.ToDateTime(r["chargeDate"]);
-                        this.activationDate = Convert.ToDateTime(r["activationDate"]);
-                        this.status = Convert.ToString(r["status"]);
-
-
-
-                    }
+                    if (r["id"] != DBNull.Value) this.Id = Convert.ToInt32(r["id"]);
+                    if (r["meter_id"] != DBNull.Value) this.MeterId = Convert.ToInt32(r["meter_id"]);
+                    if (r["amount"] != DBNull.Value) this.Amount = Convert.ToDecimal(r["amount"]);
+                    if (r["card_id"] != DBNull.Value) this.CardId = Convert.ToInt32(r["card_id"]);
+                    this.OTP = Convert.ToString(r["otp"]);
+                    if (r["chargeDate"] != DBNull.Value) this.ChargeDate = Convert.ToDateTime(r["chargeDate"]);
+                    if (r["activationDate"] != DBNull.Value) this.ActivationDate = Convert.ToDateTime(r["activationDate"]);
+                    this.Status = Convert.ToString(r["status"]);
                     cmd.Connection.Close();
 
 
@@ -54,8 +62,22 @@ namespace WebApplication1.Models
             }
         }
 
+        //constructor
 
-        public int SavwData()
+        public Topup(int? id, int? meterId, decimal? amount, int? cardId, string otp, DateTime? chargeDate, DateTime? activationDate, string status)
+        {
+            this.Id = id;
+            this.MeterId = meterId;
+            this.Amount = amount;
+            this.CardId = cardId;
+            this.OTP = otp;
+            this.ChargeDate = chargeDate;
+            this.ActivationDate = activationDate;
+            this.Status = status;
+
+        }
+
+        public int SaveData()
         {
             using (SqlCommand cmd = new SqlCommand())
             {
@@ -64,41 +86,67 @@ namespace WebApplication1.Models
                 cmd.Connection.Open();
                 cmd.CommandText = "SaveTopupData";
 
+                if (Id != null) cmd.Parameters.AddWithValue("id", Id);
+                if (MeterId != null) cmd.Parameters.AddWithValue("meter_id", MeterId);
+                if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
+                if (CardId != null) cmd.Parameters.AddWithValue("card_id", CardId);
+                if (OTP != null) cmd.Parameters.AddWithValue("otp", OTP);
+                if (ChargeDate != null) cmd.Parameters.AddWithValue("chargeDate", ChargeDate);
+                if (ActivationDate != null) cmd.Parameters.AddWithValue("activationDate", ActivationDate);
+                if (Status != null) cmd.Parameters.AddWithValue("status", Status);
 
-                if (meter_id != null)
-                    cmd.Parameters.AddWithValue("meter_id", meter_id);
+                SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
+                idParam.Direction = ParameterDirection.InputOutput;
 
+                SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
+                resultParam.Direction = ParameterDirection.InputOutput;
 
-                if (amount != null)
-                    cmd.Parameters.AddWithValue("amount", amount);
-
-                if (card_id != null)
-                    cmd.Parameters.AddWithValue("card_id", card_id);
-
-
-
-                if (otp != null)
-                    cmd.Parameters.AddWithValue("otp", otp);
-
-                if (chargeDate != null)
-                    cmd.Parameters.AddWithValue("chargeDate", chargeDate);
-
-
-                if (activationDate != null)
-                    cmd.Parameters.AddWithValue("activationDate",activationDate);
-
-
-             
-
-                SqlParameter resultParm = cmd.Parameters.Add("@result", SqlDbType.Int);
-                resultParm.Direction = ParameterDirection.InputOutput;
+                idParam.Value = this.Id;
 
                 int c = cmd.ExecuteNonQuery();
-                int result = Convert.ToInt32(resultParm.Value);
+
+                this.Id = Convert.ToInt32(idParam.Value);
+                int result = Convert.ToInt32(resultParam.Value);
                 cmd.Connection.Close();
                 return result;
-
             }
         }
+
+        public static Topup[] GetTopups(TopupParameters parameters, out int rowsCount)
+        {
+            List<Topup> l = new List<Topup>();
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = new SqlConnection(cstr.con);
+                cmd.Connection.Open();
+                cmd.CommandText = "GetTopups";
+                SqlDataReader r = cmd.ExecuteReader();
+                if (r.HasRows)
+                {
+                    while (r.Read())
+                    {
+                        Topup c = new Topup();
+                        if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
+                        if (r["meter_id"] != DBNull.Value) c.MeterId = Convert.ToInt32(r["meter_id"]);
+                        if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
+                        if (r["card_id"] != DBNull.Value) c.CardId = Convert.ToInt32(r["card_id"]);
+                        if (r["otp"] != DBNull.Value) c.OTP = Convert.ToString(r["otp"]);
+                        if (r["chargeDate"] != DBNull.Value) c.ChargeDate = Convert.ToDateTime(r["chargeDate"]);
+                        if (r["activationDate"] != DBNull.Value) c.ActivationDate = Convert.ToDateTime(r["activationDate"]);
+                        if (r["status"] != DBNull.Value) c.Status = Convert.ToString(r["status"]);
+
+                        l.Add(c);
+                    }
+                }
+
+                r.Close();
+                cmd.Connection.Close();
+                rowsCount = l.Count;
+            }
+            return l.ToArray();
+
+        }
+
     }
 }

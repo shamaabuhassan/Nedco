@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
@@ -71,6 +73,7 @@ namespace WebApplication1.Models_new
                 cmd.Connection = new SqlConnection(cstr.con);
                 cmd.Connection.Open();
                 cmd.CommandText = "SaveCustomerData";
+
                 if (Id != null) cmd.Parameters.AddWithValue("id", Id);
                 if (Username != null) cmd.Parameters.AddWithValue("username", Username);
                 if (MeterId != null) cmd.Parameters.AddWithValue("meter_id", MeterId);

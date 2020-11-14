@@ -7,15 +7,27 @@ using System.Web;
 
 namespace WebApplication1.Models
 {
-    public class transfer
+  
+    public class TransferParameters{
+        public int? Id { get; set; }
+        public string SenderOTP { get; set; }
+        public int? MeterId { get; set; }
+        public decimal? Amount { get; set; }
+    }
+public class Transfer
     {
-        public int? id { get; set; }
-        public string senderOTP { get; set; }
-        public int? meter_id { get; set; }
-        public decimal? amount { get; set; }
+        public int? Id { get; set; }
+        public string SenderOTP { get; set; }
+        public int? MeterId { get; set; }
+        public decimal? Amount { get; set; }
 
+ 
 
-        public transfer(int ID)
+        public Transfer()
+        {
+
+        }
+     public Transfer(int id)
         {
 
             using (SqlCommand cmd = new SqlCommand())
@@ -30,15 +42,10 @@ namespace WebApplication1.Models
                 if (r.HasRows)
                 {
                     r.Read();
-                    if (r["id"] != DBNull.Value)
-                    {
-                        this.id = Convert.ToInt32(r["id"]);
-                        this.senderOTP = Convert.ToString(r["senderOTP"]);
-                        this.meter_id = Convert.ToInt32(r["meter_id"]);
-                        this.amount = Convert.ToInt32(r["amount"]);
-
-
-                    }
+                    if (r["id"] != DBNull.Value) this.Id = Convert.ToInt32(r["id"]);
+                    this.SenderOTP = Convert.ToString(r["senderOTP"]);
+                    if (r["meter_id"] != DBNull.Value) this.MeterId = Convert.ToInt32(r["meter_id"]);
+                    if (r["amount"] != DBNull.Value) this.Amount = Convert.ToDecimal(r["amount"]);
                     cmd.Connection.Close();
 
 
@@ -47,7 +54,18 @@ namespace WebApplication1.Models
         }
 
 
-        public int SavwData()
+        //constructor
+
+        public Transfer(int? id, string senderOTP, int? meterId, decimal? amount)
+        {
+            this.Id = id;
+            this.SenderOTP = senderOTP;
+            this.MeterId = meterId;
+            this.Amount = amount;
+
+        }
+
+        public int SaveData()
         {
             using (SqlCommand cmd = new SqlCommand())
             {
@@ -56,28 +74,60 @@ namespace WebApplication1.Models
                 cmd.Connection.Open();
                 cmd.CommandText = "SaveTransferData";
 
-                if (senderOTP != null)
-                    cmd.Parameters.AddWithValue("senderOTP", senderOTP);
+                if (Id != null) cmd.Parameters.AddWithValue("id", Id);
+                if (SenderOTP != null) cmd.Parameters.AddWithValue("senderOTP", SenderOTP);
+                if (MeterId != null) cmd.Parameters.AddWithValue("meter_id", MeterId);
+                if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
 
-                if (meter_id != null)
-                    cmd.Parameters.AddWithValue("meter_id", meter_id);
+                SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
+                idParam.Direction = ParameterDirection.InputOutput;
 
-                if (amount != null)
-                    cmd.Parameters.AddWithValue("amount", amount);
+                SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
+                resultParam.Direction = ParameterDirection.InputOutput;
 
-
-
-                SqlParameter resultParm = cmd.Parameters.Add("@result", SqlDbType.Int);
-                resultParm.Direction = ParameterDirection.InputOutput;
+                idParam.Value = this.Id;
 
                 int c = cmd.ExecuteNonQuery();
-                int result = Convert.ToInt32(resultParm.Value);
+
+                this.Id = Convert.ToInt32(idParam.Value);
+                int result = Convert.ToInt32(resultParam.Value);
                 cmd.Connection.Close();
                 return result;
 
             }
         }
 
+        public static Transfer[] GetTransfers(TransferParameters parameters, out int rowsCount)
+        {
+            List<Transfer> l = new List<Transfer>();
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = new SqlConnection(cstr.con);
+                cmd.Connection.Open();
+                cmd.CommandText = "GetTransfers";
+                SqlDataReader r = cmd.ExecuteReader();
+                if (r.HasRows)
+                {
+                    while (r.Read())
+                    {
+                        Transfer c = new Transfer();
+                        if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
+                        if (r["senderOTP"] != DBNull.Value) c.SenderOTP = Convert.ToString(r["senderOTP"]);
+                        if (r["meter_id"] != DBNull.Value) c.MeterId = Convert.ToInt32(r["meter_id"]);
+                        if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
+
+                        l.Add(c);
+                    }
+                }
+
+                r.Close();
+                cmd.Connection.Close();
+                rowsCount = l.Count;
+            }
+            return l.ToArray();
+
+        }
 
     }
 }
