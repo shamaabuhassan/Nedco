@@ -80,9 +80,37 @@ namespace WebApplication1.Models
                 }
             }
 
-            //constructor
+        public Topup(string otp)
+        {
 
-            public Topup(int? id, int? meterId, decimal? amount, int? cardId)
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = new SqlConnection(cstr.con);
+                cmd.Connection.Open();
+                cmd.CommandText = "GetTopupsByID";
+                cmd.Parameters.AddWithValue("@otp", otp);
+
+                SqlDataReader r = cmd.ExecuteReader();
+                if (r.HasRows)
+                {
+                    r.Read();
+                    if (r["id"] != DBNull.Value) this.Id = Convert.ToInt32(r["id"]);
+                    if (r["meter_id"] != DBNull.Value) this.MeterId = Convert.ToInt32(r["meter_id"]);
+                    if (r["amount"] != DBNull.Value) this.Amount = Convert.ToDecimal(r["amount"]);
+                    if (r["card_id"] != DBNull.Value) this.CardId = Convert.ToInt32(r["card_id"]);
+                    this.OTP = Convert.ToString(r["otp"]);
+                    if (r["chargeDate"] != DBNull.Value) this.ChargeDate = Convert.ToDateTime(r["chargeDate"]);
+                    if (r["activationDate"] != DBNull.Value) this.ActivationDate = Convert.ToDateTime(r["activationDate"]);
+                    this.Status = Convert.ToString(r["status"]);
+                    cmd.Connection.Close();
+                }
+            }
+        }
+
+        //constructor
+
+        public Topup(int? id, int? meterId, decimal? amount, int? cardId)
             {
                 this.Id = id;
                 this.MeterId = meterId;
@@ -90,8 +118,21 @@ namespace WebApplication1.Models
                 this.CardId = cardId;
 
             }
+        public Topup( int? meterId, decimal? amount, int? cardId)
+        {
+       
+            this.MeterId = meterId;
+            this.Amount = amount;
+            this.CardId = cardId;
 
-            public int SaveData()
+        }
+
+        public void Delete()
+        {
+            this.Status = "3";
+            this.SaveData();
+        }
+        public int SaveData()
             {
             CashCard cashCard = new CashCard(CardId);
             int result = 0;

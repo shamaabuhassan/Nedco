@@ -29,10 +29,13 @@ namespace WebApplication1.Controllers
 
         public ActionResult Save(int? id, string senderOTP, int? meterId, decimal? amount)
         {
-            Transfer transfer = new Transfer(id, senderOTP, meterId, amount);
-            int result;
-            result = transfer.SaveData();
-            ViewBag.result = result;
+            if (senderOTP != null)
+            {
+                Transfer transfer = new Transfer(id, senderOTP, meterId, amount);
+                int result;
+                result = transfer.SaveData();
+                ViewBag.result = result;
+            }
             return View();
         }
     }

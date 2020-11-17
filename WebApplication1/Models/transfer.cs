@@ -65,36 +65,66 @@ public class Transfer
 
         }
 
+        public int RandomNumber(int digits)
+        {
+            int count = 0;
+            int rand = 0;
+            while (count != 1)
+            {
+                Random random = new Random();
+                rand = random.Next();
+                int len = rand.ToString().Length;
+
+                if (len == digits)
+                    count = 1;
+            }
+            return rand;
+        }
+
         public int SaveData()
         {
-            using (SqlCommand cmd = new SqlCommand())
+            int result = 0;
+            Topup topup = new Topup(SenderOTP);
+            if (topup.Status == "0")
+
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = new SqlConnection(cstr.con);
-                cmd.Connection.Open();
-                cmd.CommandText = "SaveTransferData";
+                if (topup.Amount > Amount)
+                {
 
-                if (Id != null) cmd.Parameters.AddWithValue("id", Id);
-                if (SenderOTP != null) cmd.Parameters.AddWithValue("senderOTP", SenderOTP);
-                if (MeterId != null) cmd.Parameters.AddWithValue("meter_id", MeterId);
-                if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Connection = new SqlConnection(cstr.con);
+                        cmd.Connection.Open();
+                        cmd.CommandText = "SaveTransferData";
 
-                SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
-                idParam.Direction = ParameterDirection.InputOutput;
 
-                SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
-                resultParam.Direction = ParameterDirection.InputOutput;
+                        if (SenderOTP != null) cmd.Parameters.AddWithValue("senderOTP", SenderOTP);
+                        if (MeterId != null) cmd.Parameters.AddWithValue("meter_id", MeterId);
+                        if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
 
-                idParam.Value = this.Id;
+                        SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
+                        idParam.Direction = ParameterDirection.InputOutput;
 
-                int c = cmd.ExecuteNonQuery();
+                        SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
+                        resultParam.Direction = ParameterDirection.InputOutput;
 
-                this.Id = Convert.ToInt32(idParam.Value);
-                int result = Convert.ToInt32(resultParam.Value);
-                cmd.Connection.Close();
-                return result;
+                        idParam.Value = this.Id;
 
+                        int c = cmd.ExecuteNonQuery();
+
+                        this.Id = Convert.ToInt32(idParam.Value);
+                        result = Convert.ToInt32(resultParam.Value);
+                        cmd.Connection.Close();
+
+                        decimal? amount = topup.Amount - Amount;
+                        Topup topup1 = new Topup(topup.MeterId, amount, topup.CardId);
+                        topup.Delete();
+                        topup1.SaveData();
+                    }
+                }
             }
+            return result;
         }
 
         public static Transfer[] GetTransfers(TransferParameters parameters, out int rowsCount)

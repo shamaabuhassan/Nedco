@@ -5,10 +5,17 @@
     int rc;
     int rcc;
     Layout = null;
-    int result = ViewBag.result;
+    int result = 0;
+    if (ViewBag.result != null)
+    {
+        result = ViewBag.result;
+    }
 
-    Topup[] topups = Topup.GetTopups(new TopupParameters { }, out rc);
+
+   
     Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rcc);
+
+    
 
 }
 
@@ -25,11 +32,11 @@
 
             <tr><td>senderotp</td></tr>
 
-            <tr><td></td></tr>
+            <tr><td>@Html.TextBoxFor(o=>o.SenderOTP)</td></tr>
 
             <tr><td>meterid</td></tr>
 
-            <tr><td></td></tr>
+            <tr><td>@Html.DropDownListFor(o=>o.MeterId, new SelectList(meters,"id","meter_id"))</td></tr>
 
             <tr><td>amount</td></tr>
 
