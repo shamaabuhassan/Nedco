@@ -5,10 +5,15 @@
     int rc;
     int rcc;
     Layout = null;
-    int result = ViewBag.result;
+    int result = 0;
+    if (ViewBag.result != null)
+    {
+        result = ViewBag.result;
+    }
 
     Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
     CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { }, out rcc);
+
 }
 
 @using (Html.BeginForm("Save", "Customers", FormMethod.Post))
@@ -27,11 +32,11 @@
 
             <tr><td>meterid</td></tr>
 
-            <tr><td></td></tr>
+            <tr><td>@Html.DropDownListFor(o => o.MeterId, new SelectList(meters, "Id", "Meterid"))</tr>
 
             <tr><td>cardid</td></tr>
 
-            <tr><td></td></tr>
+            <tr><td>@Html.DropDownListFor(o => o.MeterId, new SelectList(cashCards, "Id", "Cardid"))</tr>
 
             <tr><td>telephone</td></tr>
 
@@ -57,9 +62,10 @@
             <tr><td>password</td></tr>
 
             <tr><td>@Html.TextBoxFor(o => o.Password)</td></tr>
-            <tr>
-                <td>
-                </td>
+          
+            <tr><td>name</td></tr>
+
+            <tr><td>@Html.TextBoxFor(o => o.name)</td></tr>
 
         </tbody>
     </table>

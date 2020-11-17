@@ -12,12 +12,14 @@ namespace WebApplication1.Models
         public int? Id { get; set; }
         public int? UserId { get; set; }
         public decimal? Amount { get; set; }
+        public int? Meterid { get; set; }
     }
     public class Meter
     {
         public int? Id { get; set; }
         public int? UserId { get; set; }
         public decimal? Amount { get; set; }
+        public int? Meterid { get; set; }
 
         public Meter() { }
 
@@ -39,6 +41,7 @@ namespace WebApplication1.Models
                     if (r["id"] != DBNull.Value) this.Id = Convert.ToInt32(r["id"]);
                     if (r["user_id"] != DBNull.Value) this.UserId = Convert.ToInt32(r["user_id"]);
                     if (r["amount"] != DBNull.Value) this.Amount = Convert.ToDecimal(r["amount"]);
+                    if (r["meter_id"] != DBNull.Value) this.Meterid = Convert.ToInt32(r["meter_id"]);
 
                     cmd.Connection.Close();
 
@@ -49,11 +52,12 @@ namespace WebApplication1.Models
 
         //counstructor
 
-        public Meter(int? id, int? userId, decimal? amount)
+        public Meter(int? id, int? userId, decimal? amount,int ?meterid)
         {
             this.Id = id;
             this.UserId = userId;
             this.Amount = amount;
+            this.Meterid = meterid;
 
         }
 
@@ -66,9 +70,9 @@ namespace WebApplication1.Models
                 cmd.Connection.Open();
                 cmd.CommandText = "SaveMeterData";
 
-                if (Id != null) cmd.Parameters.AddWithValue("id", Id);
                 if (UserId != null) cmd.Parameters.AddWithValue("user_id", UserId);
                 if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
+                if (Meterid != null) cmd.Parameters.AddWithValue("meter_id", Meterid);
 
                 SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
                 idParam.Direction = ParameterDirection.InputOutput;
@@ -108,6 +112,7 @@ namespace WebApplication1.Models
                         if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
                         if (r["user_id"] != DBNull.Value) c.UserId = Convert.ToInt32(r["user_id"]);
                         if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
+                        if (r["meter_id"] != DBNull.Value) c.Meterid = Convert.ToInt32(r["meter_id"]);
 
                         l.Add(c);
                     }

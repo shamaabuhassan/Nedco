@@ -12,20 +12,23 @@
 <table style="">
     <thead>
         <tr>
-            <td>الاسم</td>
-            <td>رقم العداد</td>
+            <td>id</td>
             <td>الكمية </td>
             <td>رقم المستخدم</td>
+            <td>رقم العداد</td>
+
         </tr>
     </thead>
     <tbody>
         @foreach (Meter meter in meters)
         {
-            <tr>
-                <td>@meter.Id</td>
-                <td>@meter.Amount</td>
-                <td>@meter.UserId</td>
-            </tr>
+        <tr>
+            <td>@meter.Id</td>
+            <td>@meter.Amount</td>
+            <td>@meter.UserId</td>
+            <td>@meter.Meterid</td>
+
+        </tr>
         }
     </tbody>
 </table>

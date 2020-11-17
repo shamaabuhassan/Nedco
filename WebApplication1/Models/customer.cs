@@ -72,7 +72,7 @@ namespace WebApplication1.Models
         public Customer() { }
 
         //counstructor
-        public Customer(int? id, string username, int? meterId, int? cardId, string telephone, int? countryId, int? cityId, string area, string street, string password)
+        public Customer(int? id, string username, int? meterId, int? cardId, string telephone, int? countryId, int? cityId, string area, string street, string password,string name)
         {
             this.Id = id;
             this.Username = username;
@@ -95,7 +95,7 @@ namespace WebApplication1.Models
                 cmd.Connection = new SqlConnection(cstr.con);
                 cmd.Connection.Open();
                 cmd.CommandText = "SaveCustomerData";
-                if (Id != null) cmd.Parameters.AddWithValue("id", Id);
+
                 if (Username != null) cmd.Parameters.AddWithValue("username", Username);
                 if (MeterId != null) cmd.Parameters.AddWithValue("meter_id", MeterId);
                 if (CardId != null) cmd.Parameters.AddWithValue("card_id", CardId);
@@ -106,6 +106,7 @@ namespace WebApplication1.Models
                 if (Street != null) cmd.Parameters.AddWithValue("street", Street);
                 if (Password != null) cmd.Parameters.AddWithValue("password", Password);
                 if (name != null) cmd.Parameters.AddWithValue("name", name);
+
 
                 SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
                 idParam.Direction = ParameterDirection.InputOutput;

@@ -27,12 +27,15 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Save(int? id, int? userId, decimal? amount)
+        public ActionResult Save(int? id, int? userId, decimal? amount,int?meterid)
         {
-            Meter meter = new Meter(id, userId, amount);
-            int result;
-            result = meter.SaveData();
-            ViewBag.result = result;
+            if (userId != null)
+            {
+                Meter meter = new Meter(id, userId, amount, meterid);
+                int result;
+                result = meter.SaveData();
+                ViewBag.result = result;
+            }
             return View();
         }
     }

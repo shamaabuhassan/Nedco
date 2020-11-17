@@ -4,7 +4,11 @@
 @{
     int rc;
     Layout = null;
-    int result = ViewBag.result;
+    int result = 0;
+    if (ViewBag.result != null)
+    {
+        result = ViewBag.result;
+    }
 
     Customer[] customers = Customer.GetCustomers(new CustomerParameters { }, out rc);
 
@@ -23,7 +27,7 @@
 
             <tr><td>userid</td></tr>
 
-            <tr><td></td></tr>
+            <tr><td>@Html.DropDownListFor(o=>o.UserId, new SelectList(customers,"id","username"))</td></tr>
 
 
             <tr><td>Amount</td></tr>
