@@ -5,13 +5,17 @@
     int rc;
     int rcc;
     Layout = null;
-    int result = ViewBag.result;
+    int result = 0;
+    if (ViewBag.result != null)
+    {
+        result = ViewBag.result;
+    }
 
     Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
     CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { }, out rcc);
 }
 
-@using (Html.BeginForm("Save", "Customers", FormMethod.Post))
+@using (Html.BeginForm("Save", "Topups", FormMethod.Post))
 {
     <table>
 
@@ -23,7 +27,7 @@
 
             <tr><td>meterid</td></tr>
 
-            <tr><td></td></tr>
+            <tr><td>@Html.DropDownListFor(o=>o.MeterId, new SelectList(meters,"id","Meterid"))</td></tr>
 
             <tr><td>amount</td></tr>
 
@@ -31,24 +35,9 @@
 
             <tr><td>cardid</td></tr>
 
-            <tr><td></td></tr>
+            <tr><td>@Html.DropDownListFor(o => o.CardId, new SelectList(cashCards, "id", "Cardid"))</td></tr>
 
 
-            <tr><td>otp</td></tr>
-
-            <tr><td></td></tr>
-
-            <tr><td>chargedate</td></tr>
-
-            <tr><td></td></tr>
-
-            <tr><td>activationdate</td></tr>
-
-            <tr><td></td></tr>
-
-            <tr><td>status</td></tr>
-
-            <tr><td></td></tr>
           
 
         </tbody>

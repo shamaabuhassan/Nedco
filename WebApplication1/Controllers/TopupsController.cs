@@ -28,12 +28,15 @@ namespace WebApplication1.Controllers
 
         }
 
-        public ActionResult Save(int? id, int? meterId, decimal? amount, int? cardId, string otp, DateTime? chargeDate, DateTime? activationDate, string status)
+        public ActionResult Save(int? id, int? meterId, decimal? amount, int? cardId)
         {
-            Topup topup = new Topup(id, meterId, amount, cardId, otp, chargeDate, activationDate, status);
-            int result;
-            result = topup.SaveData();
-            ViewBag.result = result;
+            if (meterId != null)
+            {
+                Topup topup = new Topup(id, meterId, amount, cardId);
+                int result;
+                result = topup.SaveData();
+                ViewBag.result = result;
+            }
             return View();
         }
     }

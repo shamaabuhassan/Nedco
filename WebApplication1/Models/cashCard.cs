@@ -28,7 +28,7 @@ namespace WebApplication1.Models
         public string Status { get; set; }
         public int? Cardid { get; set; }
         //get element bu=y id 
-        public CashCard(int id)
+        public CashCard(int? id)
         {
 
             using (SqlCommand cmd = new SqlCommand())
