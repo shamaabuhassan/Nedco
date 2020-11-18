@@ -69,6 +69,40 @@ namespace WebApplication1.Models
             }
         }
 
+        public Customer(int ?CardID)
+        {
+
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = new SqlConnection(cstr.con);
+                cmd.Connection.Open();
+                cmd.CommandText = "GetCustomerByCardID";
+                cmd.Parameters.AddWithValue("@CARDID", CardID);
+
+                SqlDataReader r = cmd.ExecuteReader();
+                if (r.HasRows)
+                {
+                    r.Read();
+                    if (r["id"] != DBNull.Value) this.Id = Convert.ToInt32(r["id"]);
+                    this.Username = Convert.ToString(r["username"]);
+                    if (r["meter_id"] != DBNull.Value) this.MeterId = Convert.ToInt32(r["meter_id"]);
+                    if (r["card_id"] != DBNull.Value) this.CardId = Convert.ToInt32(r["card_id"]);
+                    this.Telephone = Convert.ToString(r["telephone"]);
+                    if (r["country_id"] != DBNull.Value) this.CountryId = Convert.ToInt32(r["country_id"]);
+                    if (r["city_id"] != DBNull.Value) this.CityId = Convert.ToInt32(r["city_id"]);
+                    this.Area = Convert.ToString(r["area"]);
+                    this.Street = Convert.ToString(r["street"]);
+                    this.Password = Convert.ToString(r["password"]);
+                    this.name = Convert.ToString(r["name"]);
+
+                    cmd.Connection.Close();
+
+
+                }
+            }
+        }
+
         public Customer() { }
 
         //counstructor

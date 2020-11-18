@@ -136,97 +136,56 @@ namespace WebApplication1.Models
             {
             CashCard cashCard = new CashCard(CardId);
             int result = 0;
-            if (cashCard.Amount > Amount)
+            Customer customer = new Customer(CardId);
+            if (customer.Id == cashCard.CustomerId)
             {
-                OTP = RandomNumber(6).ToString();
-                ChargeDate = DateTime.Now;
-                Status = "0";
-
-                using (SqlCommand cmd = new SqlCommand())
+                if (cashCard.Amount > Amount)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Connection = new SqlConnection(cstr.con);
-                    cmd.Connection.Open();
-                    cmd.CommandText = "SaveTopupData";
+                    OTP = RandomNumber(6).ToString();
+                    ChargeDate = DateTime.Now;
+                    Status = "0";
+
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Connection = new SqlConnection(cstr.con);
+                        cmd.Connection.Open();
+                        cmd.CommandText = "SaveTopupData";
 
 
-                    if (MeterId != null) cmd.Parameters.AddWithValue("meter_id", MeterId);
-                    if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
-                    if (CardId != null) cmd.Parameters.AddWithValue("card_id", CardId);
-                    if (OTP != null) cmd.Parameters.AddWithValue("otp", OTP);
-                    if (ChargeDate != null) cmd.Parameters.AddWithValue("chargeDate", ChargeDate);
-                    if (ActivationDate != null) cmd.Parameters.AddWithValue("activationDate", ActivationDate);
-                    if (Status != null) cmd.Parameters.AddWithValue("status", Status);
+                        if (MeterId != null) cmd.Parameters.AddWithValue("meter_id", MeterId);
+                        if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
+                        if (CardId != null) cmd.Parameters.AddWithValue("card_id", CardId);
+                        if (OTP != null) cmd.Parameters.AddWithValue("otp", OTP);
+                        if (ChargeDate != null) cmd.Parameters.AddWithValue("chargeDate", ChargeDate);
+                        if (ActivationDate != null) cmd.Parameters.AddWithValue("activationDate", ActivationDate);
+                        if (Status != null) cmd.Parameters.AddWithValue("status", Status);
 
-                    SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
-                    idParam.Direction = ParameterDirection.InputOutput;
+                        SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
+                        idParam.Direction = ParameterDirection.InputOutput;
 
-                    SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
-                    resultParam.Direction = ParameterDirection.InputOutput;
+                        SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
+                        resultParam.Direction = ParameterDirection.InputOutput;
 
-                    idParam.Value = this.Id;
+                        idParam.Value = this.Id;
 
-                    int c = cmd.ExecuteNonQuery();
+                        int c = cmd.ExecuteNonQuery();
 
-                    this.Id = Convert.ToInt32(idParam.Value);
-                    result = Convert.ToInt32(resultParam.Value);
-                    cmd.Connection.Close();
+                        this.Id = Convert.ToInt32(idParam.Value);
+                        result = Convert.ToInt32(resultParam.Value);
+                        cmd.Connection.Close();
 
+                    }
+                    decimal? amount = cashCard.Amount - Amount;
+                    CashCard cash = new CashCard(cashCard.Id, cashCard.Password, cashCard.CustomerId, amount, cashCard.Cardid);
+                    cash.SaveData();
                 }
-                decimal? amount = cashCard.Amount - Amount;
-                CashCard cash = new CashCard(cashCard.Id,cashCard.Password,cashCard.CustomerId,amount,cashCard.Cardid);
-                cash.SaveData();
             }
             return result;
            
         }
 
-        public int Savedata()
-        {
-           
-            int result = 0;
-            
-                OTP = RandomNumber(6).ToString();
-                ChargeDate = DateTime.Now;
-                Status = "0";
-
-                using (SqlCommand cmd = new SqlCommand())
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Connection = new SqlConnection(cstr.con);
-                    cmd.Connection.Open();
-                    cmd.CommandText = "SaveTopupTransfer";
-
-
-                    if (MeterId != null) cmd.Parameters.AddWithValue("meter_id", MeterId);
-                    if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
-                    if (CardId != null) cmd.Parameters.AddWithValue("card_id", CardId);
-                    if (OTP != null) cmd.Parameters.AddWithValue("otp", OTP);
-                    if (ChargeDate != null) cmd.Parameters.AddWithValue("chargeDate", ChargeDate);
-                    if (ActivationDate != null) cmd.Parameters.AddWithValue("activationDate", ActivationDate);
-                    if (Status != null) cmd.Parameters.AddWithValue("status", Status);
-
-                    SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
-                    idParam.Direction = ParameterDirection.InputOutput;
-
-                    SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
-                    resultParam.Direction = ParameterDirection.InputOutput;
-
-                    idParam.Value = this.Id;
-
-                    int c = cmd.ExecuteNonQuery();
-
-                    this.Id = Convert.ToInt32(idParam.Value);
-                    result = Convert.ToInt32(resultParam.Value);
-                    cmd.Connection.Close();
-
-                }
-             
-            
-            return result;
-
-        }
-
+        
         public static Topup[] GetTopups(TopupParameters parameters, out int rowsCount)
             {
                 List<Topup> l = new List<Topup>();

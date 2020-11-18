@@ -120,8 +120,8 @@ public class Transfer
                         decimal? amount = topup.Amount - Amount;
                         Topup topup1 = new Topup(topup.MeterId, amount, topup.CardId);
                         topup1.SaveData();
-                        Topup topup2 = new Topup(MeterId, Amount, topup.CardId);
-                        topup2.Savedata();
+                        Topup topup2 = new Topup(,MeterId, Amount, topup.CardId);
+                        topup2.SaveData();
                         topup.Delete();
                     }
                 }

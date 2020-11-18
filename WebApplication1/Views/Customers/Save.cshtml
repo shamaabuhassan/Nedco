@@ -11,8 +11,6 @@
         result = ViewBag.result;
     }
 
-    Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
-    CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { }, out rcc);
 
 }
 
@@ -32,11 +30,11 @@
 
             <tr><td>meterid</td></tr>
 
-            <tr><td>@Html.DropDownListFor(o => o.MeterId, new SelectList(meters, "Id", "Meterid"))</tr>
+            <tr><td>@Html.TextBoxFor(o => o.MeterId)</tr>
 
             <tr><td>cardid</td></tr>
 
-            <tr><td>@Html.DropDownListFor(o => o.MeterId, new SelectList(cashCards, "Id", "Cardid"))</tr>
+            <tr><td>@Html.TextBoxFor(o => o.CardId)</tr>
 
             <tr><td>telephone</td></tr>
 
