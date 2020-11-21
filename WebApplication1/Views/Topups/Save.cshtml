@@ -9,9 +9,13 @@
     {
         result = ViewBag.result;
     }
+    Session["Customer"] = new Customer(4010);
 
-    Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
-    
+    Customer customer = (Session["customer"] as Customer);
+
+
+    Meter[] meters = Meter.GetMeters(new MeterParameters { UserId=customer.Id }, out rc);
+
 }
 
 @using (Html.BeginForm("Save", "Topups", FormMethod.Post))
@@ -26,7 +30,7 @@
 
             <tr><td>meterid</td></tr>
 
-            <tr><td>@Html.DropDownListFor(o=>o.MeterId, new SelectList(meters,"id","Meterid"))</td></tr>
+            <tr><td>@Html.DropDownListFor(o=>o.MeterId, new SelectList(meters,"Meterid","Meterid"))</td></tr>
 
             <tr><td>amount</td></tr>
 

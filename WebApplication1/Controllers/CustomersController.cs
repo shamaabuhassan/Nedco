@@ -27,10 +27,10 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Save(int? id, string username, int? meterId, int? cardId, string telephone, int? countryId, int? cityId, string area, string street, string password,string name)
+        public ActionResult Save(int? id, string username, int? cardId, string telephone, int? countryId, int? cityId, string area, string street, string password,string name)
         {
-            if (meterId != null) { 
-            Customer customer = new Customer(id, username, meterId, cardId, telephone, countryId, cityId, area, street, password, name);
+            if (username != null) { 
+            Customer customer = new Customer(id, username, cardId, telephone, countryId, cityId, area, street, password, name);
             int result;
             result = customer.SaveData();
             ViewBag.result = result;

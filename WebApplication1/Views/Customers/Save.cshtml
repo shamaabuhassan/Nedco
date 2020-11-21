@@ -27,13 +27,10 @@
 
             <tr><td>@Html.TextBoxFor(o => o.Username)</td></tr>
 
-            <tr><td>meterid</td></tr>
-
-            <tr><td>@Html.TextBoxFor(o => o.MeterId)</tr>
 
             <tr><td>cardid</td></tr>
 
-            <tr><td>@Html.DropDownListFor(o => o.CardId, new SelectList(cashCards, "Id", "Cardid"))</tr>
+            <tr><td>@Html.DropDownListFor(o => o.CardId, new SelectList(cashCards, "Cardid", "Cardid"))</tr>
 
             <tr><td>telephone</td></tr>
 

@@ -11,7 +11,6 @@ namespace WebApplication1.Models
     {
         public int? Id { get; set; }
         public string Username { get; set; }
-        public int? MeterId { get; set; }
         public int? CardId { get; set; }
         public string Telephone { get; set; }
         public int? CountryId { get; set; }
@@ -26,7 +25,6 @@ namespace WebApplication1.Models
     {
         public int? Id { get; set; }
         public string Username { get; set; }
-        public int? MeterId { get; set; }
         public int? CardId { get; set; }
         public string Telephone { get; set; }
         public int? CountryId { get; set; }
@@ -52,7 +50,6 @@ namespace WebApplication1.Models
                     r.Read();
                     if (r["id"] != DBNull.Value) this.Id = Convert.ToInt32(r["id"]);
                     this.Username = Convert.ToString(r["username"]);
-                    if (r["meter_id"] != DBNull.Value) this.MeterId = Convert.ToInt32(r["meter_id"]);
                     if (r["card_id"] != DBNull.Value) this.CardId = Convert.ToInt32(r["card_id"]);
                     this.Telephone = Convert.ToString(r["telephone"]);
                     if (r["country_id"] != DBNull.Value) this.CountryId = Convert.ToInt32(r["country_id"]);
@@ -86,7 +83,6 @@ namespace WebApplication1.Models
                     r.Read();
                     if (r["id"] != DBNull.Value) this.Id = Convert.ToInt32(r["id"]);
                     this.Username = Convert.ToString(r["username"]);
-                    if (r["meter_id"] != DBNull.Value) this.MeterId = Convert.ToInt32(r["meter_id"]);
                     if (r["card_id"] != DBNull.Value) this.CardId = Convert.ToInt32(r["card_id"]);
                     this.Telephone = Convert.ToString(r["telephone"]);
                     if (r["country_id"] != DBNull.Value) this.CountryId = Convert.ToInt32(r["country_id"]);
@@ -106,11 +102,10 @@ namespace WebApplication1.Models
         public Customer() { }
 
         //counstructor
-        public Customer(int? id, string username, int? meterId, int? cardId, string telephone, int? countryId, int? cityId, string area, string street, string password,string name)
+        public Customer(int? id, string username, int? cardId, string telephone, int? countryId, int? cityId, string area, string street, string password,string name)
         {
             this.Id = id;
             this.Username = username;
-            this.MeterId = meterId;
             this.CardId = cardId;
             this.Telephone = telephone;
             this.CountryId = countryId;
@@ -131,7 +126,6 @@ namespace WebApplication1.Models
                 cmd.CommandText = "SaveCustomerData";
 
                 if (Username != null) cmd.Parameters.AddWithValue("username", Username);
-                if (MeterId != null) cmd.Parameters.AddWithValue("meter_id", MeterId);
                 if (CardId != null) cmd.Parameters.AddWithValue("card_id", CardId);
                 if (Telephone != null) cmd.Parameters.AddWithValue("telephone", Telephone);
                 if (CountryId != null) cmd.Parameters.AddWithValue("country_id", CountryId);
@@ -160,7 +154,23 @@ namespace WebApplication1.Models
             }
         }
 
-        //get using list
+        //get using 
+        public void  Delete()
+        {
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = new SqlConnection(cstr.con);
+                cmd.Connection.Open();
+                cmd.CommandText = "DeleteCustomer";
+
+                cmd.Parameters.AddWithValue("@id", this.Id);
+
+                cmd.ExecuteNonQuery();
+
+
+            }
+        }
         public static Customer[] GetCustomers(CustomerParameters parameters, out int rowsCount)
         {
             List<Customer> l = new List<Customer>();
@@ -178,7 +188,6 @@ namespace WebApplication1.Models
                         Customer c = new Customer();
                         if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
                         if (r["username"] != DBNull.Value) c.Username = Convert.ToString(r["username"]);
-                        if (r["meter_id"] != DBNull.Value) c.MeterId = Convert.ToInt32(r["meter_id"]);
                         if (r["card_id"] != DBNull.Value) c.CardId = Convert.ToInt32(r["card_id"]);
                         if (r["telephone"] != DBNull.Value) c.Telephone = Convert.ToString(r["telephone"]);
                         if (r["country_id"] != DBNull.Value) c.CountryId = Convert.ToInt32(r["country_id"]);

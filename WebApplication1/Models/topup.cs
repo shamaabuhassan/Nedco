@@ -124,7 +124,7 @@ namespace WebApplication1.Models
                 cmd.CommandText = "DeleteTopup";
                 cmd.Parameters.AddWithValue("id", this.Id);
 
-                int c = cmd.ExecuteNonQuery();
+                 cmd.ExecuteNonQuery();
 
 
             }
@@ -199,7 +199,7 @@ namespace WebApplication1.Models
                     cmd.Connection = new SqlConnection(cstr.con);
                     cmd.Connection.Open();
                     cmd.CommandText = "GetTopups";
-                cmd.Parameters.AddWithValue("@meter_id", parameters.MeterId);
+                cmd.Parameters.AddWithValue("@card_id", parameters.CardId);
                 cmd.Parameters.AddWithValue("@status", parameters.Status);
 
                 SqlDataReader r = cmd.ExecuteReader();

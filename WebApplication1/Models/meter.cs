@@ -23,6 +23,22 @@ namespace WebApplication1.Models
 
         public Meter() { }
 
+        public void Delete()
+        {
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = new SqlConnection(cstr.con);
+                cmd.Connection.Open();
+                cmd.CommandText = "DeleteMeter";
+
+                cmd.Parameters.AddWithValue("@id", this.Id);
+
+                cmd.ExecuteNonQuery();
+
+
+            }
+        }
         public Meter(int id)
         {
 
@@ -103,6 +119,7 @@ namespace WebApplication1.Models
                 cmd.Connection = new SqlConnection(cstr.con);
                 cmd.Connection.Open();
                 cmd.CommandText = "GetMeters";
+                cmd.Parameters.AddWithValue("@user_id", parameters.UserId);
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)
                 {

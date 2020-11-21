@@ -64,8 +64,17 @@ namespace WebApplication1.Models
 
         public void Delete()
         {
-            this.Status = "3";
-            this.SaveData();
+            
+            using(SqlCommand cmd=new SqlCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = new SqlConnection(cstr.con);
+                cmd.Connection.Open();
+                cmd.CommandText = "DeleteCashCard";
+
+                cmd.Parameters.AddWithValue("@id", this.Id);
+                cmd.ExecuteNonQuery();
+            }
         }
         public int SaveData()
         {
