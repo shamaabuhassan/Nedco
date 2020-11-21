@@ -2,8 +2,8 @@
 @model TransferParameters
 
 @{
-  
-    int rcc;
+
+    int rc;
     Layout = null;
     int result = 0;
     if (ViewBag.result != null)
@@ -11,11 +11,14 @@
         result = ViewBag.result;
     }
 
+    Session["customer"] = new Customer(4005);
 
-   
-    Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rcc);
+    Customer customer = (Session["customer"] as Customer);
 
-    
+
+    Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
+
+    Topup[] topups = Topup.GetTopups(new TopupParameters {MeterId=customer.MeterId, Status="0"}, out rc);
 
 }
 
@@ -32,7 +35,7 @@
 
             <tr><td>senderotp</td></tr>
 
-            <tr><td>@Html.TextBoxFor(o=>o.SenderOTP)</td></tr>
+            <tr><td>@Html.DropDownListFor(o => o.SenderOTP, new SelectList(topups, "OTP", "OTP"))</td></tr>
 
             <tr><td>meterid</td></tr>
 

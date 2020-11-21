@@ -44,7 +44,7 @@ namespace WebApplication1.Models
                 cmd.Connection = new SqlConnection(cstr.con);
                 cmd.Connection.Open();
                 cmd.CommandText = "GetCustomerByID";
-                cmd.Parameters.AddWithValue("@ID", Id);
+                cmd.Parameters.AddWithValue("@ID", ID);
 
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)

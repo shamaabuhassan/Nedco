@@ -18,12 +18,12 @@ namespace WebApplication1.Controllers
         }
         
 
-        public ActionResult Search(int? CustomerId)
+        public ActionResult Search(int? Cardid)
         {
             int rc;
-            if (CustomerId != null)
+            if (Cardid != null)
             {
-                CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { CustomerId = CustomerId }, out rc);
+                CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { Cardid = Cardid }, out rc);
                 ViewBag.cashCards = cashCards;
             }
             return View();
@@ -33,7 +33,7 @@ namespace WebApplication1.Controllers
         {
             if (Password != null)
             {
-                CashCard cashCard = new CashCard(Id, Password, CustomerId, Amount,Cardid);
+                CashCard cashCard = new CashCard(Id, Password, Amount,Cardid);
                 int result;
                 result = cashCard.SaveData();
                 ViewBag.result = result;

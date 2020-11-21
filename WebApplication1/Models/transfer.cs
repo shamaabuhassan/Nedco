@@ -7,7 +7,7 @@ using System.Web;
 
 namespace WebApplication1.Models
 {
-  
+ 
     public class TransferParameters{
         public int? Id { get; set; }
         public string SenderOTP { get; set; }
@@ -16,6 +16,7 @@ namespace WebApplication1.Models
     }
 public class Transfer
     {
+        public string Status { get; set; }
         public int? Id { get; set; }
         public string SenderOTP { get; set; }
         public int? MeterId { get; set; }
@@ -27,6 +28,7 @@ public class Transfer
         {
 
         }
+
      public Transfer(int id)
         {
 
@@ -81,6 +83,12 @@ public class Transfer
             return rand;
         }
 
+        public void Delete()
+        {
+            this.Status = "3";
+            this.SaveData();
+        }
+
         public int SaveData()
         {
             int result = 0;
@@ -118,9 +126,9 @@ public class Transfer
                         cmd.Connection.Close();
 
                         decimal? amount = topup.Amount - Amount;
-                        Topup topup1 = new Topup(topup.MeterId, amount, topup.CardId);
+                        Topup topup1 = new Topup(null,topup.MeterId, amount, topup.CardId);
                         topup1.SaveData();
-                        Topup topup2 = new Topup(,MeterId, Amount, topup.CardId);
+                        Topup topup2 = new Topup(null,MeterId, Amount, topup.CardId);
                         topup2.SaveData();
                         topup.Delete();
                     }
@@ -128,6 +136,8 @@ public class Transfer
             }
             return result;
         }
+
+       
 
         public static Transfer[] GetTransfers(TransferParameters parameters, out int rowsCount)
         {

@@ -36,21 +36,7 @@ namespace WebApplication1.Models
 
             public Topup() { }
 
-            public int RandomNumber(int digits)
-            {
-                int count = 0;
-                int rand = 0;
-                while (count != 1)
-                {
-                    Random random = new Random();
-                    rand = random.Next();
-                    int len = rand.ToString().Length;
-
-                    if (len == digits)
-                        count = 1;
-                }
-                return rand;
-            }
+          
 
             public Topup(int? id)
             {
@@ -129,19 +115,37 @@ namespace WebApplication1.Models
 
         public void Delete()
         {
-            this.Status = "3";
-            this.SaveData();
+
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = new SqlConnection(cstr.con);
+                cmd.Connection.Open();
+                cmd.CommandText = "DeleteTopup";
+                cmd.Parameters.AddWithValue("id", this.Id);
+
+                int c = cmd.ExecuteNonQuery();
+
+
+            }
+
+        }
+
+        public string GenerateRandom()
+        {
+            Random generator = new Random();
+            String r = generator.Next(0, 1000000).ToString("D6");
+            return r;
         }
         public int SaveData()
+
             {
             CashCard cashCard = new CashCard(CardId);
             int result = 0;
             Customer customer = new Customer(CardId);
-            if (customer.Id == cashCard.CustomerId)
-            {
-                if (cashCard.Amount > Amount)
+              if (cashCard.Amount > Amount)
                 {
-                    OTP = RandomNumber(6).ToString();
+                    OTP = GenerateRandom();
                     ChargeDate = DateTime.Now;
                     Status = "0";
 
@@ -177,9 +181,9 @@ namespace WebApplication1.Models
 
                     }
                     decimal? amount = cashCard.Amount - Amount;
-                    CashCard cash = new CashCard(cashCard.Id, cashCard.Password, cashCard.CustomerId, amount, cashCard.Cardid);
+                    CashCard cash = new CashCard(cashCard.Id, cashCard.Password, amount, cashCard.Cardid);
                     cash.SaveData();
-                }
+                
             }
             return result;
            
@@ -195,8 +199,11 @@ namespace WebApplication1.Models
                     cmd.Connection = new SqlConnection(cstr.con);
                     cmd.Connection.Open();
                     cmd.CommandText = "GetTopups";
-                    SqlDataReader r = cmd.ExecuteReader();
-                    if (r.HasRows)
+                cmd.Parameters.AddWithValue("@meter_id", parameters.MeterId);
+                cmd.Parameters.AddWithValue("@status", parameters.Status);
+
+                SqlDataReader r = cmd.ExecuteReader();
+                if (r.HasRows)
                     {
                         while (r.Read())
                         {
