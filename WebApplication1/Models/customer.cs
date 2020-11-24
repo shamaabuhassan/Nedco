@@ -33,7 +33,49 @@ namespace WebApplication1.Models
         public string Street { get; set; }
         public string Password { get; set; }
         public string name { get; set; }
-        public Customer(int ID)
+
+        public static Customer CheckLogin(string username,string password) {
+
+
+
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = new SqlConnection(cstr.con);
+                cmd.Connection.Open();
+                cmd.CommandText = "CheckLogin";
+
+                cmd.Parameters.AddWithValue("@username", username);
+                cmd.Parameters.AddWithValue("@password", password);
+
+
+
+                SqlParameter idParam = cmd.Parameters.Add("@user_id", SqlDbType.Int);
+                idParam.Direction = ParameterDirection.InputOutput;
+
+       
+
+                int c = cmd.ExecuteNonQuery();
+
+                int customerid = Convert.ToInt32(idParam.Value);
+                cmd.Connection.Close();
+                Customer customer;
+                if (customerid != 0)
+                {
+                    customer = new Customer(customerid);
+                    
+                        }
+                else
+                {
+                    customer = null;
+                }
+
+                return customer;
+            }
+
+
+        }
+            public Customer(int ID)
         {
 
             using (SqlCommand cmd = new SqlCommand())
