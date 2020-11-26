@@ -122,8 +122,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CashCardsController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MainpageController.cs" />
     <Compile Include="Controllers\MetersController.cs" />
     <Compile Include="Controllers\TopupsController.cs" />
     <Compile Include="Controllers\TransferController.cs" />
@@ -133,6 +135,7 @@
     <Compile Include="Models\CashCard.cs" />
     <Compile Include="Models\cstr.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Meter.cs" />
     <Compile Include="Models\Model1.cs" />
     <Compile Include="Models\Topup.cs" />
@@ -149,6 +152,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="images\bg.png" />
+    <Content Include="images\logo-hor.png" />
+    <Content Include="images\logo-v.png" />
+    <Content Include="images\user.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
@@ -162,6 +169,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="styles\style.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -191,10 +199,16 @@
     <Content Include="Views\Meters\Save.cshtml" />
     <Content Include="Views\Topups\Save.cshtml" />
     <Content Include="Views\Transfer\Save.cshtml" />
+    <Content Include="Views\Login\index.cshtml" />
+    <Content Include="Views\Employees\index.cshtml" />
+    <Content Include="Views\Mainpage\index.cshtml" />
+    <Content Include="Views\Customers\customerslist.cshtml" />
+    <Content Include="Views\Topups\chargingrequests.cshtml" />
+    <Content Include="Views\Transfer\transferrequests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Login\" />
+    <Folder Include="js\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

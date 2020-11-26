@@ -1,0 +1,69 @@
+﻿@using WebApplication1.Models
+@model TransferParameters
+
+@{
+
+    int rc;
+    Transfer[] transfers = Transfer.GetTransfers(new TransferParameters { }, out rc);
+}
+    <div style="flex:1; padding-left: 35px" class="vertical-align">
+
+
+        <table>
+            <thead>
+                <tr>
+                    <td>رقم العملية</td>
+                    <td>الكود المستخدم في التحويل </td>
+                    <td>رقم العداد المحول اليه</td>
+                    <td>كمية التحويل</td>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (Transfer transfer in transfers)
+                {
+                    <tr>
+                        <td>@transfer.Id</td>
+                        <td>@transfer.SenderOTP</td>
+                        <td>@transfer.MeterId</td>
+                        <td>@transfer.Amount</td>
+
+                    </tr>
+
+                }
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+<div style="text-align: center;">
+    <div class="hexagon full small blue">
+        <span></span>
+        <img src="~/images/user.png" style="width: 140px;z-index: 4;position: relative;" />
+    </div>
+    <div class="hexagon blue">
+        <span></span>
+
+        <div class="content">
+
+            <input type="submit" value="Customers_list" class="brand-button brand-button-2" />
+            @*<a class="brand-button brand-button-2">سجل العملاء</a>*@
+
+            <input type="submit" value="Charging_requests" class="brand-button brand-button-2" />
+            @*<a class="brand-button brand-button-2">طلبات الشحن</a>*@
+
+            <input type="submit" value="Transfer_requests" class="brand-button brand-button-2" />
+            @*<a class="brand-button brand-button-2">طلبات التحويل</a>*@
+
+            <input type="submit" value="Charge_meter" class="brand-button brand-button-2" />
+            @*<a class="brand-button brand-button-2">شحن العداد</a>*@
+        </div>
+    </div>
+</div>
+
+

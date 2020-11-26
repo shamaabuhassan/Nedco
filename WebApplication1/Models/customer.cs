@@ -237,7 +237,7 @@ namespace WebApplication1.Models
                         if (r["area"] != DBNull.Value) c.Area = Convert.ToString(r["area"]);
                         if (r["street"] != DBNull.Value) c.Street = Convert.ToString(r["street"]);
                         if (r["password"] != DBNull.Value) c.Password = Convert.ToString(r["password"]);
-                        if (r["name"] != DBNull.Value) c.Username = Convert.ToString(r["name"]);
+                        if (r["name"] != DBNull.Value) c.name = Convert.ToString(r["name"]);
 
                         l.Add(c);
                     }

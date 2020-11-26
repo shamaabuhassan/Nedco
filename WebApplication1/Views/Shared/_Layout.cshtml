@@ -8,23 +8,16 @@
     <title>My New Pen!</title>
 
     <!--  Styles  -->
-    
-    <link href="~/Content/style.css" rel="stylesheet" />
+
+    <link href="~/styles/style.css" rel="stylesheet" />
 </head>
 
 <body>
     <div class="page-wapper">
-        <img class="logo logo-top" src="https://i.ibb.co/TgwRxmP/logo.png" />
-        @RenderBody()
-        @*<div class="page-content two-columns">
-            <input type="text" placeholder="رقم العداد" />
-            <input type="text" placeholder="أدحل الكود" />
-            <a href="" class="brand-button">قم بالشحن</a>
-        </div>*@
-        <div class="bottom-navigation">
-            <a href="/home.html"><img src="https://i.ibb.co/NjDVNGW/home.png" alt="home" border="0"></a>
-            <a href="/contact.html"><img src="https://i.ibb.co/MGN5pBT/phone.png" alt="phone" border="0"></a>
-            <a href="/help.html"><img src="https://i.ibb.co/znQDPK5/question.png" alt="question" border="0"></a>
+
+        <div class="page-content">
+
+            @RenderBody()
         </div>
     </div>
 </body>

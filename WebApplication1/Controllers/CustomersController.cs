@@ -37,5 +37,17 @@ namespace WebApplication1.Controllers
         }
             return View();
         }
+
+        public ActionResult customerslist()
+        {
+            //if (Session["employee"] != null)
+            //{
+                return View();
+        //}
+        //    else
+        //    {
+        //        return RedirectToAction("index", "Mainpage", new { error = 2 });
+        //    }
+        }
     }
 }
