@@ -10,6 +10,9 @@
         result = ViewBag.result;
     }
     CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { }, out rc);
+    Area[] areas = Area.getarea(new AreaParameters { Type="s"}, out rc);
+    Area[] area = Area.getarea(new AreaParameters { Type = "c" }, out rc);
+    Area[] areass = Area.getarea(new AreaParameters { Type = "t" }, out rc);
 
 }
 
@@ -30,7 +33,7 @@
 
             <tr><td>cardid</td></tr>
 
-            <tr><td>@Html.DropDownListFor(o => o.CardId, new SelectList(cashCards, "Cardid", "Cardid"))</tr>
+            <tr><td>@Html.DropDownListFor(o => o.CardId, new SelectList(cashCards, "CardId", "CardId"))</tr>
 
             <tr><td>telephone</td></tr>
 
@@ -38,16 +41,16 @@
 
             <tr><td>countryid</td></tr>
 
-            <tr><td>@Html.TextBoxFor(o => o.CountryId)</td></tr>
+            <tr><td>@Html.DropDownListFor(o=>o.CountryId,new SelectList(areas,"Id","Name"))</td></tr>
 
 
             <tr><td>cityid</td></tr>
 
-            <tr><td>@Html.TextBoxFor(o => o.CityId)</td></tr>
+            <tr><td>@Html.DropDownListFor(o => o.CityId, new SelectList(area, "Id", "Name"))</td></tr>
 
-            <tr><td>area</td></tr>
+            <tr><td>Town</td></tr>
 
-            <tr><td>@Html.TextBoxFor(o => o.Area)</td></tr>
+            <tr><td>@Html.DropDownListFor(o => o.Town, new SelectList(areass, "Id", "Name"))</td></tr>
 
             <tr><td>street</td></tr>
 

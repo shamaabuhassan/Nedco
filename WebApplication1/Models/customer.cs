@@ -15,7 +15,7 @@ namespace WebApplication1.Models
         public string Telephone { get; set; }
         public int? CountryId { get; set; }
         public int? CityId { get; set; }
-        public string Area { get; set; }
+        public string Town { get; set; }
         public string Street { get; set; }
         public string Password { get; set; }
         public string name { get; set; }
@@ -29,7 +29,7 @@ namespace WebApplication1.Models
         public string Telephone { get; set; }
         public int? CountryId { get; set; }
         public int? CityId { get; set; }
-        public string Area { get; set; }
+        public string Town { get; set; }
         public string Street { get; set; }
         public string Password { get; set; }
         public string name { get; set; }
@@ -96,7 +96,7 @@ namespace WebApplication1.Models
                     this.Telephone = Convert.ToString(r["telephone"]);
                     if (r["country_id"] != DBNull.Value) this.CountryId = Convert.ToInt32(r["country_id"]);
                     if (r["city_id"] != DBNull.Value) this.CityId = Convert.ToInt32(r["city_id"]);
-                    this.Area = Convert.ToString(r["area"]);
+                    this.Town = Convert.ToString(r["town"]);
                     this.Street = Convert.ToString(r["street"]);
                     this.Password = Convert.ToString(r["password"]);
                     this.name = Convert.ToString(r["name"]);
@@ -129,7 +129,7 @@ namespace WebApplication1.Models
                     this.Telephone = Convert.ToString(r["telephone"]);
                     if (r["country_id"] != DBNull.Value) this.CountryId = Convert.ToInt32(r["country_id"]);
                     if (r["city_id"] != DBNull.Value) this.CityId = Convert.ToInt32(r["city_id"]);
-                    this.Area = Convert.ToString(r["area"]);
+                    this.Town = Convert.ToString(r["town"]);
                     this.Street = Convert.ToString(r["street"]);
                     this.Password = Convert.ToString(r["password"]);
                     this.name = Convert.ToString(r["name"]);
@@ -144,7 +144,7 @@ namespace WebApplication1.Models
         public Customer() { }
 
         //counstructor
-        public Customer(int? id, string username, int? cardId, string telephone, int? countryId, int? cityId, string area, string street, string password,string name)
+        public Customer(int? id, string username, int? cardId, string telephone, int? countryId, int? cityId, string town, string street, string password,string name)
         {
             this.Id = id;
             this.Username = username;
@@ -152,7 +152,7 @@ namespace WebApplication1.Models
             this.Telephone = telephone;
             this.CountryId = countryId;
             this.CityId = cityId;
-            this.Area = area;
+            this.Town = town;
             this.Street = street;
             this.Password = password;
             this.name = name;
@@ -172,7 +172,7 @@ namespace WebApplication1.Models
                 if (Telephone != null) cmd.Parameters.AddWithValue("telephone", Telephone);
                 if (CountryId != null) cmd.Parameters.AddWithValue("country_id", CountryId);
                 if (CityId != null) cmd.Parameters.AddWithValue("city_id", CityId);
-                if (Area != null) cmd.Parameters.AddWithValue("area", Area);
+                if (Town != null) cmd.Parameters.AddWithValue("town", Town);
                 if (Street != null) cmd.Parameters.AddWithValue("street", Street);
                 if (Password != null) cmd.Parameters.AddWithValue("password", Password);
                 if (name != null) cmd.Parameters.AddWithValue("name", name);
@@ -234,7 +234,7 @@ namespace WebApplication1.Models
                         if (r["telephone"] != DBNull.Value) c.Telephone = Convert.ToString(r["telephone"]);
                         if (r["country_id"] != DBNull.Value) c.CountryId = Convert.ToInt32(r["country_id"]);
                         if (r["city_id"] != DBNull.Value) c.CityId = Convert.ToInt32(r["city_id"]);
-                        if (r["area"] != DBNull.Value) c.Area = Convert.ToString(r["area"]);
+                        if (r["town"] != DBNull.Value) c.Town = Convert.ToString(r["town"]);
                         if (r["street"] != DBNull.Value) c.Street = Convert.ToString(r["street"]);
                         if (r["password"] != DBNull.Value) c.Password = Convert.ToString(r["password"]);
                         if (r["name"] != DBNull.Value) c.name = Convert.ToString(r["name"]);
