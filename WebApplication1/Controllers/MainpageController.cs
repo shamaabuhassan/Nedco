@@ -14,6 +14,11 @@ namespace WebApplication1.Controllers
             return View();
         }
 
+        public ActionResult Logout()
+        {
+            return RedirectToAction("index", "Employees");
+        }
+
         public ActionResult Customers_list()
         {
             //if (Session["employee"] != null)
@@ -25,7 +30,10 @@ namespace WebApplication1.Controllers
             //    return RedirectToAction("index", "Mainpage", new { error = 2 });
             //}
         }
-
+        public ActionResult MainPage()
+        {
+            return RedirectToAction("index", "Mainpage");
+        }
         public ActionResult Charging_requests()
         {
             if (Session["employee"] != null)
