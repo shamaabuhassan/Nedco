@@ -40,14 +40,14 @@ namespace WebApplication1.Controllers
 
         public ActionResult customerslist()
         {
-            //if (Session["employee"] != null)
-            //{
+            if (Session["employee"] != null)
+            {
                 return View();
-        //}
-        //    else
-        //    {
-        //        return RedirectToAction("index", "Mainpage", new { error = 2 });
-        //    }
+            }
+            else
+            {
+                return RedirectToAction("index", "Mainpage", new { error = 2 });
+            }
         }
     }
 }
