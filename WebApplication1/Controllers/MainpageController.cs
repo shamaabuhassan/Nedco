@@ -16,6 +16,7 @@ namespace WebApplication1.Controllers
 
         public ActionResult Logout()
         {
+            Session["employee"] = null;
             return RedirectToAction("index", "Employees");
         }
 
@@ -32,6 +33,7 @@ namespace WebApplication1.Controllers
         }
         public ActionResult MainPage()
         {
+
             return RedirectToAction("index", "Mainpage");
         }
         public ActionResult Charging_requests()

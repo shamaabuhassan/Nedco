@@ -139,6 +139,7 @@
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Meter.cs" />
     <Compile Include="Models\Model1.cs" />
+    <Compile Include="Models\SMS.cs" />
     <Compile Include="Models\Topup.cs" />
     <Compile Include="Models\Transfer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
