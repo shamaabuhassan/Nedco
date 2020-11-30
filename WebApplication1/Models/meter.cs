@@ -39,7 +39,7 @@ namespace WebApplication1.Models
 
             }
         }
-        public Meter(int id)
+        public Meter(int? id)
         {
 
             using (SqlCommand cmd = new SqlCommand())
