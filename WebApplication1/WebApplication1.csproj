@@ -207,6 +207,7 @@
     <Content Include="Views\Customers\customerslist.cshtml" />
     <Content Include="Views\Topups\chargingrequests.cshtml" />
     <Content Include="Views\Transfer\transferrequests.cshtml" />
+    <Content Include="Views\Topups\Charged.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

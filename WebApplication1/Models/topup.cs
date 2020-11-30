@@ -37,7 +37,30 @@ namespace WebApplication1.Models
             public Topup() { }
 
           
+        public void Charged()
+        {
+            ActivationDate = DateTime.Now;
+            using (SqlCommand cmd=new SqlCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = new SqlConnection(cstr.con);
+                cmd.Connection.Open();
+                cmd.CommandText = "Charged";
 
+
+                if (this.MeterId != null) cmd.Parameters.AddWithValue("meter_id", this.MeterId);
+                if (this.Amount != null) cmd.Parameters.AddWithValue("amount", this.Amount);
+                if (this.CardId != null) cmd.Parameters.AddWithValue("card_id", this.CardId);
+                if (this.OTP != null) cmd.Parameters.AddWithValue("otp", this.OTP);
+                if (this.ChargeDate != null) cmd.Parameters.AddWithValue("chargeDate", this.ChargeDate);
+                if (this.ActivationDate != null) cmd.Parameters.AddWithValue("activationDate", ActivationDate);
+                if (this.Status != null) cmd.Parameters.AddWithValue("status", this.Status);
+
+                int c = cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+
+            }
+        }
             public Topup(int? id)
             {
 

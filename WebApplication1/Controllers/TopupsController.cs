@@ -10,13 +10,13 @@ namespace WebApplication1.Controllers
     public class TopupsController : Controller
     {
         // GET: Topups
-        public ActionResult Index(int ?id)
+        public ActionResult Index(int? id)
         {
             ViewBag.id = id;
             return View();
         }
 
-        public ActionResult Search(int ?MeterId)
+        public ActionResult Search(int? MeterId)
         {
             int rc;
             if (MeterId != null)
@@ -40,7 +40,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-      public ActionResult chargingrequests()
+        public ActionResult chargingrequests()
         {
             if (Session["employee"] != null)
             {
@@ -50,6 +50,26 @@ namespace WebApplication1.Controllers
             {
                 return RedirectToAction("index", "Mainpage", new { error = 2 });
             }
+        }
+
+        public ActionResult Charged()
+        {
+            if (Session["employee"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("index", "MainPage");
+            }
+        }
+
+        public ActionResult ChargeMeter(int id)
+        {
+            Topup topup = new Topup(id);
+            topup.Charged();
+            return RedirectToAction("Charged", "Topups");
+
         }
     }
 }

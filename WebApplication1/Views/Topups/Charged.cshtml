@@ -6,46 +6,41 @@
     int rc;
     Topup[] topups = Topup.GetTopups(new TopupParameters { }, out rc);
 }
-    <div style="flex:1; padding-left: 35px" class="vertical-align">
+<div style="flex:1; padding-left: 35px" class="vertical-align">
 
-        <table>
-            <thead>
-                <tr>
-                    <td>رقم العملية</td>
-                    <td>رقم العداد </td>
-                    <td>كمية الشحن</td>
-                    <td>رقم البطاقة</td>
-                    <td>كود الشحن</td>
-                    <td>تاريخ الشحن</td>
-                    <td>تاريخ التفعيل</td>
-                    <td>حالة الشحن</td>
-                </tr>
+    <table style="">
+        <thead>
+            <tr>
+                
+                <td>رقم العداد </td>
+                <td>الكمية</td>
+                <td>رقم البطاقة</td>
+                <td>الكود</td>
+                <td>تاريخ الشحن</td>
+                <td>تاريخ التفعيل</td>
+                <td>الحالة</td>
+                <td>شحن العداد</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Topup topup in topups)
+            {
+            <tr>
+                <td>@topup.MeterId</td>
+                <td>@topup.Amount</td>
+                <td>@topup.CardId</td>
+                <td>@topup.OTP</td>
+                <td>@topup.ChargeDate</td>
+                <td>@topup.ActivationDate</td>
+                <td>@topup.Status</td>
+                <td><a class="brand-button brand-button-2" href="@Url.Action("ChargeMeter","Topups",new { id = topup.Id })">شحن العداد</a></td>
 
-            </thead>
-            <tbody>
-                @foreach (Topup topup in topups)
-                {
-                    <tr>
-                        <td>@topup.Id</td>
-                        <td>@topup.MeterId</td>
-                        <td>@topup.Amount</td>
-                        <td>@topup.CardId</td>
-                        <td>@topup.OTP</td>
-                        <td>@topup.ChargeDate</td>
-                        <td>@topup.ActivationDate</td>
-                        <td>@topup.Status</td>
+            </tr>
+            }
+        </tbody>
+    </table>
 
-                    </tr>
-
-                }
-
-            </tbody>
-
-
-        </table>
-
-
-    </div>
+</div>
 
 
 <div style="text-align: center;">
