@@ -222,6 +222,7 @@ namespace WebApplication1.Models
                 cmd.Connection = new SqlConnection(cstr.con);
                 cmd.Connection.Open();
                 cmd.CommandText = "GetCustomers";
+                cmd.Parameters.AddWithValue("@cardid", parameters.CardId);
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)
                 {

@@ -120,6 +120,7 @@ namespace WebApplication1.Models
                 cmd.Connection.Open();
                 cmd.CommandText = "GetMeters";
                 cmd.Parameters.AddWithValue("@user_id", parameters.UserId);
+                cmd.Parameters.AddWithValue("@meter_id", parameters.Meterid);
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)
                 {

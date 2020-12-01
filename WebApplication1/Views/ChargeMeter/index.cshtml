@@ -1,0 +1,17 @@
+﻿@using WebApplication1.Models
+@model TopupParameters
+
+
+@{
+    Layout = null;
+    Session["customer"] = new Customer(4005);
+
+ }
+
+@using(Html.BeginForm("index","ChargeMeter",FormMethod.Post))
+{
+   @Html.TextBoxFor(o => o.OTP);
+
+    <input type="submit" value="Charge" />
+
+}

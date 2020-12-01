@@ -30,41 +30,67 @@ namespace WebApplication1.Controllers
 
         public ActionResult Save(int? id, string senderOTP, int? meterId, decimal? amount)
         {
-            Customer customer = (Session["customer"] as Customer);
-            Meter meter = new Meter(meterId);
-            Customer customer1 = new Customer(meter.Id);
+            int rc;
+            Topup[] topup = Topup.GetTopups(new TopupParameters {OTP =senderOTP }, out rc);//get senderotp meterid 
+            Meter[] meters = Meter.GetMeters(new MeterParameters {Meterid=topup[0].MeterId}, out rc);//get meterid customer
+            Customer customer = (Session["customer"] as Customer);//check if senderotp customer as session customer
+            Meter[] meters1 = Meter.GetMeters(new MeterParameters { Meterid =meterId }, out rc);// get userid will take the amount
+            Customer customer1 = new Customer(meters1[0].UserId);//get customer info
 
-           
-                string response;
-                string response1;
-                using (WebClient client = new WebClient())
-                {
-                    int telephone = Convert.ToInt32("97" + customer.Telephone);
-                    int telephone1 = Convert.ToInt32("97" + customer1.Telephone);
 
-                    response = client.DownloadString($"http://sms.htd.ps/API/SendSMS.aspx?id=eadaaac72e504a1f6e0b2a7a5cb60dc9&sender=easycharge1&to=telephone&msg=welcometoeasychargesomeonetrytotransferfromyourmeter&mode=1");
-                    response1 = client.DownloadString($"http://sms.htd.ps/API/SendSMS.aspx?id=eadaaac72e504a1f6e0b2a7a5cb60dc9&sender=easycharge1&to=telephone1&msg=welcometoeasychargesomeonetrytosendanotpforyourmeter&mode=1");
-                    //"OK|970123456789:serial"
-                    //sms.Id=
+            if (Session["customer"] != null)
+            {
+                if (customer.Id == meters[0].UserId) {
 
-                    string[] ss = response.Split((new char[] { '|' }));
-                    string[] sss = ss[1].Split((new char[] { ':' }));
-                    if (ss[0] == "OK")
+                    SMS sms = new SMS();
+                    sms.To_number = customer.Telephone;
+                    sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {amount} الي حساب {customer1.name} ";
+                    string status = sms.Send();
+
+                    SMS sms1 = new SMS();
+                    sms.To_number = customer1.Telephone;
+                    sms.Msg = $"يحاول {customer.name} تحويل قيمة {amount} الى عدادك";
+                    string status1 = sms1.Send();
+                    if (status == "OK" && status1 == "OK")
                     {
-                        SMS sms = new SMS();
-                        sms.Status = ss[0];
-                        sms.To_number = Convert.ToInt32(sss[0]);
-                        sms.SMS_Id = Convert.ToInt32(sss[1]);
-                        sms.SaveData();
-
                         Transfer transfer = new Transfer(id, senderOTP, meterId, amount);
                         int result;
                         result = transfer.SaveData();
                         ViewBag.result = result;
+
                     }
                 }
+             
+                else if(customer.Id != meters[0].UserId)
+                {
+                   Customer customer2=new Customer (meters[0].UserId);
+                    SMS sms = new SMS();
+                    sms.To_number = customer2.Telephone;
+                    sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {amount} الي حساب {customer1.name} ";
+                    string status = sms.Send();
+
+                    SMS sms1 = new SMS();
+                    sms.To_number = customer1.Telephone;
+                    sms.Msg = $"يحاول {customer2.name} تحويل قيمة {amount} الى عدادك";
+                    string status1 = sms1.Send();
+                    if (status == "OK" && status1 == "OK")
+                    {
+                        Transfer transfer = new Transfer(id, senderOTP, meterId, amount);
+                        int result;
+                        result = transfer.SaveData();
+                        ViewBag.result = result;
+
+                    }
+
+                }
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Save", "Transfer");
+            }
+
             
-            return View();
         }
 
         public ActionResult transferrequests()

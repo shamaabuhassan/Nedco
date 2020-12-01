@@ -33,9 +33,16 @@
                 <td>@topup.ChargeDate</td>
                 <td>@topup.ActivationDate</td>
                 <td>@topup.Status</td>
-                <td><a class="brand-button brand-button-2" href="@Url.Action("ChargeMeter","Topups",new { id = topup.Id })">شحن العداد</a></td>
 
-            </tr>
+                <td>
+                    @if (topup.Status == "0")
+                    {
+
+                        <a class="brand-button brand-button-2" href="@Url.Action("ChargeMeter", "Topups", new { id = topup.Id })">شحن العداد</a>
+
+                    }
+                </td>
+                </tr>
             }
         </tbody>
     </table>

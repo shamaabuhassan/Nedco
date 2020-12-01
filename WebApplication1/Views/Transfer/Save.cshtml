@@ -18,7 +18,7 @@
 
     Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
 
-    Topup[] topups = Topup.GetTopups(new TopupParameters {CardId=customer.CardId, Status="0"}, out rc);
+    Topup[] topups = Topup.GetTopups(new TopupParameters {CardId=customer.CardId, Status="0"}, out rc);//get ots for the customer in ession
 
 }
 
@@ -35,7 +35,7 @@
 
             <tr><td>senderotp</td></tr>
 
-            <tr><td>@Html.DropDownListFor(o => o.SenderOTP, new SelectList(topups, "OTP", "OTP"))</td></tr>
+            <tr><td>@Html.TextBoxFor(o=>o.SenderOTP)</td></tr>
 
             <tr><td>meterid</td></tr>
 

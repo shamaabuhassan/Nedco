@@ -224,6 +224,7 @@ namespace WebApplication1.Models
                     cmd.CommandText = "GetTopups";
                 cmd.Parameters.AddWithValue("@card_id", parameters.CardId);
                 cmd.Parameters.AddWithValue("@status", parameters.Status);
+                cmd.Parameters.AddWithValue("@otp", parameters.OTP);
 
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)
