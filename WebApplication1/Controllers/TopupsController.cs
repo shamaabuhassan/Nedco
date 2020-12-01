@@ -32,7 +32,7 @@ namespace WebApplication1.Controllers
         public ActionResult Save(int? id, int? meterId, decimal? amount, int? cardId)
         {
             int rc;
-            Meter []meter = Meter.GetMeters(new MeterParameters{ Meterid=meterId},out rc);//user of meter
+            Meter[] meter = Meter.GetMeters(new MeterParameters { Meterid = meterId }, out rc);//user of meter
             Customer customer = (Session["customer"] as Customer);
             CashCard cashCard = new CashCard(cardId);
             Customer customer1 = new Customer(meter[0].UserId);
@@ -43,7 +43,7 @@ namespace WebApplication1.Controllers
                     SMS sms = new SMS();
                     sms.To_number = customer.Telephone;
                     sms.Msg = $"أهلا وسهلا بك أنت تقوم بشحن {amount} الى عدادك الان";
-                   string status= sms.Send();
+                    string status = sms.Send();
                     if (status == "OK")
                     {
                         Topup topup = new Topup(id, meterId, amount, cardId);
@@ -59,24 +59,24 @@ namespace WebApplication1.Controllers
 
                 else if (customer.Id == meter[0].UserId && customer.CardId != cashCard.Cardid) //for himself from another card
                 {
-                    
+
                     Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cardId }, out rc);
                     SMS sms = new SMS();
                     sms.To_number = customer2[0].Telephone;
                     sms.Msg = $" يحاول {customer.name} شحن عداده باستخدام البطاقة الخاصة بك بقيمة {amount}";
-                    string status=sms.Send();
-                        if (status == "OK")
-                        {
-                            Topup topup = new Topup(id, meterId, amount, cardId);
-                            int result;
-                            result = topup.SaveData();
-                            ViewBag.result = result;
-                        }
-                        else
-                        {
-                            return RedirectToAction("Save", "Topups");
-                        }
-                    
+                    string status = sms.Send();
+                    if (status == "OK")
+                    {
+                        Topup topup = new Topup(id, meterId, amount, cardId);
+                        int result;
+                        result = topup.SaveData();
+                        ViewBag.result = result;
+                    }
+                    else
+                    {
+                        return RedirectToAction("Save", "Topups");
+                    }
+
                 }
 
                 else if (customer.Id != meter[0].UserId && customer.CardId == cashCard.Cardid)//for another from his card
@@ -84,7 +84,7 @@ namespace WebApplication1.Controllers
                     SMS sms = new SMS();
                     sms.To_number = customer1.Telephone;
                     sms.Msg = $"يحاول {customer.name} شحن عدادك بقيمة {amount}";
-                   string status= sms.Send();
+                    string status = sms.Send();
 
                     SMS sms1 = new SMS();
                     sms1.To_number = customer.Telephone;
@@ -103,11 +103,11 @@ namespace WebApplication1.Controllers
                     {
                         return RedirectToAction("Save", "Topups");
                     }
-                    }
-
                 }
-                else if (customer.Id != meter[0].UserId && customer.CardId != cashCard.Cardid && customer1.CardId != cashCard.Cardid)//for another from another card
-                {
+
+            
+            else if (customer.Id != meter[0].UserId && customer.CardId != cashCard.Cardid && customer1.CardId != cashCard.Cardid)//for another from another card
+            {
                 int rrc;
                 Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cardId }, out rrc);
 
@@ -120,55 +120,55 @@ namespace WebApplication1.Controllers
                 sms1.To_number = customer1.Telephone;
                 sms1.Msg = $"يحاول {customer.name} شحن عدادك بقيمة {amount} باستخدام بطاقة {customer2[0].name}";
                 string status1 = sms1.Send();
-                        if (status== "OK" && status1 == "OK")
-                        {
-                            Topup topup = new Topup(id, meterId, amount, cardId);
-                            int result;
-                            result = topup.SaveData();
-                            ViewBag.result = result;
-                        }
-                        else
-                        {
-                            return RedirectToAction("Save", "Topups");
-                        }
-                    
-                }
-                else if (customer.Id != meter[0].UserId && customer.CardId != cashCard.Cardid && customer1.CardId == cashCard.Cardid)//for another from the another card
+                if (status == "OK" && status1 == "OK")
                 {
-                    string response;
-
-                    using (WebClient client = new WebClient())
-                    {
-                        int telephone = Convert.ToInt32("97" + customer1.Telephone);
-                        response = client.DownloadString($"http://sms.htd.ps/API/SendSMS.aspx?id=eadaaac72e504a1f6e0b2a7a5cb60dc9&sender=easycharge1&to=telephone&msg=welcometoeasychargesomeonetrytochargeyourmeter&mode=1");
-                        //"OK|970123456789:serial"
-                        //sms.Id=
-
-                        string[] ss = response.Split((new char[] { '|' }));
-                        string[] sss = ss[1].Split((new char[] { ':' }));
-                        if (ss[0] == "OK")
-                        {
-                            Topup topup = new Topup(id, meterId, amount, cardId);
-                            int result;
-                            result = topup.SaveData();
-                            ViewBag.result = result;
-                        }
-                        else
-                        {
-                            return RedirectToAction("Save", "Topups");
-                        }
-                    }
+                    Topup topup = new Topup(id, meterId, amount, cardId);
+                    int result;
+                    result = topup.SaveData();
+                    ViewBag.result = result;
                 }
-                return View();
+                else
+                {
+                    return RedirectToAction("Save", "Topups");
+                }
+
             }
+            else if (customer.Id != meter[0].UserId && customer.CardId != cashCard.Cardid && customer1.CardId == cashCard.Cardid)//for another from the another card
+            {
+
+                SMS sms = new SMS();
+                sms.To_number = customer1.Telephone;
+                sms.Msg = $"يحاول {customer.name} شحن عدادك باستخدام بطاقتك";
+                string status = sms.Send();
+
+                SMS sms1 = new SMS();
+                sms1.To_number = customer.Telephone;
+                sms1.Msg = $"أهلا وسهلا بك أنت تحاول الان شحن عداد {customer1.name} باستخدام بطاقته {customer1.CardId}";
+                string status1 = sms1.Send();
+
+
+                if (status == "OK" && status1 == "OK")
+                {
+                    Topup topup = new Topup(id, meterId, amount, cardId);
+                    int result;
+                    result = topup.SaveData();
+                    ViewBag.result = result;
+                }
+                else
+                {
+                    return RedirectToAction("Save", "Topups");
+                }
+            }
+            return View();
+        }
             else
             {
                 return RedirectToAction("Save", "Topups");
             }
 
+
         }
-         
-        
+
 
         public ActionResult chargingrequests()
         {

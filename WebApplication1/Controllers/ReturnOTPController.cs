@@ -23,34 +23,42 @@ namespace WebApplication1.Controllers
                 int rc;
                 Customer customer = (Session["customer"] as Customer);
                 Meter[] meter = Meter.GetMeters(new MeterParameters { Meterid = meterid }, out rc);
+
                 if (customer.Id == meter[0].UserId)
                 {
-                    return RedirectToAction("OTPS", "ReturnOTP", new { meterid = meterid });
+                    SMS sms = new SMS();
+                    sms.To_number = customer.Telephone;
+                    sms.Msg = $"أهلا وسهلا بكك أنت تحاول الان استرجاع الكود الغير مشحون الخاص بك";
+                    string status=sms.Send();
+                    if (status == "OK")
+                    {
+                        return RedirectToAction("OTPS", "ReturnOTP", new { meterid = meterid });
+                    }
+                    else
+                    {
+                        return RedirectToAction("index", "ReturnOTP");
+                    }
 
                 }
 
                 else if (customer.Id == meter[0].UserId)
                 {
-                    string response;
+                    
                     Customer customer1 = new Customer(meter[0].UserId);
-                    using (WebClient client = new WebClient())
-                    {
-                        int telephone = Convert.ToInt32("97" + customer1.Telephone);
-                        response = client.DownloadString($"http://sms.htd.ps/API/SendSMS.aspx?id=eadaaac72e504a1f6e0b2a7a5cb60dc9&sender=easycharge1&to=telephone&msg=welcometoeasychargesomeonetrytoreturnyourotp&mode=1");
-                        //"OK|970123456789:serial"
-                        //sms.Id=
 
-                        string[] ss = response.Split((new char[] { '|' }));
-                        string[] sss = ss[1].Split((new char[] { ':' }));
-                        if (ss[0] == "OK")
-                        {
-                            return RedirectToAction("OTPS", "ReturnOTP", new { meterid = meterid });
-                        }
-                        else
-                        {
-                            return RedirectToAction("index", "ReturnOTP");
-                        }
+                    SMS sms = new SMS();
+                    sms.To_number = customer1.Telephone;
+                    sms.Msg = $"يحاول {customer.name} استرجاع الكود الغير مشحون الخاص بك";
+                    string status = sms.Send();
+                    if (status == "OK")
+                    {
+                        return RedirectToAction("OTPS", "ReturnOTP", new { meterid = meterid });
                     }
+                    else
+                    {
+                        return RedirectToAction("index", "ReturnOTP");
+                    }
+                    
                 }
                 return View();
             }

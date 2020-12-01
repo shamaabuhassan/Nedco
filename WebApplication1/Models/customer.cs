@@ -160,39 +160,61 @@ namespace WebApplication1.Models
         }
         public int SaveData()
         {
-            using (SqlCommand cmd = new SqlCommand())
+            int rc;
+            int count = 0;
+            Customer[] customers = Customer.GetCustomers(new CustomerParameters {CardId= CardId }, out rc);
+            foreach(Customer customer in customers)
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = new SqlConnection(cstr.con);
-                cmd.Connection.Open();
-                cmd.CommandText = "SaveCustomerData";
+                if(CardId==customer.CardId)
+                {
+                    count = 1;
+                }
+                else
+                {
+                    count = 0;
+                }
+            }
+            if (count == 0)
+            {
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Connection = new SqlConnection(cstr.con);
+                    cmd.Connection.Open();
+                    cmd.CommandText = "SaveCustomerData";
 
-                if (Username != null) cmd.Parameters.AddWithValue("username", Username);
-                if (CardId != null) cmd.Parameters.AddWithValue("card_id", CardId);
-                if (Telephone != null) cmd.Parameters.AddWithValue("telephone", Telephone);
-                if (CountryId != null) cmd.Parameters.AddWithValue("country_id", CountryId);
-                if (CityId != null) cmd.Parameters.AddWithValue("city_id", CityId);
-                if (Town != null) cmd.Parameters.AddWithValue("town", Town);
-                if (Street != null) cmd.Parameters.AddWithValue("street", Street);
-                if (Password != null) cmd.Parameters.AddWithValue("password", Password);
-                if (name != null) cmd.Parameters.AddWithValue("name", name);
+                    if (Username != null) cmd.Parameters.AddWithValue("username", Username);
+                    if (CardId != null) cmd.Parameters.AddWithValue("card_id", CardId);
+                    if (Telephone != null) cmd.Parameters.AddWithValue("telephone", Telephone);
+                    if (CountryId != null) cmd.Parameters.AddWithValue("country_id", CountryId);
+                    if (CityId != null) cmd.Parameters.AddWithValue("city_id", CityId);
+                    if (Town != null) cmd.Parameters.AddWithValue("town", Town);
+                    if (Street != null) cmd.Parameters.AddWithValue("street", Street);
+                    if (Password != null) cmd.Parameters.AddWithValue("password", Password);
+                    if (name != null) cmd.Parameters.AddWithValue("name", name);
 
 
-                SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
-                idParam.Direction = ParameterDirection.InputOutput;
+                    SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
+                    idParam.Direction = ParameterDirection.InputOutput;
 
-                SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
-                resultParam.Direction = ParameterDirection.InputOutput;
+                    SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
+                    resultParam.Direction = ParameterDirection.InputOutput;
 
-                idParam.Value = this.Id;
+                    idParam.Value = this.Id;
 
-                int c = cmd.ExecuteNonQuery();
+                    int c = cmd.ExecuteNonQuery();
 
-                this.Id = Convert.ToInt32(idParam.Value);
-                int result = Convert.ToInt32(resultParam.Value);
-                cmd.Connection.Close();
+                    this.Id = Convert.ToInt32(idParam.Value);
+                    int result = Convert.ToInt32(resultParam.Value);
+                    cmd.Connection.Close();
+                    return result;
+
+                }
+            }
+            else
+            {
+                int result = 0;
                 return result;
-
             }
         }
 
