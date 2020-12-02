@@ -1,0 +1,48 @@
+﻿@using WebApplication1.Models
+@model TransferParameters
+
+@{
+    Transfer[] transfers = null;
+    if (ViewBag.transfers != null)
+    {
+        transfers = ViewBag.transfers;
+    }
+}
+
+
+    @if (transfers != null)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <td>رقم العملية</td>
+                    <td>الكود المستخدم في التحويل </td>
+                    <td>رقم العداد المحول اليه</td>
+                    <td>كمية التحويل</td>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (Transfer transfer in transfers)
+                {
+                    <tr>
+                        <td>@transfer.Id</td>
+                        <td>@transfer.SenderOTP</td>
+                        <td>@transfer.MeterId</td>
+                        <td>@transfer.Amount</td>
+
+                    </tr>
+
+                }
+
+            </tbody>
+
+
+        </table>
+    }
+
+
+    @if (transfers == null)
+    {
+        <p>هذا العداد لم يتم التحويل منك ولا اليك</p>
+    }

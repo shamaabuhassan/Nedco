@@ -29,6 +29,8 @@ namespace WebApplication1.Controllers
 
         }
 
+
+
         public ActionResult Save(int? id, int? meterId, decimal? amount, int? cardId)
         {
             int rc;
@@ -105,62 +107,62 @@ namespace WebApplication1.Controllers
                     }
                 }
 
-            
-            else if (customer.Id != meter[0].UserId && customer.CardId != cashCard.Cardid && customer1.CardId != cashCard.Cardid)//for another from another card
-            {
-                int rrc;
-                Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cardId }, out rrc);
 
-                SMS sms = new SMS();
-                sms.To_number = customer2[0].Telephone;
-                sms.Msg = $"يحاول {customer1.name} شحن عداده بقيمة {amount} باستخدام بطاقتك";
-                string status = sms.Send();
-
-                SMS sms1 = new SMS();
-                sms1.To_number = customer1.Telephone;
-                sms1.Msg = $"يحاول {customer.name} شحن عدادك بقيمة {amount} باستخدام بطاقة {customer2[0].name}";
-                string status1 = sms1.Send();
-                if (status == "OK" && status1 == "OK")
+                else if (customer.Id != meter[0].UserId && customer.CardId != cashCard.Cardid && customer1.CardId != cashCard.Cardid)//for another from another card
                 {
-                    Topup topup = new Topup(id, meterId, amount, cardId);
-                    int result;
-                    result = topup.SaveData();
-                    ViewBag.result = result;
-                }
-                else
-                {
-                    return RedirectToAction("Save", "Topups");
-                }
+                    int rrc;
+                    Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cardId }, out rrc);
 
+                    SMS sms = new SMS();
+                    sms.To_number = customer2[0].Telephone;
+                    sms.Msg = $"يحاول {customer1.name} شحن عداده بقيمة {amount} باستخدام بطاقتك";
+                    string status = sms.Send();
+
+                    SMS sms1 = new SMS();
+                    sms1.To_number = customer1.Telephone;
+                    sms1.Msg = $"يحاول {customer.name} شحن عدادك بقيمة {amount} باستخدام بطاقة {customer2[0].name}";
+                    string status1 = sms1.Send();
+                    if (status == "OK" && status1 == "OK")
+                    {
+                        Topup topup = new Topup(id, meterId, amount, cardId);
+                        int result;
+                        result = topup.SaveData();
+                        ViewBag.result = result;
+                    }
+                    else
+                    {
+                        return RedirectToAction("Save", "Topups");
+                    }
+
+                }
+                else if (customer.Id != meter[0].UserId && customer.CardId != cashCard.Cardid && customer1.CardId == cashCard.Cardid)//for another from the another card
+                {
+
+                    SMS sms = new SMS();
+                    sms.To_number = customer1.Telephone;
+                    sms.Msg = $"يحاول {customer.name} شحن عدادك باستخدام بطاقتك";
+                    string status = sms.Send();
+
+                    SMS sms1 = new SMS();
+                    sms1.To_number = customer.Telephone;
+                    sms1.Msg = $"أهلا وسهلا بك أنت تحاول الان شحن عداد {customer1.name} باستخدام بطاقته {customer1.CardId}";
+                    string status1 = sms1.Send();
+
+
+                    if (status == "OK" && status1 == "OK")
+                    {
+                        Topup topup = new Topup(id, meterId, amount, cardId);
+                        int result;
+                        result = topup.SaveData();
+                        ViewBag.result = result;
+                    }
+                    else
+                    {
+                        return RedirectToAction("Save", "Topups");
+                    }
+                }
+                return View();
             }
-            else if (customer.Id != meter[0].UserId && customer.CardId != cashCard.Cardid && customer1.CardId == cashCard.Cardid)//for another from the another card
-            {
-
-                SMS sms = new SMS();
-                sms.To_number = customer1.Telephone;
-                sms.Msg = $"يحاول {customer.name} شحن عدادك باستخدام بطاقتك";
-                string status = sms.Send();
-
-                SMS sms1 = new SMS();
-                sms1.To_number = customer.Telephone;
-                sms1.Msg = $"أهلا وسهلا بك أنت تحاول الان شحن عداد {customer1.name} باستخدام بطاقته {customer1.CardId}";
-                string status1 = sms1.Send();
-
-
-                if (status == "OK" && status1 == "OK")
-                {
-                    Topup topup = new Topup(id, meterId, amount, cardId);
-                    int result;
-                    result = topup.SaveData();
-                    ViewBag.result = result;
-                }
-                else
-                {
-                    return RedirectToAction("Save", "Topups");
-                }
-            }
-            return View();
-        }
             else
             {
                 return RedirectToAction("Save", "Topups");
@@ -200,6 +202,38 @@ namespace WebApplication1.Controllers
             topup.Charged();
             return RedirectToAction("Charged", "Topups");
 
+        }
+
+        public ActionResult ChargeHist()
+        {
+            return View();
+
+
+        }
+
+        public ActionResult Monthlycharging(string month, string year)
+        {
+            int rc;
+            Customer customer = (Session["customer"] as Customer);
+            Meter[] meters = Meter.GetMeters(new MeterParameters { UserId = customer.Id }, out rc);
+
+            if (Session["customer"] != null)
+            {
+
+                Topup[] topups = Topup.GetTopups(new TopupParameters { Month = month, Year = year, MeterId = meters[0].Meterid }, out rc);
+
+                decimal? amount = 0;
+                decimal? count = 0;
+                foreach (Topup topup in topups)
+                {
+                    amount += topup.Amount;
+                    count += 1;
+                }
+                ViewBag.amount = amount;
+                ViewBag.count = count;
+
+            }
+            return View();
         }
     }
 }

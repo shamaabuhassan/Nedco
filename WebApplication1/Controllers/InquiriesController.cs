@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models;
@@ -34,20 +35,25 @@ namespace WebApplication1.Controllers
             Topup[] topups = Topup.GetTopups(new TopupParameters { Month =month, Year =year,MeterId=meter}, out rc);
            
             decimal? amount = 0;
+            decimal? count = 0;
             foreach(Topup topup in topups)
             {
                 amount += topup.Amount;
+                count += 1;
             }
             ViewBag.amount = amount;
+            ViewBag.count = count;
             return View();
         }
 
-       public ActionResult Transferom(int meter,Transfer[] transfer)
+       public ActionResult Transfrom(int meter)
         {
             int rc;
             int count = 0;
             string[] otps = null;
             Topup[] topups = Topup.GetTopups(new TopupParameters { }, out rc);//for topups
+            Transfer[] transfer = Transfer.GetTransfers(new TransferParameters { }, out rc);//all trans
+
             Topup[] topups1 = null;//for senders otp
 
             foreach (Transfer transfer1 in transfer)

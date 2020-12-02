@@ -1,0 +1,31 @@
+﻿@using WebApplication1.Models
+@model TopupParameters
+
+@{
+    Session["customer"] = new Customer(4005);
+    Layout = null;
+    decimal? amount = 0;
+    decimal? count = 0;
+   
+    if (ViewBag.amount != null)
+    {
+        amount = ViewBag.amount;
+        count = ViewBag.count;
+    }
+}
+<div style="flex:1; padding-left: 35px" class="vertical-align">
+
+    @using (Html.BeginForm("MonthlyCharging", "Inquiries", FormMethod.Post))
+    {
+        @Html.TextBoxFor(o => o.Month);
+
+        @Html.TextBoxFor(o => o.Year);
+
+       
+
+        <input type="submit" value="MonthlyCharge" />
+
+
+        <p>معدل الشحن الشهري هو:@amount/@count</p>
+
+    }

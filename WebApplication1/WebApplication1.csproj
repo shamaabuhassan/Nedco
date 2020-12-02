@@ -222,7 +222,11 @@
     <Content Include="Views\Inquiries\Transfers.cshtml" />
     <Content Include="Views\Inquiries\Charges.cshtml" />
     <Content Include="Views\Inquiries\MonthlyCharge.cshtml" />
-    <Content Include="Views\Inquiries\Transferom.cshtml" />
+    <Content Include="Views\Inquiries\Transfrom.cshtml" />
+    <Content Include="Views\Topups\ChargeHist.cshtml" />
+    <Content Include="Views\Transfer\TransferHist.cshtml" />
+    <Content Include="Views\Transfer\Transformfrom.cshtml" />
+    <Content Include="Views\Topups\Monthlycharging.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
