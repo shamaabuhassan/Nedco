@@ -20,6 +20,10 @@ namespace WebApplication1.Models
         public DateTime? ActivationDate { get; set; }
         public string Status { get; set; }
 
+        public string Month { get; set; }
+
+        public string Year { get; set; }
+
     }
     
 
@@ -225,6 +229,9 @@ namespace WebApplication1.Models
                 cmd.Parameters.AddWithValue("@card_id", parameters.CardId);
                 cmd.Parameters.AddWithValue("@status", parameters.Status);
                 cmd.Parameters.AddWithValue("@otp", parameters.OTP);
+                cmd.Parameters.AddWithValue("@month", parameters.Month);
+                cmd.Parameters.AddWithValue("@year", parameters.Year);
+                cmd.Parameters.AddWithValue("@meter_id", parameters.MeterId);
 
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)

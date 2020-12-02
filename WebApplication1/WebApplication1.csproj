@@ -125,9 +125,11 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InquiriesController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MainpageController.cs" />
     <Compile Include="Controllers\MetersController.cs" />
+    <Compile Include="Controllers\NewCustomerController.cs" />
     <Compile Include="Controllers\ReturnOTPController.cs" />
     <Compile Include="Controllers\TopupsController.cs" />
     <Compile Include="Controllers\TransferController.cs" />
@@ -212,6 +214,14 @@
     <Content Include="Views\ChargeMeter\index.cshtml" />
     <Content Include="Views\ReturnOTP\index.cshtml" />
     <Content Include="Views\ReturnOTP\OTPS.cshtml" />
+    <Content Include="Views\Inquiries\index.cshtml" />
+    <Content Include="Views\NewCustomer\index.cshtml" />
+    <Content Include="Views\NewCustomer\NewCard.cshtml" />
+    <Content Include="Views\NewCustomer\NewCustomer.cshtml" />
+    <Content Include="Views\NewCustomer\NewMeter.cshtml" />
+    <Content Include="Views\Inquiries\Transfers.cshtml" />
+    <Content Include="Views\Inquiries\Charges.cshtml" />
+    <Content Include="Views\Inquiries\MonthlyCharge.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

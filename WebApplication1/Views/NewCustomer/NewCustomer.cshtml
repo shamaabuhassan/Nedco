@@ -1,0 +1,107 @@
+﻿@using WebApplication1.Models
+@model CustomerParameters
+
+
+@{
+    int rc;
+    Layout = null;
+    int result = 0;
+    if (ViewBag.result != null)
+    {
+        result = ViewBag.result;
+    }
+    CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { }, out rc);
+    Area[] areas = Area.getarea(new AreaParameters { Type = "s" }, out rc);
+    Area[] area = Area.getarea(new AreaParameters { Type = "c" }, out rc);
+    Area[] areass = Area.getarea(new AreaParameters { Type = "t" }, out rc);
+
+}
+
+    <div style="flex:1; padding-left: 35px" class="vertical-align">
+
+        @using (Html.BeginForm("Newcustomer", "NewCustomer", FormMethod.Post))
+        {
+            <table>
+
+                <tbody>
+
+                    <tr><td>Id</td></tr>
+
+                    <tr><td>@Html.TextBoxFor(o => o.Id)</td></tr>
+
+                    <tr><td>username</td></tr>
+
+                    <tr><td>@Html.TextBoxFor(o => o.Username)</td></tr>
+
+
+                    <tr><td>cardid</td></tr>
+
+                    <tr><td>@Html.DropDownListFor(o => o.CardId, new SelectList(cashCards, "Cardid", "Cardid"))</tr>
+
+                    <tr><td>telephone</td></tr>
+
+                    <tr><td>@Html.TextBoxFor(o => o.Telephone)</td></tr>
+
+                    <tr><td>countryid</td></tr>
+
+                    <tr><td>@Html.DropDownListFor(o => o.CountryId, new SelectList(areas, "Id", "Name"))</td></tr>
+
+
+                    <tr><td>cityid</td></tr>
+
+                    <tr><td>@Html.DropDownListFor(o => o.CityId, new SelectList(area, "Id", "Name"))</td></tr>
+
+                    <tr><td>Town</td></tr>
+
+                    <tr><td>@Html.DropDownListFor(o => o.Town, new SelectList(areass, "Name", "Name"))</td></tr>
+
+                    <tr><td>street</td></tr>
+
+                    <tr><td>@Html.TextBoxFor(o => o.Street)</td></tr>
+
+                    <tr><td>password</td></tr>
+
+                    <tr><td>@Html.TextBoxFor(o => o.Password)</td></tr>
+
+                    <tr><td>name</td></tr>
+
+                    <tr><td>@Html.TextBoxFor(o => o.name)</td></tr>
+
+                </tbody>
+            </table>
+
+            <input type="submit" value="Newcustomer" />
+
+            <p> the result is:@result</p>
+        }
+
+    </div>
+
+
+<div style="text-align: center;">
+    <div class="hexagon full small blue">
+
+        <span></span>
+        <img src="~/images/user.png" style="width: 140px;z-index: 4;position: relative;" />
+    </div>
+    <div class="hexagon blue">
+        <span></span>
+
+        <div class="content">
+
+            <a class="brand-button brand-button-2" href="@Url.Action("NewCard", "NewCustomer")">تسجيل بطاقة جديدة</a>
+
+
+            <a class="brand-button brand-button-2" href="@Url.Action("NewCustomer","Mainpage")">تسجيل مستخدم جديد</a>
+
+
+            <a class="brand-button brand-button-2" href="@Url.Action("NewMeter", "Customers")">تسجيل عداد جديد</a>
+
+
+            <a class="brand-button brand-button-2" href="@Url.Action("index", "Mainpage")">الصفحة الرئسية</a>
+
+        </div>
+    </div>
+</div>
+
+

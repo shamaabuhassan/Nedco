@@ -13,6 +13,8 @@ namespace WebApplication1.Models
         public string SenderOTP { get; set; }
         public int? MeterId { get; set; }
         public decimal? Amount { get; set; }
+
+      
     }
 public class Transfer
     {
@@ -157,6 +159,7 @@ public class Transfer
                 cmd.Connection = new SqlConnection(cstr.con);
                 cmd.Connection.Open();
                 cmd.CommandText = "GetTransfers";
+
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)
                 {

@@ -51,6 +51,9 @@
 
         <div class="content">
 
+            <a class="brand-button brand-button-2" href="@Url.Action("index", "NewCustomer")">تسجيل مستخدم جديد</a>
+
+
             <a class="brand-button brand-button-2" href="@Url.Action("Mainpage","Mainpage")">الصفحة الرئيسية</a>
 
             @*@using (Html.BeginForm("MainPage", "Mainpage", FormMethod.Post))
@@ -87,8 +90,10 @@
             @*<input type="submit" value="Charge_meter" class="brand-button brand-button-2" />
         <a class="brand-button brand-button-2">شحن العداد</a>*@
 
+            <a class="brand-button brand-button-2" href="@Url.Action("index", "Inquiries")">الاستعلامات</a>
 
-            <a class="brand-button brand-button-2" href="@Url.Action("Logout", "Mainpage")">طلبات التحويل</a>
+
+            <a class="brand-button brand-button-2" href="@Url.Action("Logout", "Mainpage")">تسجيل الخروج</a>
             @*@using (Html.BeginForm("Logout", "Mainpage", FormMethod.Post))
         {
             <input type="submit" value="Logout" class="brand-button brand-button-2" />
