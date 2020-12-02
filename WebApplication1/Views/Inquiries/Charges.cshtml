@@ -3,11 +3,21 @@
 
 @{
     int rc;
-    int? id = ViewBag.id;
-    Topup[] topups = Topup.GetTopups(new TopupParameters { }, out rc);
+    if (ViewBag != null) {
+        int? id = ViewBag.id;
+        int meterid = ViewBag.meter;
+        Topup[] topups = Topup.GetTopups(new TopupParameters { MeterId = meterid}, out rc);
+    }
 }
 
     <div style="flex:1; padding-left: 35px" class="vertical-align">
+
+        @using (Html.BeginForm("Charges", "Inquiries", FormMethod.Post))
+        {
+            @Html.TextBoxFor(o => o.MeterId);
+
+            <input type="submit" value="Charges" />
+        }
 
         <table>
             <thead>

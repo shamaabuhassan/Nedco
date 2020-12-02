@@ -2,7 +2,7 @@
 @model TopupParameters
 
 @{ 
-    decimal? amount;
+    decimal? amount=0;
     if (ViewBag.amount != null)
     {
         amount = ViewBag.amount;

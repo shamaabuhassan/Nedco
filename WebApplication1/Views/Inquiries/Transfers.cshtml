@@ -5,40 +5,66 @@
 @{
     Layout = null;
     int rc;
-    int? id = ViewBag.id;
-    Transfer[] transfers = Transfer.GetTransfers(new TransferParameters { }, out rc);
+    Transfer[] transfers=null;
+    int meter = 0;
+   
+
+    if (ViewBag != null) {
+        meter = ViewBag.meter;
+        transfers = Transfer.GetTransfers(new TransferParameters {MeterId=meter }, out rc);
+      
+    }
 
 }
 
     <div style="flex:1; padding-left: 35px" class="vertical-align">
 
-        <table>
-            <thead>
-                <tr>
-                    <td>رقم العملية</td>
-                    <td>الكود المستخدم في التحويل </td>
-                    <td>رقم العداد المحول اليه</td>
-                    <td>كمية التحويل</td>
-                </tr>
 
-            </thead>
-            <tbody>
-                @foreach (Transfer transfer in transfers)
-                {
+        @using (Html.BeginForm("Transfers", "Inquiries", FormMethod.Post))
+        {
+            @Html.TextBoxFor(o => o.MeterId);
+
+            <input type="submit" value="Transfers" />
+        }
+
+        @if (transfers != null)
+        {
+            <table>
+                <thead>
                     <tr>
-                        <td>@transfer.Id</td>
-                        <td>@transfer.SenderOTP</td>
-                        <td>@transfer.MeterId</td>
-                        <td>@transfer.Amount</td>
-
+                        <td>رقم العملية</td>
+                        <td>الكود المستخدم في التحويل </td>
+                        <td>رقم العداد المحول اليه</td>
+                        <td>كمية التحويل</td>
                     </tr>
 
-                }
+                </thead>
+                <tbody>
+                    @foreach (Transfer transfer in transfers)
+                    {
+                        <tr>
+                            <td>@transfer.Id</td>
+                            <td>@transfer.SenderOTP</td>
+                            <td>@transfer.MeterId</td>
+                            <td>@transfer.Amount</td>
 
-            </tbody>
+                        </tr>
+
+                    }
+
+                </tbody>
 
 
-        </table>
+            </table>
+        }
+        @if (transfers == null )
+        {
+
+            @Url.Action("Transferom", "Inquiries", new { meter, transfers });
+
+        }
+
+       
     </div>
 
 
