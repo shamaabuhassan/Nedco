@@ -6,12 +6,26 @@
     Layout = null;
     Session["customer"] = new Customer(4005);
 
- }
+}
 
-@using(Html.BeginForm("index","ChargeMeter",FormMethod.Post))
+  @if (ViewBag.error == "2")
+
+    {<p>there is no session</p>}
+
+    @if (ViewBag.error == "3")
+
+    {<p>the OTP is charged</p>}
+
+    @if (ViewBag.error == "4")
+
+    {<p>the Status of sms is No</p>}
+
+
+@using (Html.BeginForm("index", "ChargeMeter", FormMethod.Post))
 {
-   @Html.TextBoxFor(o => o.OTP);
+    @Html.TextBoxFor(o => o.OTP);
 
     <input type="submit" value="Charge" />
+
 
 }

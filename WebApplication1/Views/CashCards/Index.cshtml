@@ -1,5 +1,6 @@
 ﻿@using WebApplication1.Models;
 @{
+    
     int rc;
     int ?ID = ViewBag.ID;
     CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { }, out rc);

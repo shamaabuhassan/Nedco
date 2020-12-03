@@ -14,10 +14,6 @@
 
         @using (Html.BeginForm("MonthlyCharge", "Inquiries", FormMethod.Post))
         {
-            @Html.TextBoxFor(o => o.Month);
-
-            @Html.TextBoxFor(o => o.Year);
-
             @Html.TextBoxFor(o => o.MeterId);
 
             <input type="submit" value="MonthlyCharge" />
