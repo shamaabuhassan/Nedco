@@ -2,59 +2,62 @@
 @model TopupParameters
 
 @{ Topup[] topups = null;
-
     int rc;
-    if (ViewBag != null) {
-        int meterid = ViewBag.meter;
-        topups = Topup.GetTopups(new TopupParameters { MeterId = meterid}, out rc);
-    }
+    int? meterid = 0;
+
 }
 
-    <div style="flex:1; padding-left: 35px" class="vertical-align">
+@if (ViewBag.meter != null)
+{
+    meterid = ViewBag.meter;
+    topups = Topup.GetTopups(new TopupParameters { MeterId = meterid }, out rc);
+    <table>
+        <thead>
+            <tr>
+                <td>رقم العملية</td>
+                <td>رقم العداد </td>
+                <td>كمية الشحن</td>
+                <td>رقم البطاقة</td>
+                <td>كود الشحن</td>
+                <td>تاريخ الشحن</td>
+                <td>تاريخ التفعيل</td>
+                <td>حالة الشحن</td>
+            </tr>
 
-        @using (Html.BeginForm("Charges", "Inquiries", FormMethod.Post))
-        {
-            @Html.TextBoxFor(o => o.MeterId);
-
-            <input type="submit" value="Charges" />
-        }
-
-        <table>
-            <thead>
+        </thead>
+        <tbody>
+            @foreach (Topup topup in topups)
+            {
                 <tr>
-                    <td>رقم العملية</td>
-                    <td>رقم العداد </td>
-                    <td>كمية الشحن</td>
-                    <td>رقم البطاقة</td>
-                    <td>كود الشحن</td>
-                    <td>تاريخ الشحن</td>
-                    <td>تاريخ التفعيل</td>
-                    <td>حالة الشحن</td>
+                    <td>@topup.Id</td>
+                    <td>@topup.MeterId</td>
+                    <td>@topup.Amount</td>
+                    <td>@topup.CardId</td>
+                    <td>@topup.OTP</td>
+                    <td>@topup.ChargeDate</td>
+                    <td>@topup.ActivationDate</td>
+                    <td>@topup.Status</td>
+
                 </tr>
 
-            </thead>
-            <tbody>
-                @foreach (Topup topup in topups)
-                {
-                    <tr>
-                        <td>@topup.Id</td>
-                        <td>@topup.MeterId</td>
-                        <td>@topup.Amount</td>
-                        <td>@topup.CardId</td>
-                        <td>@topup.OTP</td>
-                        <td>@topup.ChargeDate</td>
-                        <td>@topup.ActivationDate</td>
-                        <td>@topup.Status</td>
+            }
 
-                    </tr>
-
-                }
-
-            </tbody>
+        </tbody>
 
 
-        </table>
-    </div>
+    </table>
+}
+<div style="flex:1; padding-left: 35px" class="vertical-align">
+
+    @using (Html.BeginForm("Charges", "Inquiries", FormMethod.Post))
+    {
+        @Html.TextBoxFor(o => o.MeterId);
+
+        <input type="submit" value="Charges" />
+    }
+
+
+</div>
 
 
 <div style="text-align: center;">

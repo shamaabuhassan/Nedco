@@ -79,6 +79,7 @@ namespace WebApplication1.Models
                 cmd.CommandText = "GetArea";
 
                 cmd.Parameters.AddWithValue("@type", parameters.Type);
+                cmd.Parameters.AddWithValue("@id", parameters.Id);
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)
                 {

@@ -211,7 +211,7 @@ namespace WebApplication1.Controllers
 
         }
 
-        public ActionResult Monthlycharging(string month, string year)
+        public ActionResult Monthlycharging(DateTime fromdate, DateTime todate)
         {
             int rc;
             Customer customer = (Session["customer"] as Customer);
@@ -220,7 +220,7 @@ namespace WebApplication1.Controllers
             if (Session["customer"] != null)
             {
 
-                Topup[] topups = Topup.GetTopups(new TopupParameters { Month = month, Year = year, MeterId = meters[0].Meterid }, out rc);
+                Topup[] topups = Topup.GetTopups(new TopupParameters { fromdate = fromdate, todate = todate, MeterId = meters[0].Meterid }, out rc);
 
                 decimal? amount = 0;
                 decimal? count = 0;

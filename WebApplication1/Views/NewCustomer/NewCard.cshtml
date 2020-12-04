@@ -13,29 +13,31 @@
 
 
 <div style="flex:1; padding-left: 35px" class="vertical-align">
-
+    
     @using (Html.BeginForm("NewCard", "NewCustomer", FormMethod.Post))
     {
         <table>
 
             <tbody>
 
-                <tr><td>Id</td></tr>
+                @*<tr>
+                    <td>Id</td>
+                    <td>@Html.TextBoxFor(o => o.Id)</td>
+                </tr>*@
 
-                <tr><td>@Html.TextBoxFor(o => o.Id)</td></tr>
+                <tr>
+                    <td>Password</td>
+                    <td>@Html.TextBoxFor(o => o.Password)</td>
+                </tr>
 
-                <tr><td>Password</td></tr>
-
-                <tr><td>@Html.TextBoxFor(o => o.Password)</td></tr>
-
-
-                <tr><td>Amount</td></tr>
-
-                <tr><td>@Html.TextBoxFor(o => o.Amount)</td></tr>
-
-                <tr><td>cardid</td></tr>
-
-                <tr><td>@Html.TextBoxFor(o => o.Cardid)</td></tr>
+                <tr>
+                    <td>Amount</td>
+                    <td>@Html.TextBoxFor(o => o.Amount)</td>
+                </tr>
+                <tr>
+                    <td>cardid</td>
+                <td>@Html.TextBoxFor(o => o.Cardid)</td>
+                </tr>
 
             </tbody>
         </table>

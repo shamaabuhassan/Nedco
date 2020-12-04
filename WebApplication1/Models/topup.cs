@@ -20,9 +20,9 @@ namespace WebApplication1.Models
         public DateTime? ActivationDate { get; set; }
         public string Status { get; set; }
 
-        public DateTime fromdate { get; set; }
+        public DateTime? fromdate { get; set; }
 
-        public DateTime todate { get; set; }
+        public DateTime? todate { get; set; }
 
     }
     
@@ -216,7 +216,50 @@ namespace WebApplication1.Models
            
         }
 
+
         
+
+             public static Topup[] GetMonthlyTopups(TopupParameters parameters, out int rowsCount)
+        {
+            List<Topup> l = new List<Topup>();
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = new SqlConnection(cstr.con);
+                cmd.Connection.Open();
+                cmd.CommandText = "GetMonthlyTopups";
+
+                cmd.Parameters.AddWithValue("@fromdate", parameters.fromdate);
+                cmd.Parameters.AddWithValue("@todate", parameters.todate);
+                cmd.Parameters.AddWithValue("@meter_id", parameters.MeterId);
+
+                SqlDataReader r = cmd.ExecuteReader();
+                if (r.HasRows)
+                {
+                    while (r.Read())
+                    {
+                        Topup c = new Topup();
+                        if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
+                        if (r["meter_id"] != DBNull.Value) c.MeterId = Convert.ToInt32(r["meter_id"]);
+                        if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
+                        if (r["card_id"] != DBNull.Value) c.CardId = Convert.ToInt32(r["card_id"]);
+                        if (r["otp"] != DBNull.Value) c.OTP = Convert.ToString(r["otp"]);
+                        if (r["chargeDate"] != DBNull.Value) c.ChargeDate = Convert.ToDateTime(r["chargeDate"]);
+                        if (r["activationDate"] != DBNull.Value) c.ActivationDate = Convert.ToDateTime(r["activationDate"]);
+                        if (r["status"] != DBNull.Value) c.Status = Convert.ToString(r["status"]);
+
+                        l.Add(c);
+                    }
+                }
+
+                r.Close();
+                cmd.Connection.Close();
+                rowsCount = l.Count;
+            }
+            return l.ToArray();
+
+        }
+
         public static Topup[] GetTopups(TopupParameters parameters, out int rowsCount)
             {
                 List<Topup> l = new List<Topup>();
@@ -229,8 +272,6 @@ namespace WebApplication1.Models
                 cmd.Parameters.AddWithValue("@card_id", parameters.CardId);
                 cmd.Parameters.AddWithValue("@status", parameters.Status);
                 cmd.Parameters.AddWithValue("@otp", parameters.OTP);
-                cmd.Parameters.AddWithValue("@fromdate", parameters.Month);
-                cmd.Parameters.AddWithValue("@todate", parameters.Year);
                 cmd.Parameters.AddWithValue("@meter_id", parameters.MeterId);
 
                 SqlDataReader r = cmd.ExecuteReader();

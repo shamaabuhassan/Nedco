@@ -161,5 +161,10 @@ namespace WebApplication1.Controllers
             ViewBag.transfers = transfers;
             return View();
         }
+
+        public ActionResult TransferHist()
+        {
+            return View();
+        }
     }
 }

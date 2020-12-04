@@ -6,12 +6,13 @@
     Customer customer = (Session["customer"] as Customer);
     int rc;
     Topup[] topups = null;
-    if (Session["customer"] != null) {
-        Meter[] meters = Meter.GetMeters(new MeterParameters { UserId = customer.Id }, out rc);
-        topups = Topup.GetTopups(new TopupParameters { MeterId = meters[0].Meterid }, out rc);
-    }
+
 
 }
+@if (Session["customer"] != null)
+{
+    Meter[] meters = Meter.GetMeters(new MeterParameters { UserId = customer.Id }, out rc);
+    topups = Topup.GetTopups(new TopupParameters { MeterId = meters[0].Meterid }, out rc);
 
 <table>
     <thead>
@@ -48,3 +49,4 @@
 
 
 </table>
+}

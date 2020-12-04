@@ -24,47 +24,54 @@
 
                 <tbody>
 
-                    <tr><td>Id</td></tr>
+                    @*<tr><td>Id</td></tr>
 
-                    <tr><td>@Html.TextBoxFor(o => o.Id)</td></tr>
+                    <tr><td>@Html.TextBoxFor(o => o.Id)</td></tr>*@
 
-                    <tr><td>username</td></tr>
+                    <tr>
+                    <td>username</td>
+                    <td>@Html.TextBoxFor(o => o.Username)</td>
+                    </tr>
 
-                    <tr><td>@Html.TextBoxFor(o => o.Username)</td></tr>
+                    <tr>
+                    <td>cardid</td>
+                    <td>@Html.DropDownListFor(o => o.CardId, new SelectList(cashCards, "Cardid", "Cardid"))</td>
+                    </tr>
 
+                    <tr>
+                     <td>telephone</td>
+                 <td>@Html.TextBoxFor(o => o.Telephone)</td>
+                     </tr>
 
-                    <tr><td>cardid</td></tr>
+                    <tr>
+                    <td>countryid</td>
+                   <td>@Html.DropDownListFor(o => o.CountryId, new SelectList(areas, "Id", "Name"))</td>
+                   </tr>
 
-                    <tr><td>@Html.DropDownListFor(o => o.CardId, new SelectList(cashCards, "Cardid", "Cardid"))</tr>
+                    <tr>
+                    <td>cityid</td>
+                    <td>@Html.DropDownListFor(o => o.CityId, new SelectList(area, "Id", "Name"))</td>
+                    </tr>
 
-                    <tr><td>telephone</td></tr>
+                    <tr>
+                    <td>Town</td>
+                    <td>@Html.DropDownListFor(o => o.Town, new SelectList(areass, "Name", "Name"))</td>
+                    </tr>
 
-                    <tr><td>@Html.TextBoxFor(o => o.Telephone)</td></tr>
+                    <tr>
+                     <td>street</td>
+                    <td>@Html.TextBoxFor(o => o.Street)</td>
+                    </tr>
 
-                    <tr><td>countryid</td></tr>
+                    <tr>
+                    <td>password</td>
+                    <td>@Html.TextBoxFor(o => o.Password)</td>
+                    </tr>
 
-                    <tr><td>@Html.DropDownListFor(o => o.CountryId, new SelectList(areas, "Id", "Name"))</td></tr>
-
-
-                    <tr><td>cityid</td></tr>
-
-                    <tr><td>@Html.DropDownListFor(o => o.CityId, new SelectList(area, "Id", "Name"))</td></tr>
-
-                    <tr><td>Town</td></tr>
-
-                    <tr><td>@Html.DropDownListFor(o => o.Town, new SelectList(areass, "Name", "Name"))</td></tr>
-
-                    <tr><td>street</td></tr>
-
-                    <tr><td>@Html.TextBoxFor(o => o.Street)</td></tr>
-
-                    <tr><td>password</td></tr>
-
-                    <tr><td>@Html.TextBoxFor(o => o.Password)</td></tr>
-
-                    <tr><td>name</td></tr>
-
-                    <tr><td>@Html.TextBoxFor(o => o.name)</td></tr>
+                    <tr>
+                     <td>name</td>
+                    <td>@Html.TextBoxFor(o => o.name)</td>
+                    </tr>
 
                 </tbody>
             </table>
@@ -91,7 +98,7 @@
             <a class="brand-button brand-button-2" href="@Url.Action("NewCard", "NewCustomer")">تسجيل بطاقة جديدة</a>
 
 
-            <a class="brand-button brand-button-2" href="@Url.Action("NewCustomer","Mainpage")">تسجيل مستخدم جديد</a>
+            <a class="brand-button brand-button-2" href="@Url.Action("NewCustomer","NewCustomer")">تسجيل مستخدم جديد</a>
 
 
             <a class="brand-button brand-button-2" href="@Url.Action("NewMeter", "NewCustomer")">تسجيل عداد جديد</a>

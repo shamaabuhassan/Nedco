@@ -17,9 +17,9 @@
 
     @using (Html.BeginForm("MonthlyCharging", "Inquiries", FormMethod.Post))
     {
-        @Html.TextBoxFor(o => o.Month);
+        @Html.TextBoxFor(o => o.fromdate,new { type = "date" });
 
-        @Html.TextBoxFor(o => o.Year);
+        @Html.TextBoxFor(o => o.todate,new { type = "date" });
 
        
 
