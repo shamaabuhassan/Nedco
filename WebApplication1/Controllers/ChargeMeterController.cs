@@ -41,7 +41,7 @@ namespace WebApplication1.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("index", "ChargeMeter", new { error = "4" });
+                            return RedirectToAction("index", "ChargeMeter", new { error = 4 });
                         }
                     }
 
@@ -58,20 +58,20 @@ namespace WebApplication1.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("index", "ChargeMeter",new { error = "4" });
+                            return RedirectToAction("index", "ChargeMeter",new { error = 4 });
                         }
                     }
                     
                 }
                 else if (Session["customer"] == null)
                 {
-                    return RedirectToAction("index", "ChargeMeter", new { error = "2" });
+                    return RedirectToAction("index", "ChargeMeter", new { error = 2 });
                 }
              return View();
             }
             else 
             {
-                return RedirectToAction("index", "ChargeMeter", new { error = "3" });
+                return RedirectToAction("index", "ChargeMeter", new { error = 3 });
             }
         }
     }

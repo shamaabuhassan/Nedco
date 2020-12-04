@@ -1,12 +1,12 @@
 ﻿@using WebApplication1.Models
 @model TopupParameters
 
-@{
+@{ Topup[] topups = null;
+
     int rc;
     if (ViewBag != null) {
-        int? id = ViewBag.id;
         int meterid = ViewBag.meter;
-        Topup[] topups = Topup.GetTopups(new TopupParameters { MeterId = meterid}, out rc);
+        topups = Topup.GetTopups(new TopupParameters { MeterId = meterid}, out rc);
     }
 }
 
