@@ -12,9 +12,12 @@
 
     amount = ViewBag.amount;
     count = ViewBag.count;
-    <p>معدل الشحن الشهري هو:@amount/@count</p>
 
-}
+    if (count != 0)
+    {
+    <p>معدل الشحن الشهري هو:@(amount / count)</p>
+        }
+    }
 
 <div style="flex:1; padding-left: 35px" class="vertical-align">
 

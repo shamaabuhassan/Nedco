@@ -16,23 +16,23 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Charges(int? meter)
+        public ActionResult Charges(int? MeterId)
         {
-            ViewBag.meter = meter;
+            ViewBag.MeterId = MeterId;
             return View();
         }
 
-        public ActionResult Transfers(int? meter)
+        public ActionResult Transfers(int? MeterId)
         {
-            ViewBag.meter = meter;
+            ViewBag.MeterId = MeterId;
             return View();
         }
 
-        public ActionResult MonthlyCharge(DateTime ?fromdate,DateTime ?todate,int ?meter)
+        public ActionResult MonthlyCharge(DateTime ?fromdate,DateTime ?todate,int ?MeterId)
         {
 
             int rc;
-            Topup[] topups = Topup.GetMonthlyTopups(new TopupParameters { fromdate =fromdate, todate=todate,MeterId=meter}, out rc);
+            Topup[] topups = Topup.GetMonthlyTopups(new TopupParameters { fromdate =fromdate, todate=todate,MeterId= MeterId }, out rc);
            
             decimal? amount = 0;
             decimal? count = 0;

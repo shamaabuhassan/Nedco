@@ -15,10 +15,10 @@ namespace WebApplication1.Models
         public string Telephone { get; set; }
         public int? CountryId { get; set; }
         public int? CityId { get; set; }
-        public string Town { get; set; }
-        public string Street { get; set; }
-        public string Password { get; set; }
         public string name { get; set; }
+
+      
+
 
     }
     public class Customer
@@ -33,6 +33,9 @@ namespace WebApplication1.Models
         public string Street { get; set; }
         public string Password { get; set; }
         public string name { get; set; }
+
+        public string CountryName { get; set; }
+        public string CityName { get; set; }
 
         public static Customer CheckLogin(string username,string password) {
 
@@ -245,18 +248,23 @@ namespace WebApplication1.Models
                 cmd.Connection.Open();
                 cmd.CommandText = "GetCustomers";
                 cmd.Parameters.AddWithValue("@cardid", parameters.CardId);
+                
+
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)
                 {
                     while (r.Read())
                     {
                         Customer c = new Customer();
+
                         if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
                         if (r["username"] != DBNull.Value) c.Username = Convert.ToString(r["username"]);
                         if (r["card_id"] != DBNull.Value) c.CardId = Convert.ToInt32(r["card_id"]);
                         if (r["telephone"] != DBNull.Value) c.Telephone = Convert.ToString(r["telephone"]);
                         if (r["country_id"] != DBNull.Value) c.CountryId = Convert.ToInt32(r["country_id"]);
+                        c.CountryName = Convert.ToString(r["country_name"]);
                         if (r["city_id"] != DBNull.Value) c.CityId = Convert.ToInt32(r["city_id"]);
+                        c.CityName = Convert.ToString(r["city_name"]);
                         if (r["town"] != DBNull.Value) c.Town = Convert.ToString(r["town"]);
                         if (r["street"] != DBNull.Value) c.Street = Convert.ToString(r["street"]);
                         if (r["password"] != DBNull.Value) c.Password = Convert.ToString(r["password"]);

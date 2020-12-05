@@ -29,26 +29,11 @@
                     <td>@customer.name</td>
                     <td>@customer.Telephone</td>
                     <td>
-                        @foreach (Area areas in area)
-                        {
-                            if (areas.Id == customer.CountryId)
-                            {
-                                name = areas.Name;
-                            }
-                        }
-                       @name
+                     @customer.CountryName
                     </td>
 
                     <td>
-                        @foreach (Area areas in areac)
-                        {
-                            if (areas.Id == customer.CityId)
-                            {
-                                name = areas.Name;
-                            }
-
-                        }
-                        @name
+                  @customer.CityName
                     </td>
                     <td>@customer.Town</td>
                     <td>@customer.Street</td>

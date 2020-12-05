@@ -8,9 +8,9 @@
     int meter = 0;
 
 
-    if (ViewBag.meter != null)
+    if (ViewBag.MeterId != null)
     {
-        meter = ViewBag.meter;
+        meter = ViewBag.MeterId;
         transfers = Transfer.GetTransfers(new TransferParameters { MeterId = meter }, out rc);
 
     }
@@ -51,9 +51,11 @@
 @if (transfers == null)
 {
 
-    @Url.Action("Transferom", "Inquiries", new { meter=meter});
+    <a href="@Url.Action("Transferom", "Inquiries", new { meter=meter})"></a>;
 
 }
+
+
 
 
 
@@ -96,5 +98,4 @@
         </div>
     </div>
 </div>
-
 

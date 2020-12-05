@@ -7,9 +7,9 @@
 
 }
 
-@if (ViewBag.meter != null)
+@if (ViewBag.MeterId != null)
 {
-    meterid = ViewBag.meter;
+    meterid = ViewBag.MeterId;
     topups = Topup.GetTopups(new TopupParameters { MeterId = meterid }, out rc);
     <table>
         <thead>

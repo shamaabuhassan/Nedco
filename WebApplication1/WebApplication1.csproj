@@ -227,6 +227,7 @@
     <Content Include="Views\Transfer\TransferHist.cshtml" />
     <Content Include="Views\Transfer\Transformfrom.cshtml" />
     <Content Include="Views\Topups\Monthlycharging.cshtml" />
+    <Content Include="Views\Home\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
