@@ -12,7 +12,8 @@
 @if (Session["customer"] != null)
 {
     Meter[] meters = Meter.GetMeters(new MeterParameters { UserId = customer.Id }, out rc);
-    topups = Topup.GetTopups(new TopupParameters { MeterId = meters[0].Meterid }, out rc);
+    int ?meterid = meters[0].Meterid;
+    topups = Topup.GetTopups(new TopupParameters { MeterId =meterid }, out rc);
 
 <table>
     <thead>

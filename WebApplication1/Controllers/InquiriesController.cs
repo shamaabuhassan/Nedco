@@ -28,21 +28,25 @@ namespace WebApplication1.Controllers
             if (MeterId != null)
             {
                 Transfer[] transfers = Transfer.GetTransfers(new TransferParameters { MeterId = MeterId }, out rc);
-                if (transfers != null)
+                Transfer[] transfers2 = Transfer.GetTransfersBySenderOTP(new TransferParameters { MeterId = MeterId }, out rc);
+                if (transfers != null && transfers2==null)
                 {
                     ViewBag.transfers = transfers;
                     ViewBag.MeterId = MeterId;
                     return View();
                 }
-                else
+                else if(transfers == null && transfers2 != null)
                 {
-                    return RedirectToAction("Transfrom", "Transfers", new { MeterId = MeterId });
+                    return RedirectToAction("Transfrom", "Transfers", new {transfers2=transfers2});
+                }
+                else if (transfers != null && transfers2 != null)
+                {
+                    return RedirectToAction("Trans_from_to", "Transfers", new { transfers2 = transfers2,transfers=transfers });
                 }
             }
-            else
-            {
+            
                 return View();
-            }
+            
             
         }
 
@@ -64,61 +68,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-       public ActionResult Transfrom(int MeterId)
-        {
-            int rc;
-            int count = 0;
-            string[] otps = null;
-            Topup[] topups = Topup.GetTopups(new TopupParameters { }, out rc);//for topups
-            Transfer[] transfer = Transfer.GetTransfers(new TransferParameters { }, out rc);//all trans
-
-            Topup[] topups1 = null;//for senders otp
-
-            foreach (Transfer transfer1 in transfer)
-            {
-                foreach (Topup topup1 in topups)
-                {
-                    if(transfer1.SenderOTP==topup1.OTP)
-                    {
-                        topups1[count] = topup1;
-                        count += 1;
-                    }
-                }
-
-            }
-            int count1 = 0;
-            int count2 = 0;//for otps
-            foreach (Topup topup in topups1)
-            {
-               
-                if (topups1[count1].MeterId == MeterId)
-                {
-                    otps[count2] = topups1[0].OTP;
-                    count2 += 1;
-                }
-                count1 += 1;
-            }
-
-            Transfer[] transfers = null;// for senders
-            int count3 = 0;
-            if (otps != null)
-            {
-             foreach( string otp  in otps)
-                {
-                    foreach(Transfer transfer1 in transfer)
-                    {
-                        if (otp == transfer1.SenderOTP)
-                        {
-                            transfers[count3] = transfer1;
-                            count3 += 1;
-                        }
-                    }
-                }
-            }
-
-            ViewBag.transfers = transfers;
-            return View();
-        }
+    
 
 
     }

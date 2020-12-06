@@ -24,7 +24,7 @@ public class Transfer
         public int? MeterId { get; set; }
         public decimal? Amount { get; set; }
 
- 
+  public int? Sender_meter { get; set; }
 
         public Transfer()
         {
@@ -148,8 +148,42 @@ public class Transfer
             return result;
         }
 
-       
+        
 
+            public static Transfer[] GetTransfersBySenderOTP(TransferParameters parameters, out int rowsCount)
+        {
+            List<Transfer> l = new List<Transfer>();
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = new SqlConnection(cstr.con);
+                cmd.Connection.Open();
+                cmd.CommandText = "GetTransfersBySenderOTP";
+
+                cmd.Parameters.AddWithValue("@meter_id", parameters.MeterId);
+                SqlDataReader r = cmd.ExecuteReader();
+                if (r.HasRows)
+                {
+                    while (r.Read())
+                    {
+                        Transfer c = new Transfer();
+                        if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
+                        if (r["senderOTP"] != DBNull.Value) c.SenderOTP = Convert.ToString(r["senderOTP"]);
+                        if (r["meter_id"] != DBNull.Value) c.MeterId = Convert.ToInt32(r["meter_id"]);
+                        if (r["sender_meter"] != DBNull.Value) c.Sender_meter = Convert.ToInt32(r["sender_meter"]); 
+                        if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
+
+                        l.Add(c);
+                    }
+                }
+
+                r.Close();
+                cmd.Connection.Close();
+                rowsCount = l.Count;
+            }
+            return l.ToArray();
+
+        }
         public static Transfer[] GetTransfers(TransferParameters parameters, out int rowsCount)
         {
             List<Transfer> l = new List<Transfer>();

@@ -3,16 +3,48 @@
 
 @{
     Transfer[] transfers2 = null;
-    if (ViewBag.transfers2 != null)
+    Transfer[] transfers = null;
+    if (ViewBag.transfers2 != null && ViewBag.transfers!= null)
     {
         transfers2 = ViewBag.transfers2;
+        transfers = ViewBag.transfers;
     }
 }
 
 
-@if (ViewBag.transfers2 != null)
+@if (ViewBag.transfers2 != null && ViewBag.transfers != null)
 {
     <div style="flex:1; padding-left: 35px" class="vertical-align">
+        <table>
+            <thead>
+                <tr>
+                    <td>رقم العملية</td>
+                    <td>الكود المستخدم في التحويل </td>
+                    <td> العداد المستخدم في التحويل <td>
+                    <td>رقم العداد المحول اليه</td>
+                    <td>كمية التحويل</td>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (Transfer transfer in transfers2)
+                {
+                <tr>
+                    <td>@transfer.Id</td>
+                    <td>@transfer.SenderOTP</td>
+                    <td>@transfer.Sender_meter</td>
+                    <td>@transfer.MeterId</td>
+                    <td>@transfer.Amount</td>
+
+                </tr>
+
+                }
+
+            </tbody>
+
+
+        </table>
+
         <table>
             <thead>
                 <tr>
@@ -24,7 +56,7 @@
 
             </thead>
             <tbody>
-                @foreach (Transfer transfer in transfers2)
+                @foreach (Transfer transfer in transfers)
                 {
                     <tr>
                         <td>@transfer.Id</td>

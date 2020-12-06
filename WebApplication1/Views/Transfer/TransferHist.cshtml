@@ -10,49 +10,141 @@
     Meter[] meters = Meter.GetMeters(new MeterParameters { UserId = customer.Id }, out rc);
 
     Transfer[] transfers = null;
+    Transfer[] transfers2 = null;
 
 }
 
- @if (Session["customer"] != null)
- {
-
-     transfers = Transfer.GetTransfers(new TransferParameters { MeterId = meters[0].Meterid }, out rc);
-
-
-if (transfers != null)
+@if (Session["customer"] != null)
 {
-    <table>
-        <thead>
-            <tr>
-                <td>رقم العملية</td>
-                <td>الكود المستخدم في التحويل </td>
-                <td>رقم العداد المحول اليه</td>
-                <td>كمية التحويل</td>
-            </tr>
 
-        </thead>
-        <tbody>
-            @foreach (Transfer transfer in transfers)
-            {
+    transfers = Transfer.GetTransfers(new TransferParameters { MeterId = meters[0].Meterid }, out rc);
+    transfers2 = Transfer.GetTransfersBySenderOTP(new TransferParameters { MeterId = meters[0].Meterid }, out rc);
+
+
+    if (transfers != null && transfers2 == null)
+    {
+        <table>
+            <thead>
                 <tr>
-                    <td>@transfer.Id</td>
-                    <td>@transfer.SenderOTP</td>
-                    <td>@transfer.MeterId</td>
-                    <td>@transfer.Amount</td>
-
+                    <td>رقم العملية</td>
+                    <td>الكود المستخدم في التحويل </td>
+                    <td>رقم العداد المحول اليه</td>
+                    <td>كمية التحويل</td>
                 </tr>
 
-            }
+            </thead>
+            <tbody>
+                @foreach (Transfer transfer in transfers)
+                {
+                    <tr>
+                        <td>@transfer.Id</td>
+                        <td>@transfer.SenderOTP</td>
+                        <td>@transfer.MeterId</td>
+                        <td>@transfer.Amount</td>
 
-        </tbody>
+                    </tr>
+
+                }
+
+            </tbody>
 
 
-    </table>
+        </table>
+    }
+
+    if (transfers == null && transfers2 != null)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <td>رقم العملية</td>
+                    <td>الكود المستخدم في التحويل </td>
+                    <td>رقم العداد المستخدم في التحويل </td>
+                    <td>رقم العداد المحول اليه</td>
+                    <td>كمية التحويل</td>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (Transfer transfer in transfers2)
+                {
+                    <tr>
+                        <td>@transfer.Id</td>
+                        <td>@transfer.SenderOTP</td>
+                        <td>@transfer.Sender_meter</td>
+                        <td>@transfer.MeterId</td>
+                        <td>@transfer.Amount</td>
+
+                    </tr>
+
+                }
+
+            </tbody>
+
+
+        </table>
+
+    }
+
+    if (transfers != null && transfers2 != null)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <td>رقم العملية</td>
+                    <td>الكود المستخدم في التحويل </td>
+                    <td>رقم العداد المستخدم في التحويل </td>
+                    <td>رقم العداد المحول اليه</td>
+                    <td>كمية التحويل</td>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (Transfer transfer in transfers2)
+                {
+                    <tr>
+                        <td>@transfer.Id</td>
+                        <td>@transfer.SenderOTP</td>
+                        <td>@transfer.Sender_meter</td>
+                        <td>@transfer.MeterId</td>
+                        <td>@transfer.Amount</td>
+
+                    </tr>
+
+                }
+
+            </tbody>
+
+
+        </table>
+
+        <table>
+            <thead>
+                <tr>
+                    <td>رقم العملية</td>
+                    <td>الكود المستخدم في التحويل </td>
+                    <td>رقم العداد المحول اليه</td>
+                    <td>كمية التحويل</td>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (Transfer transfer in transfers)
+                {
+                    <tr>
+                        <td>@transfer.Id</td>
+                        <td>@transfer.SenderOTP</td>
+                        <td>@transfer.MeterId</td>
+                        <td>@transfer.Amount</td>
+
+                    </tr>
+
+                }
+
+            </tbody>
+
+
+        </table>
+    }
+
 }
-if (transfers == null)
-{
-
-    @Url.Action("Transformfrom", "Transfer", new { meters[0].Meterid });
-
-}
- }
