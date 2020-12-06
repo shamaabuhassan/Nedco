@@ -16,8 +16,10 @@ namespace WebApplication1.Models
         public int? CountryId { get; set; }
         public int? CityId { get; set; }
         public string name { get; set; }
+        public string Password { get; set; }
+        public string Town { get; set; }
+        public string Street { get; set; }
 
-      
 
 
     }

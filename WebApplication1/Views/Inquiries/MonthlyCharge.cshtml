@@ -7,45 +7,49 @@
    
 }
 
-@if (ViewBag.amount!= null && ViewBag.count!=null)
-{
 
-    amount = ViewBag.amount;
-    count = ViewBag.count;
+    <div style="flex:1; padding-left: 35px" class="vertical-align">
 
-    if (count != 0)
-    {
-    <p>معدل الشحن الشهري هو:@(amount / count)</p>
+        @using (Html.BeginForm("MonthlyCharge", "Inquiries", FormMethod.Post))
+        {
+            <table>
+                <tr>
+                    <td>من</td>
+                    <td> @Html.TextBoxFor(o => o.fromdate, new { type = "date" })</td>
+                </tr>
+
+                <tr>
+                    <td>الى</td>
+                    <td>  @Html.TextBoxFor(o => o.todate, new { type = "date" })</td>
+                </tr>
+
+
+
+                <tr>
+                    <td>رقم العداد</td>
+                    <td> @Html.TextBoxFor(o => o.MeterId)</td>
+                </tr>
+
+            </table>
+
+            <input type="submit" value="MonthlyCharge" />
         }
-    }
-
-<div style="flex:1; padding-left: 35px" class="vertical-align">
-
-    @using (Html.BeginForm("MonthlyCharge", "Inquiries", FormMethod.Post))
-    {
-        <table>
-            <tr>
-                <td>من</td>
-                <td> @Html.TextBoxFor(o => o.fromdate, new { type = "date" })</td>
-            </tr>
-
-            <tr>
-                <td>الى</td>
-                <td>  @Html.TextBoxFor(o => o.todate, new { type = "date" })</td>
-            </tr>
 
 
 
-            <tr>
-                <td>رقم العداد</td>
-                <td> @Html.TextBoxFor(o => o.MeterId)</td>
-            </tr>
+        @if (ViewBag.amount != null && ViewBag.count != null)
+        {
 
-        </table>
+            amount = ViewBag.amount;
+            count = ViewBag.count;
 
-        <input type="submit" value="MonthlyCharge" />
-    }
-</div>
+            if (count != 0)
+            {
+                <p>معدل الشحن الشهري هو:@(amount / count)</p>
+            }
+        }
+
+    </div>
 
 
     <div style="text-align: center;">

@@ -114,6 +114,43 @@ namespace WebApplication1.Models
         { }
 
         //get data using list
+
+        
+
+             public static CashCard[] GetCashCardForCustomer(CashCardParameters parameters, out int rowsCount)
+        {
+            List<CashCard> l = new List<CashCard>();
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = new SqlConnection(cstr.con);
+                cmd.Connection.Open();
+                cmd.CommandText = "GetCashCardForCustomer";
+
+                SqlDataReader r = cmd.ExecuteReader();
+                if (r.HasRows)
+                {
+                    while (r.Read())
+                    {
+                        //create object of the class
+                        CashCard c = new CashCard();
+                        if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
+                        if (r["password"] != DBNull.Value) c.Password = Convert.ToString(r["password"]);
+                        if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
+                        if (r["card_id"] != DBNull.Value) c.Cardid = Convert.ToInt32(r["card_id"]);
+
+                        l.Add(c);
+                    }
+                }
+
+                r.Close();
+                cmd.Connection.Close();
+                rowsCount = l.Count;
+            }
+            return l.ToArray();
+
+        }
+
         public static CashCard[] GetCashCards(CashCardParameters parameters, out int rowsCount)
         {
             List<CashCard> l = new List<CashCard>();
