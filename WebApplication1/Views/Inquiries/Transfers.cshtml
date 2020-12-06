@@ -3,61 +3,9 @@
 
 
 @{
-    int rc;
     Transfer[] transfers = null;
-    int meter = 0;
-
-
-    if (ViewBag.MeterId != null)
-    {
-        meter = ViewBag.MeterId;
-        transfers = Transfer.GetTransfers(new TransferParameters { MeterId = meter }, out rc);
-
-    }
-
+    
 }
-
-
-@if (transfers != null)
-{
-    <table>
-        <thead>
-            <tr>
-                <td>رقم العملية</td>
-                <td>الكود المستخدم في التحويل </td>
-                <td>رقم العداد المحول اليه</td>
-                <td>كمية التحويل</td>
-            </tr>
-
-        </thead>
-        <tbody>
-            @foreach (Transfer transfer in transfers)
-            {
-                <tr>
-                    <td>@transfer.Id</td>
-                    <td>@transfer.SenderOTP</td>
-                    <td>@transfer.MeterId</td>
-                    <td>@transfer.Amount</td>
-
-                </tr>
-
-            }
-
-        </tbody>
-        <a href="~/Models/cstr.cs">~/Models/cstr.cs</a>
-
-    </table>
-}
-@if (transfers == null)
-{
-
-    <a href="@Url.Action("Transferom", "Inquiries", new { meter=meter})"></a>;
-
-}
-
-
-
-
 
 <div style="flex:1; padding-left: 35px" class="vertical-align">
 
@@ -69,6 +17,36 @@
         <input type="submit" value="Transfers" />
     }
 
+    @if (ViewBag.transfers != null)
+    {
+        transfers = ViewBag.transfers;
+        <table>
+            <thead>
+                <tr>
+                    <td>رقم العملية</td>
+                    <td>الكود المستخدم في التحويل </td>
+                    <td>رقم العداد المحول اليه</td>
+                    <td>كمية التحويل</td>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (Transfer transfer in transfers)
+                {
+                    <tr>
+                        <td>@transfer.Id</td>
+                        <td>@transfer.SenderOTP</td>
+                        <td>@transfer.MeterId</td>
+                        <td>@transfer.Amount</td>
+
+                    </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+    }
 </div>
 
 

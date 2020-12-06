@@ -24,8 +24,26 @@ namespace WebApplication1.Controllers
 
         public ActionResult Transfers(int? MeterId)
         {
-            ViewBag.MeterId = MeterId;
-            return View();
+            int rc;
+            if (MeterId != null)
+            {
+                Transfer[] transfers = Transfer.GetTransfers(new TransferParameters { MeterId = MeterId }, out rc);
+                if (transfers != null)
+                {
+                    ViewBag.transfers = transfers;
+                    ViewBag.MeterId = MeterId;
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("Transfrom", "Transfers", new { MeterId = MeterId });
+                }
+            }
+            else
+            {
+                return View();
+            }
+            
         }
 
         public ActionResult MonthlyCharge(DateTime ?fromdate,DateTime ?todate,int ?MeterId)
@@ -46,7 +64,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-       public ActionResult Transfrom(int meter)
+       public ActionResult Transfrom(int MeterId)
         {
             int rc;
             int count = 0;
@@ -73,7 +91,7 @@ namespace WebApplication1.Controllers
             foreach (Topup topup in topups1)
             {
                
-                if (topups1[count1].MeterId == meter)
+                if (topups1[count1].MeterId == MeterId)
                 {
                     otps[count2] = topups1[0].OTP;
                     count2 += 1;

@@ -159,7 +159,8 @@ public class Transfer
                 cmd.Connection = new SqlConnection(cstr.con);
                 cmd.Connection.Open();
                 cmd.CommandText = "GetTransfers";
-
+                cmd.Parameters.AddWithValue("@senderotp",parameters.SenderOTP);
+                cmd.Parameters.AddWithValue("@meter_id",parameters.MeterId);
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)
                 {
