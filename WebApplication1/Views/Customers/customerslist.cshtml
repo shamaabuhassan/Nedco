@@ -4,10 +4,8 @@
 @{
 
     int rc;
-    string name = null;
     Customer[] customers = Customer.GetCustomers(new CustomerParameters { }, out rc);
-    Area[] area = Area.getarea(new AreaParameters { Type ="s" }, out rc);
-    Area[] areac = Area.getarea(new AreaParameters { Type = "c" }, out rc);
+   
 }
 <div style="flex:1; padding-left: 35px" class="vertical-align">
 
@@ -28,13 +26,8 @@
                 <tr>
                     <td>@customer.name</td>
                     <td>@customer.Telephone</td>
-                    <td>
-                     @customer.CountryName
-                    </td>
-
-                    <td>
-                  @customer.CityName
-                    </td>
+                    <td> @customer.CountryName</td>
+                    <td> @customer.CityName </td>
                     <td>@customer.Town</td>
                     <td>@customer.Street</td>
                 </tr>
