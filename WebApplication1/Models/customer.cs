@@ -15,7 +15,7 @@ namespace WebApplication1.Models
         public string Telephone { get; set; }
         public int? CountryId { get; set; }
         public int? CityId { get; set; }
-        public string name { get; set; }
+        public string Name { get; set; }
         public string Password { get; set; }
         public string Town { get; set; }
         public string Street { get; set; }
@@ -34,7 +34,7 @@ namespace WebApplication1.Models
         public string Town { get; set; }
         public string Street { get; set; }
         public string Password { get; set; }
-        public string name { get; set; }
+        public string Name { get; set; }
 
         public string CountryName { get; set; }
         public string CityName { get; set; }
@@ -104,7 +104,7 @@ namespace WebApplication1.Models
                     this.Town = Convert.ToString(r["town"]);
                     this.Street = Convert.ToString(r["street"]);
                     this.Password = Convert.ToString(r["password"]);
-                    this.name = Convert.ToString(r["name"]);
+                    this.Name = Convert.ToString(r["name"]);
 
                     cmd.Connection.Close();
 
@@ -137,7 +137,7 @@ namespace WebApplication1.Models
                     this.Town = Convert.ToString(r["town"]);
                     this.Street = Convert.ToString(r["street"]);
                     this.Password = Convert.ToString(r["password"]);
-                    this.name = Convert.ToString(r["name"]);
+                    this.Name = Convert.ToString(r["name"]);
 
                     cmd.Connection.Close();
 
@@ -160,7 +160,7 @@ namespace WebApplication1.Models
             this.Town = town;
             this.Street = street;
             this.Password = password;
-            this.name = name;
+            this.Name = name;
 
         }
         public int SaveData()
@@ -196,7 +196,7 @@ namespace WebApplication1.Models
                     if (Town != null) cmd.Parameters.AddWithValue("town", Town);
                     if (Street != null) cmd.Parameters.AddWithValue("street", Street);
                     if (Password != null) cmd.Parameters.AddWithValue("password", Password);
-                    if (name != null) cmd.Parameters.AddWithValue("name", name);
+                    if (Name != null) cmd.Parameters.AddWithValue("name", Name);
 
 
                     SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
@@ -270,7 +270,7 @@ namespace WebApplication1.Models
                         if (r["town"] != DBNull.Value) c.Town = Convert.ToString(r["town"]);
                         if (r["street"] != DBNull.Value) c.Street = Convert.ToString(r["street"]);
                         if (r["password"] != DBNull.Value) c.Password = Convert.ToString(r["password"]);
-                        if (r["name"] != DBNull.Value) c.name = Convert.ToString(r["name"]);
+                        if (r["name"] != DBNull.Value) c.Name = Convert.ToString(r["name"]);
 
                         l.Add(c);
                     }

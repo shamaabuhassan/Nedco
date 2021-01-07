@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -14,7 +15,7 @@ namespace WebApplication1.Models
         public string Password { get; set; }
         public decimal? Amount { get; set; }
         public string Status { get; set; }
-        public int? Cardid { get; set; }
+        public int? SerialNumber { get; set; }
 
 
     }
@@ -24,7 +25,7 @@ namespace WebApplication1.Models
         public string Password { get; set; }
         public decimal ?Amount { get; set; }
         public string Status { get; set; }
-        public int? Cardid { get; set; }
+        public int? SerialNumber { get; set; }
         //get element bu=y id 
         public CashCard(int? id)
         {
@@ -44,7 +45,7 @@ namespace WebApplication1.Models
                     if (r["id"] != DBNull.Value) this.Id = Convert.ToInt32(r["id"]);
                     this.Password = Convert.ToString(r["password"]);
                     if (r["amount"] != DBNull.Value) this.Amount = Convert.ToDecimal(r["amount"]);
-                    if (r["card_id"] != DBNull.Value) this.Id = Convert.ToInt32(r["card_id"]);
+                    if (r["serial_number"] != DBNull.Value) this.SerialNumber = Convert.ToInt32(r["serial_number"]);
                     cmd.Connection.Close();
 
 
@@ -53,12 +54,12 @@ namespace WebApplication1.Models
         }
 
         //constructor
-        public CashCard(int?id, string password, decimal? amount,int? cardid)
+        public CashCard(int?id, string password, decimal? amount,int? SerialNumber)
         {
             this.Id = id;
             this.Password = password;
             this.Amount = amount;
-            this.Cardid = cardid;
+            this.SerialNumber = SerialNumber;
 
         }
 
@@ -89,11 +90,12 @@ namespace WebApplication1.Models
                
                 if (Password != null) cmd.Parameters.AddWithValue("password", Password);
                 if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
-                if (Cardid != null) cmd.Parameters.AddWithValue("card_id", Cardid);
+                if (SerialNumber != null) cmd.Parameters.AddWithValue("serial_number", SerialNumber);
 
 
                 SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
                 idParam.Direction = ParameterDirection.InputOutput;
+                idParam.Value = this.Id;
 
                 SqlParameter resultParm = cmd.Parameters.Add("@result", SqlDbType.Int);
                 resultParm.Direction = ParameterDirection.InputOutput;
@@ -127,6 +129,8 @@ namespace WebApplication1.Models
                 cmd.Connection.Open();
                 cmd.CommandText = "GetCashCardForCustomer";
 
+                cmd.Parameters.AddWithValue("id",parameters.Id);
+
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)
                 {
@@ -137,7 +141,7 @@ namespace WebApplication1.Models
                         if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
                         if (r["password"] != DBNull.Value) c.Password = Convert.ToString(r["password"]);
                         if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
-                        if (r["card_id"] != DBNull.Value) c.Cardid = Convert.ToInt32(r["card_id"]);
+                        if (r["serial_number"] != DBNull.Value) c.SerialNumber = Convert.ToInt32(r["serial_number"]);
 
                         l.Add(c);
                     }
@@ -159,8 +163,9 @@ namespace WebApplication1.Models
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Connection = new SqlConnection(cstr.con);
                 cmd.Connection.Open();
-                cmd.CommandText = "GetCashCard";
+                cmd.CommandText = "GetCashCards";
 
+                cmd.Parameters.AddWithValue("card_id",parameters.SerialNumber);
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)
                 {
@@ -171,7 +176,7 @@ namespace WebApplication1.Models
                         if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
                         if (r["password"] != DBNull.Value) c.Password = Convert.ToString(r["password"]);
                         if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
-                        if (r["card_id"] != DBNull.Value) c.Cardid = Convert.ToInt32(r["card_id"]);
+                        if (r["serial_number"] != DBNull.Value) c.SerialNumber = Convert.ToInt32(r["serial_number"]);
 
                         l.Add(c);
                     }

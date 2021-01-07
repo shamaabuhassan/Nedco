@@ -18,22 +18,22 @@ namespace WebApplication1.Controllers
         }
         
 
-        public ActionResult Search(int? Cardid)
+        public ActionResult Search(int? SerialNumber)
         {
             int rc;
-            if (Cardid != null)
+            if (SerialNumber != null)
             {
-                CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { Cardid = Cardid }, out rc);
+                CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { SerialNumber = SerialNumber }, out rc);
                 ViewBag.cashCards = cashCards;
             }
             return View();
         }
 
-        public ActionResult Save(int? Id,string Password, int? CustomerId, decimal? Amount,int ?Cardid)
+        public ActionResult Save(int? Id,string Password, int? CustomerId, decimal? Amount,int ? SerialNumber)
         {
             if (Password != null)
             {
-                CashCard cashCard = new CashCard(Id, Password, Amount,Cardid);
+                CashCard cashCard = new CashCard(Id, Password, Amount, SerialNumber);
                 int result;
                 result = cashCard.SaveData();
                 ViewBag.result = result;

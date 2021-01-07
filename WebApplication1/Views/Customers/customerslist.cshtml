@@ -5,7 +5,7 @@
 
     int rc;
     Customer[] customers = Customer.GetCustomers(new CustomerParameters { }, out rc);
-   
+
 }
 <div style="flex:1; padding-left: 35px" class="vertical-align">
 
@@ -47,7 +47,6 @@
         <span></span>
 
         <div class="content">
-
             <a class="brand-button brand-button-2" href="@Url.Action("index", "NewCustomer")">تسجيل مستخدم جديد</a>
 
 
@@ -66,6 +65,10 @@
                 }
 
                 <a class="brand-button brand-button-2">سجل العملاء</a>*@
+
+
+            <a class="brand-button brand-button-2" href="@Url.Action("RequestOTP", "RequestOTPS")">طلب كود شحن</a>
+
 
             <a class="brand-button brand-button-2" href="@Url.Action("chargingrequests", "Topups")">طلبات الشحن</a>
             @*@using (Html.BeginForm("Charging_requests", "Mainpage", FormMethod.Post))
@@ -99,5 +102,3 @@
         </div>
     </div>
 </div>
-
-

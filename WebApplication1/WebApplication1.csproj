@@ -120,6 +120,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\apiController.cs" />
     <Compile Include="Controllers\CashCardsController.cs" />
     <Compile Include="Controllers\ChargeMeterController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Controllers\MainpageController.cs" />
     <Compile Include="Controllers\MetersController.cs" />
     <Compile Include="Controllers\NewCustomerController.cs" />
+    <Compile Include="Controllers\RequestOTPSController.cs" />
     <Compile Include="Controllers\ReturnOTPController.cs" />
     <Compile Include="Controllers\TopupsController.cs" />
     <Compile Include="Controllers\TransferController.cs" />
@@ -229,10 +231,12 @@
     <Content Include="Views\Topups\Monthlycharging.cshtml" />
     <Content Include="Views\Home\index.cshtml" />
     <Content Include="Views\Transfer\Trans_from_to.cshtml" />
+    <Content Include="Views\RequestOTPS\RequestOTP.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="js\" />
+    <Folder Include="Views\api\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -265,7 +269,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51317</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44391/</IISUrl>
+          <IISUrl>http://localhost:44391/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

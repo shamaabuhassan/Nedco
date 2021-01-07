@@ -139,6 +139,7 @@ namespace WebApplication1.Models
             this.CardId = cardId;
 
         }
+       
 
         public void Delete()
         {
@@ -165,12 +166,14 @@ namespace WebApplication1.Models
             return r;
         }
         public int SaveData()
-
             {
             CashCard cashCard = new CashCard(CardId);
             int result = 0;
-            Customer customer = new Customer(CardId);
-              if (cashCard.Amount > Amount)
+            Customer customer = new Customer(cashCard.Cardid);
+            //Meter meter = new Meter(MeterId);
+            //if (meter.UserId == customer.Id)
+            //{
+                if (cashCard.Amount > Amount)
                 {
                     OTP = GenerateRandom();
                     ChargeDate = DateTime.Now;
@@ -186,7 +189,7 @@ namespace WebApplication1.Models
 
                         if (MeterId != null) cmd.Parameters.AddWithValue("meter_id", MeterId);
                         if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
-                        if (CardId != null) cmd.Parameters.AddWithValue("card_id", CardId);
+                        if (CardId != null) cmd.Parameters.AddWithValue("card_id", cashCard.Cardid);
                         if (OTP != null) cmd.Parameters.AddWithValue("otp", OTP);
                         if (ChargeDate != null) cmd.Parameters.AddWithValue("chargeDate", ChargeDate);
                         if (ActivationDate != null) cmd.Parameters.AddWithValue("activationDate", ActivationDate);
@@ -208,10 +211,12 @@ namespace WebApplication1.Models
 
                     }
                     decimal? amount = cashCard.Amount - Amount;
-                    CashCard cash = new CashCard(cashCard.Id, cashCard.Password, amount, cashCard.Cardid);
+                    CashCard cash = new CashCard(CardId, cashCard.Password, amount, cashCard.Cardid);
                     cash.SaveData();
-                
-            }
+
+                }
+            //}
+            
             return result;
            
         }
