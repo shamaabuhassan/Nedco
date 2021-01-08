@@ -50,7 +50,7 @@ namespace WebApplication1.Controllers
                         Customer customer1 = new Customer(meters[0].UserId);
                         SMS sms = new SMS();
                         sms.To_number = customer1.Telephone;
-                        sms.Msg = $"يحاول {customer.name} شحن عدادك باستخدام موقنا في الشركة ورقم الكود الذي يريد شحنه هو {otp}";
+                        sms.Msg = $"يحاول {customer.Name} شحن عدادك باستخدام موقنا في الشركة ورقم الكود الذي يريد شحنه هو {otp}";
                         string status = sms.Send();
                         if (status == "OK")
                         {

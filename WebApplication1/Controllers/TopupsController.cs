@@ -36,11 +36,12 @@ namespace WebApplication1.Controllers
             int rc;
             Meter[] meter = Meter.GetMeters(new MeterParameters { Meterid = meterId }, out rc);//user of meter
             Customer customer = (Session["customer"] as Customer);
-            CashCard cashCard = new CashCard(cardId);
+            CashCard []cashCards =  CashCard.GetCashCards(new CashCardParameters { SerialNumber = cardId }, out rc) ;
+            CashCard cashCard = new CashCard(cashCards[0].Id);
             Customer customer1 = new Customer(meter[0].UserId);
             if (Session["customer"] != null)
             {
-                if (customer.Id == meter[0].UserId && customer.CardId == cashCard.Cardid)//for himself from his card
+                if (customer.Id == meter[0].UserId && customer.CardId == cashCard.Id)//for himself from his card
                 {
                     SMS sms = new SMS();
                     sms.To_number = customer.Telephone;
@@ -59,13 +60,13 @@ namespace WebApplication1.Controllers
                     }
                 }
 
-                else if (customer.Id == meter[0].UserId && customer.CardId != cashCard.Cardid) //for himself from another card
+                else if (customer.Id == meter[0].UserId && customer.CardId != cashCard.Id) //for himself from another card
                 {
 
                     Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cardId }, out rc);
                     SMS sms = new SMS();
                     sms.To_number = customer2[0].Telephone;
-                    sms.Msg = $" يحاول {customer.name} شحن عداده باستخدام البطاقة الخاصة بك بقيمة {amount}";
+                    sms.Msg = $" يحاول {customer.Name} شحن عداده باستخدام البطاقة الخاصة بك بقيمة {amount}";
                     string status = sms.Send();
                     if (status == "OK")
                     {
@@ -81,16 +82,16 @@ namespace WebApplication1.Controllers
 
                 }
 
-                else if (customer.Id != meter[0].UserId && customer.CardId == cashCard.Cardid)//for another from his card
+                else if (customer.Id != meter[0].UserId && customer.CardId == cashCard.Id)//for another from his card
                 {
                     SMS sms = new SMS();
                     sms.To_number = customer1.Telephone;
-                    sms.Msg = $"يحاول {customer.name} شحن عدادك بقيمة {amount}";
+                    sms.Msg = $"يحاول {customer.Name} شحن عدادك بقيمة {amount}";
                     string status = sms.Send();
 
                     SMS sms1 = new SMS();
                     sms1.To_number = customer.Telephone;
-                    sms1.Msg = $"يحاول {customer1.name} شحن عداده باستخدام بطاقتك بقيمة {amount}";
+                    sms1.Msg = $"يحاول {customer1.Name} شحن عداده باستخدام بطاقتك بقيمة {amount}";
                     string status1 = sms1.Send();
 
                     if (status == "OK" && status1 == "OK")
@@ -108,19 +109,19 @@ namespace WebApplication1.Controllers
                 }
 
 
-                else if (customer.Id != meter[0].UserId && customer.CardId != cashCard.Cardid && customer1.CardId != cashCard.Cardid)//for another from another card
+                else if (customer.Id != meter[0].UserId && customer.CardId != cashCard.Id && customer1.CardId != cashCard.Id)//for another from another card
                 {
                     int rrc;
                     Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cardId }, out rrc);
 
                     SMS sms = new SMS();
                     sms.To_number = customer2[0].Telephone;
-                    sms.Msg = $"يحاول {customer1.name} شحن عداده بقيمة {amount} باستخدام بطاقتك";
+                    sms.Msg = $"يحاول {customer1.Name} شحن عداده بقيمة {amount} باستخدام بطاقتك";
                     string status = sms.Send();
 
                     SMS sms1 = new SMS();
                     sms1.To_number = customer1.Telephone;
-                    sms1.Msg = $"يحاول {customer.name} شحن عدادك بقيمة {amount} باستخدام بطاقة {customer2[0].name}";
+                    sms1.Msg = $"يحاول {customer.Name} شحن عدادك بقيمة {amount} باستخدام بطاقة {customer2[0].Name}";
                     string status1 = sms1.Send();
                     if (status == "OK" && status1 == "OK")
                     {
@@ -135,17 +136,17 @@ namespace WebApplication1.Controllers
                     }
 
                 }
-                else if (customer.Id != meter[0].UserId && customer.CardId != cashCard.Cardid && customer1.CardId == cashCard.Cardid)//for another from the another card
+                else if (customer.Id != meter[0].UserId && customer.CardId != cashCard.Id && customer1.CardId == cashCard.Id)//for another from the another card
                 {
 
                     SMS sms = new SMS();
                     sms.To_number = customer1.Telephone;
-                    sms.Msg = $"يحاول {customer.name} شحن عدادك باستخدام بطاقتك";
+                    sms.Msg = $"يحاول {customer.Name} شحن عدادك باستخدام بطاقتك";
                     string status = sms.Send();
 
                     SMS sms1 = new SMS();
                     sms1.To_number = customer.Telephone;
-                    sms1.Msg = $"أهلا وسهلا بك أنت تحاول الان شحن عداد {customer1.name} باستخدام بطاقته {customer1.CardId}";
+                    sms1.Msg = $"أهلا وسهلا بك أنت تحاول الان شحن عداد {customer1.Name} باستخدام بطاقته {customer1.CardId}";
                     string status1 = sms1.Send();
 
 

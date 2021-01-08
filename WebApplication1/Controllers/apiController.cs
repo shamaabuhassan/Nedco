@@ -25,17 +25,17 @@ namespace WebApplication1.Controllers
 
         }
 
-        public ActionResult RequestOTP(int? meterId, int? amount, int cardId, int customerid)
+        public ActionResult RequestOTP(int? meterId, int? amount, int SerialNumber, int customerid)
         //this should reach the website button which request OTP 
 
         {
             int rc;
             Customer customer = new Customer(customerid);
             Meter[] meter = Meter.GetMeters(new MeterParameters { Meterid = meterId }, out rc);//user of meter
-            CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { Cardid = cardId }, out rc);
+            CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { SerialNumber = SerialNumber }, out rc);
             Customer customer1 = new Customer(meter[0].UserId);
 
-            if (customer.Id == meter[0].UserId && customer.CardId == cashCards[0].Cardid)//for himself from his card
+            if (customer.Id == meter[0].UserId && customer.CardId == cashCards[0].Id)//for himself from his card
             {
                 SMS sms = new SMS();
                 sms.To_number = customer.Telephone;
@@ -52,17 +52,17 @@ namespace WebApplication1.Controllers
                 
             }
 
-            else if (customer.Id == meter[0].UserId && customer.CardId != cashCards[0].Cardid) //for himself from another card
+            else if (customer.Id == meter[0].UserId && customer.CardId != cashCards[0].Id) //for himself from another card
             {
 
-                Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cardId }, out rc);
+                Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cashCards[0].Id }, out rc);
                 SMS sms = new SMS();
                 sms.To_number = customer2[0].Telephone;
-                sms.Msg = $" يحاول {customer.name} شحن عداده باستخدام البطاقة الخاصة بك بقيمة {amount}";
+                sms.Msg = $" يحاول {customer.Name} شحن عداده باستخدام البطاقة الخاصة بك بقيمة {amount}";
               //  string status = sms.Send();
               //  if (status == "OK")
                 {
-                    Topup topup = new Topup(null, meterId, amount, cardId);
+                    Topup topup = new Topup(null, meterId, amount, cashCards[0].Id);
                     int result;
                     result = topup.SaveData();
 
@@ -70,22 +70,22 @@ namespace WebApplication1.Controllers
                 }
             }
 
-            else if (customer.Id != meter[0].UserId && customer.CardId == cashCards[0].Cardid)//for another from his card
+            else if (customer.Id != meter[0].UserId && customer.CardId == cashCards[0].Id)//for another from his card
             {
                 SMS sms = new SMS();
                 sms.To_number = customer1.Telephone;
-                sms.Msg = $"يحاول {customer.name} شحن عدادك بقيمة {amount}";
+                sms.Msg = $"يحاول {customer.Name} شحن عدادك بقيمة {amount}";
                 string status = sms.Send();
 
                 SMS sms1 = new SMS();
                 sms1.To_number = customer.Telephone;
-                sms1.Msg = $"يحاول {customer1.name} شحن عداده باستخدام بطاقتك بقيمة {amount}";
+                sms1.Msg = $"يحاول {customer1.Name} شحن عداده باستخدام بطاقتك بقيمة {amount}";
                // string status1 = sms1.Send();
 
                 //if (status == "OK" && status1 == "OK")
                 {
 
-                    Topup topup = new Topup(null, meterId, amount, cardId);
+                    Topup topup = new Topup(null, meterId, amount, cashCards[0].Id);
                     int result;
                     result = topup.SaveData();
                     return Content(JsonConvert.SerializeObject(new { result = "success", data = topup }));
@@ -94,45 +94,45 @@ namespace WebApplication1.Controllers
             }
 
 
-            else if (customer.Id != meter[0].UserId && customer.CardId != cashCards[0].Cardid && customer1.CardId != cashCards[0].Cardid)//for another from another card
+            else if (customer.Id != meter[0].UserId && customer.CardId != cashCards[0].Id && customer1.CardId != cashCards[0].Id)//for another from another card
             {
                 int rrc;
-                Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cardId }, out rrc);
+                Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cashCards[0].Id }, out rrc);
 
                 SMS sms = new SMS();
                 sms.To_number = customer2[0].Telephone;
-                sms.Msg = $"يحاول {customer1.name} شحن عداده بقيمة {amount} باستخدام بطاقتك";
+                sms.Msg = $"يحاول {customer1.Name} شحن عداده بقيمة {amount} باستخدام بطاقتك";
                 string status = sms.Send();
 
                 SMS sms1 = new SMS();
                 sms1.To_number = customer1.Telephone;
-                sms1.Msg = $"يحاول {customer.name} شحن عدادك بقيمة {amount} باستخدام بطاقة {customer2[0].name}";
+                sms1.Msg = $"يحاول {customer.Name} شحن عدادك بقيمة {amount} باستخدام بطاقة {customer2[0].Name}";
                // string status1 = sms1.Send();
                 //if (status == "OK" && status1 == "OK")
                 {
-                    Topup topup = new Topup(null, meterId, amount, cardId);
+                    Topup topup = new Topup(null, meterId, amount, cashCards[0].Id);
                     int result;
                     result = topup.SaveData();
                     return Content(JsonConvert.SerializeObject(new { result = "success", data = topup }));
                 }
             }
-            else if (customer.Id != meter[0].UserId && customer.CardId != cashCards[0].Cardid && customer1.CardId == cashCards[0].Cardid)//for another from the another card
+            else if (customer.Id != meter[0].UserId && customer.CardId != cashCards[0].Id && customer1.CardId == cashCards[0].Id)//for another from the another card
             {
 
                 SMS sms = new SMS();
                 sms.To_number = customer1.Telephone;
-                sms.Msg = $"يحاول {customer.name} شحن عدادك باستخدام بطاقتك";
+                sms.Msg = $"يحاول {customer.Name} شحن عدادك باستخدام بطاقتك";
                 string status = sms.Send();
 
                 SMS sms1 = new SMS();
                 sms1.To_number = customer.Telephone;
-                sms1.Msg = $"أهلا وسهلا بك أنت تحاول الان شحن عداد {customer1.name} باستخدام بطاقته {customer1.CardId}";
+                sms1.Msg = $"أهلا وسهلا بك أنت تحاول الان شحن عداد {customer1.Name} باستخدام بطاقته {customer1.CardId}";
                // string status1 = sms1.Send();
 
 
                 //if (status == "OK" && status1 == "OK")
                 {
-                    Topup topup = new Topup(null, meterId, amount, cardId);
+                    Topup topup = new Topup(null, meterId, amount, cashCards[0].Id);
                     int result;
                     result = topup.SaveData();
                     return Content(JsonConvert.SerializeObject(new { result = "success", data = topup }));
@@ -176,7 +176,7 @@ namespace WebApplication1.Controllers
                     Customer customer1 = new Customer(meters[0].UserId);
                     SMS sms = new SMS();
                     sms.To_number = customer1.Telephone;
-                    sms.Msg = $"يحاول {customer.name} شحن عدادك باستخدام موقنا في الشركة ورقم الكود الذي يريد شحنه هو {otp}";
+                    sms.Msg = $"يحاول {customer.Name} شحن عدادك باستخدام موقنا في الشركة ورقم الكود الذي يريد شحنه هو {otp}";
                     string status = sms.Send();
                     if (status == "OK")
                     {
@@ -240,7 +240,7 @@ namespace WebApplication1.Controllers
                         Customer customer1 = new Customer(meters[0].UserId);
                         SMS sms = new SMS();
                         sms.To_number = customer1.Telephone;
-                        sms.Msg = $"يحاول {customer.name} شحن عدادك باستخدام موقنا في الشركة ورقم الكود الذي يريد شحنه هو {otp}";
+                        sms.Msg = $"يحاول {customer.Name} شحن عدادك باستخدام موقنا في الشركة ورقم الكود الذي يريد شحنه هو {otp}";
                         string status = sms.Send();
                         if (status == "OK")
                         {
@@ -287,7 +287,7 @@ namespace WebApplication1.Controllers
 
                 SMS sms = new SMS();
                 sms.To_number = customer1.Telephone;
-                sms.Msg = $"يحاول {customer.name} استرجاع الكود الغير مشحون الخاص بك";
+                sms.Msg = $"يحاول {customer.Name} استرجاع الكود الغير مشحون الخاص بك";
                 string status = sms.Send();
                 if (status == "OK")
                 {
@@ -319,12 +319,12 @@ namespace WebApplication1.Controllers
 
                 SMS sms = new SMS();
                 sms.To_number = customer.Telephone;
-                sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {amount} الى حساب {customer1.name} ";
+                sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {amount} الى حساب {customer1.Name} ";
                 string status = sms.Send();
 
                 SMS sms1 = new SMS();
                 sms.To_number = customer1.Telephone;
-                sms.Msg = $"يحاول {customer.name} تحويل قيمة {amount} الى عدادك";
+                sms.Msg = $"يحاول {customer.Name} تحويل قيمة {amount} الى عدادك";
                 string status1 = sms1.Send();
                 if (status == "OK" && status1 == "OK")
                 {
@@ -341,12 +341,12 @@ namespace WebApplication1.Controllers
                 Customer customer2 = new Customer(meters[0].UserId);
                 SMS sms = new SMS();
                 sms.To_number = customer2.Telephone;
-                sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {amount} الي حساب {customer1.name} ";
+                sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {amount} الي حساب {customer1.Name} ";
                 string status = sms.Send();
 
                 SMS sms1 = new SMS();
                 sms.To_number = customer1.Telephone;
-                sms.Msg = $"يحاول {customer2.name} تحويل قيمة {amount} الى عدادك";
+                sms.Msg = $"يحاول {customer2.Name} تحويل قيمة {amount} الى عدادك";
                 string status1 = sms1.Send();
                 if (status == "OK" && status1 == "OK")
                 {

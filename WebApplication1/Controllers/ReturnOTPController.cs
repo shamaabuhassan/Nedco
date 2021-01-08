@@ -48,7 +48,7 @@ namespace WebApplication1.Controllers
 
                     SMS sms = new SMS();
                     sms.To_number = customer1.Telephone;
-                    sms.Msg = $"يحاول {customer.name} استرجاع الكود الغير مشحون الخاص بك";
+                    sms.Msg = $"يحاول {customer.Name} استرجاع الكود الغير مشحون الخاص بك";
                     string status = sms.Send();
                     if (status == "OK")
                     {

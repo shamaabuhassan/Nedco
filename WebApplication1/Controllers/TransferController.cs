@@ -44,12 +44,12 @@ namespace WebApplication1.Controllers
 
                     SMS sms = new SMS();
                     sms.To_number = customer.Telephone;
-                    sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {amount} الي حساب {customer1.name} ";
+                    sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {amount} الي حساب {customer1.Name} ";
                     string status = sms.Send();
 
                     SMS sms1 = new SMS();
                     sms.To_number = customer1.Telephone;
-                    sms.Msg = $"يحاول {customer.name} تحويل قيمة {amount} الى عدادك";
+                    sms.Msg = $"يحاول {customer.Name} تحويل قيمة {amount} الى عدادك";
                     string status1 = sms1.Send();
                     if (status == "OK" && status1 == "OK")
                     {
@@ -66,12 +66,12 @@ namespace WebApplication1.Controllers
                    Customer customer2=new Customer (meters[0].UserId);
                     SMS sms = new SMS();
                     sms.To_number = customer2.Telephone;
-                    sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {amount} الي حساب {customer1.name} ";
+                    sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {amount} الي حساب {customer1.Name} ";
                     string status = sms.Send();
 
                     SMS sms1 = new SMS();
                     sms.To_number = customer1.Telephone;
-                    sms.Msg = $"يحاول {customer2.name} تحويل قيمة {amount} الى عدادك";
+                    sms.Msg = $"يحاول {customer2.Name} تحويل قيمة {amount} الى عدادك";
                     string status1 = sms1.Send();
                     if (status == "OK" && status1 == "OK")
                     {
