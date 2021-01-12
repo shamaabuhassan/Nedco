@@ -57,8 +57,10 @@ namespace WebApplication1.Controllers
                     if (status == "OK" && status1 == "OK")
                     {
                         Transfer transfer = new Transfer(id, senderOTP, meterId, amount);
-                        int result;
+                       
+                        Topup[] result = null;
                         result = transfer.SaveData();
+                        
                         ViewBag.result = result;
 
                     }
@@ -82,8 +84,9 @@ namespace WebApplication1.Controllers
                     if (status == "OK" && status1 == "OK")
                     {
                         Transfer transfer = new Transfer(id, senderOTP, meterId, amount);
-                        int result;
+                        Topup[] result = null;
                         result = transfer.SaveData();
+
                         ViewBag.result = result;
 
                     }

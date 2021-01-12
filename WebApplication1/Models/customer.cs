@@ -39,7 +39,7 @@ namespace WebApplication1.Models
         public string CountryName { get; set; }
         public string CityName { get; set; }
 
-        public static Customer CheckLogin(string username,string password) {
+        public static Customer CheckLogin(string Username,string Password) {
 
 
 
@@ -50,8 +50,8 @@ namespace WebApplication1.Models
                 cmd.Connection.Open();
                 cmd.CommandText = "CheckLogin";
 
-                cmd.Parameters.AddWithValue("@username", username);
-                cmd.Parameters.AddWithValue("@password", password);
+                cmd.Parameters.AddWithValue("@username", Username);
+                cmd.Parameters.AddWithValue("@password", Password);
 
 
 

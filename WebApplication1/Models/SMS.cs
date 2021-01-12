@@ -41,6 +41,7 @@ namespace WebApplication1.Models
         public int SaveData()
         {
             int result = 0;
+            Date= DateTime.Now; 
             using (SqlCommand cmd = new SqlCommand())
             {
                 cmd.CommandType = CommandType.StoredProcedure;

@@ -100,10 +100,11 @@ public class Transfer
             }
         }
 
-        public int SaveData()
+        public Topup[] SaveData()
         {
             int result = 0;
             Topup topup = new Topup(SenderOTP);
+            List<Topup> t = new List<Topup>();
             if (topup.Status == "0")
 
             {
@@ -142,10 +143,13 @@ public class Transfer
                         Topup topup2 = new Topup(null,MeterId, Amount, topup.CardId);
                         topup2.SaveData();
                         topup.Delete();
+                        t.Add(topup1);
+                        t.Add(topup2);
+                        
                     }
                 }
             }
-            return result;
+            return t.ToArray();
         }
 
         

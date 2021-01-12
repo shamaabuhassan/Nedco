@@ -197,14 +197,15 @@ namespace WebApplication1.Models
 
                         SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
                         idParam.Direction = ParameterDirection.InputOutput;
-
-                        SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
-                        resultParam.Direction = ParameterDirection.InputOutput;
-
                         idParam.Value = this.Id;
 
-                        int c = cmd.ExecuteNonQuery();
+                    SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
+                        resultParam.Direction = ParameterDirection.InputOutput;
 
+                   
+
+                        int c = cmd.ExecuteNonQuery();
+                    
                         this.Id = Convert.ToInt32(idParam.Value);
                         result = Convert.ToInt32(resultParam.Value);
                         cmd.Connection.Close();
