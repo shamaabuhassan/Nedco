@@ -40,7 +40,8 @@ namespace WebApplication1.Controllers
                 SMS sms = new SMS();
                 sms.To_number = customer.Telephone;
                 sms.Msg = $"أهلا وسهلا بك أنت تقوم بشحن {amount} الى عدادك الان";
-               // string status = sms.Send();
+                // string status = sms.Send();
+                sms.SaveData();
                 //if (status == "OK")
                 {
                     Topup topup = new Topup(null, meterId, amount, cashCards[0].Id);
@@ -59,8 +60,9 @@ namespace WebApplication1.Controllers
                 SMS sms = new SMS();
                 sms.To_number = customer2[0].Telephone;
                 sms.Msg = $" يحاول {customer.Name} شحن عداده باستخدام البطاقة الخاصة بك بقيمة {amount}";
-              //  string status = sms.Send();
-              //  if (status == "OK")
+                //  string status = sms.Send();
+                sms.SaveData();
+                //  if (status == "OK")
                 {
                     Topup topup = new Topup(null, meterId, amount, cashCards[0].Id);
                     int result;
@@ -75,13 +77,14 @@ namespace WebApplication1.Controllers
                 SMS sms = new SMS();
                 sms.To_number = customer1.Telephone;
                 sms.Msg = $"يحاول {customer.Name} شحن عدادك بقيمة {amount}";
-                string status = sms.Send();
+               // string status = sms.Send();
+                sms.SaveData();
 
                 SMS sms1 = new SMS();
                 sms1.To_number = customer.Telephone;
                 sms1.Msg = $"يحاول {customer1.Name} شحن عداده باستخدام بطاقتك بقيمة {amount}";
-               // string status1 = sms1.Send();
-
+                // string status1 = sms1.Send();
+                sms1.SaveData();
                 //if (status == "OK" && status1 == "OK")
                 {
 
@@ -102,12 +105,14 @@ namespace WebApplication1.Controllers
                 SMS sms = new SMS();
                 sms.To_number = customer2[0].Telephone;
                 sms.Msg = $"يحاول {customer1.Name} شحن عداده بقيمة {amount} باستخدام بطاقتك";
-                string status = sms.Send();
+               // string status = sms.Send();
+                sms.SaveData();
 
                 SMS sms1 = new SMS();
                 sms1.To_number = customer1.Telephone;
                 sms1.Msg = $"يحاول {customer.Name} شحن عدادك بقيمة {amount} باستخدام بطاقة {customer2[0].Name}";
-               // string status1 = sms1.Send();
+                // string status1 = sms1.Send();
+                sms1.SaveData();
                 //if (status == "OK" && status1 == "OK")
                 {
                     Topup topup = new Topup(null, meterId, amount, cashCards[0].Id);
@@ -122,12 +127,14 @@ namespace WebApplication1.Controllers
                 SMS sms = new SMS();
                 sms.To_number = customer1.Telephone;
                 sms.Msg = $"يحاول {customer.Name} شحن عدادك باستخدام بطاقتك";
-                string status = sms.Send();
+                //string status = sms.Send();
+                sms.SaveData();
 
                 SMS sms1 = new SMS();
                 sms1.To_number = customer.Telephone;
                 sms1.Msg = $"أهلا وسهلا بك أنت تحاول الان شحن عداد {customer1.Name} باستخدام بطاقته {customer1.CardId}";
-               // string status1 = sms1.Send();
+                // string status1 = sms1.Send();
+                sms1.SaveData();
 
 
                 //if (status == "OK" && status1 == "OK")
@@ -162,6 +169,7 @@ namespace WebApplication1.Controllers
                     sms.To_number = customer.Telephone;
                     sms.Msg = $"  أهلا وسهلا بك أنت تحاول الان شحن عدادك باستخدام موقعنا في الشركة ورقم الكود الذي يريد شحنه هو {otp}";
                     string status = sms.Send();
+                    sms.SaveData();
 
                     if (status == "OK")
                     {
@@ -177,8 +185,9 @@ namespace WebApplication1.Controllers
                     SMS sms = new SMS();
                     sms.To_number = customer1.Telephone;
                     sms.Msg = $"يحاول {customer.Name} شحن عدادك باستخدام موقنا في الشركة ورقم الكود الذي يريد شحنه هو {otp}";
-                    string status = sms.Send();
-                    if (status == "OK")
+                    //string status = sms.Send();
+                    sms.SaveData();
+                   // if (status == "OK")
                     {
                         topup[0].Charged();
 
@@ -210,6 +219,7 @@ namespace WebApplication1.Controllers
                     sms.To_number = customer.Telephone;
                     sms.Msg = $"  أهلا وسهلا بك أنت تحاول الان شحن عدادك باستخدام موقعنا في الشركة ورقم الكود الذي يريد شحنه هو {otp}";
                     string status = sms.Send();
+                    sms.SaveData();
 
                     if (status == "OK")
                     {
@@ -221,16 +231,8 @@ namespace WebApplication1.Controllers
 
                 else if (customer.Id != meters[0].UserId && customer.Id == meter[0].UserId)
                 {
-                    //Customer customer1 = new Customer(meters[0].UserId);
-                    //SMS sms = new SMS();
-                    //sms.To_number = customer1.Telephone;
-                    //sms.Msg = $"يحاول {customer.name} شحن عدادك باستخدام موقنا في الشركة ورقم الكود الذي يريد شحنه هو {otp}";
-                    //string status = sms.Send();
-                    //if (status == "OK")
-                    //{
-                    //    topup[0].Charged();
                         return Content(JsonConvert.SerializeObject(new { result = "error" }));
-                    //}
+                  
 
                 }
                 else if (customer.Id != meters[0].UserId && customer.Id != meter[0].UserId)
@@ -242,6 +244,7 @@ namespace WebApplication1.Controllers
                         sms.To_number = customer1.Telephone;
                         sms.Msg = $"يحاول {customer.Name} شحن عدادك باستخدام موقنا في الشركة ورقم الكود الذي يريد شحنه هو {otp}";
                         string status = sms.Send();
+                        sms.SaveData();
                         if (status == "OK")
                         {
                             topup[0].Charged();
@@ -272,6 +275,7 @@ namespace WebApplication1.Controllers
                 sms.To_number = customer.Telephone;
                 sms.Msg = $"أهلا وسهلا بكك أنت تحاول الان استرجاع الكود الغير مشحون الخاص بك";
                 string status = sms.Send();
+                sms.SaveData();
                 if (status == "OK")
                 {
                     Topup[] topups = Topup.GetTopups(new TopupParameters { MeterId = meterid, Status = "0" }, out rc);
@@ -289,6 +293,7 @@ namespace WebApplication1.Controllers
                 sms.To_number = customer1.Telephone;
                 sms.Msg = $"يحاول {customer.Name} استرجاع الكود الغير مشحون الخاص بك";
                 string status = sms.Send();
+                sms.SaveData();
                 if (status == "OK")
                 {
                     Topup[] topups = Topup.GetTopups(new TopupParameters { MeterId = meterid, Status = "0" }, out rc);
@@ -321,11 +326,13 @@ namespace WebApplication1.Controllers
                 sms.To_number = customer.Telephone;
                 sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {amount} الى حساب {customer1.Name} ";
                 string status = sms.Send();
+                sms.SaveData();
 
                 SMS sms1 = new SMS();
                 sms.To_number = customer1.Telephone;
                 sms.Msg = $"يحاول {customer.Name} تحويل قيمة {amount} الى عدادك";
                 string status1 = sms1.Send();
+                sms1.SaveData();
                 if (status == "OK" && status1 == "OK")
                 {
                     Transfer transfer = new Transfer(null, senderOTP, meterId, amount);
@@ -343,11 +350,13 @@ namespace WebApplication1.Controllers
                 sms.To_number = customer2.Telephone;
                 sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {amount} الي حساب {customer1.Name} ";
                 string status = sms.Send();
+                sms.SaveData();
 
                 SMS sms1 = new SMS();
                 sms.To_number = customer1.Telephone;
                 sms.Msg = $"يحاول {customer2.Name} تحويل قيمة {amount} الى عدادك";
                 string status1 = sms1.Send();
+                sms1.SaveData();
                 if (status == "OK" && status1 == "OK")
                 {
                     Transfer transfer = new Transfer(null, senderOTP, meterId, amount);

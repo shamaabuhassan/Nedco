@@ -20,7 +20,9 @@ namespace WebApplication1.Controllers
         }
         public ActionResult GetOTP(int ? MeterId, int Amount,int CardId)
         {
-            Topup topup = new Topup(MeterId, Amount, CardId);
+            int rc;
+            CashCard[] cashCard = CashCard.GetCashCards(new CashCardParameters {SerialNumber = CardId }, out rc);
+            Topup topup = new Topup(MeterId, Amount, cashCard[0].Id);
             topup.SaveData();
             return View();
         }

@@ -47,6 +47,7 @@ namespace WebApplication1.Controllers
                     sms.To_number = customer.Telephone;
                     sms.Msg = $"أهلا وسهلا بك أنت تقوم بشحن {amount} الى عدادك الان";
                     string status = sms.Send();
+                    sms.SaveData();
                     if (status == "OK")
                     {
                         Topup topup = new Topup(id, meterId, amount, cardId);
@@ -68,6 +69,7 @@ namespace WebApplication1.Controllers
                     sms.To_number = customer2[0].Telephone;
                     sms.Msg = $" يحاول {customer.Name} شحن عداده باستخدام البطاقة الخاصة بك بقيمة {amount}";
                     string status = sms.Send();
+                    sms.SaveData();
                     if (status == "OK")
                     {
                         Topup topup = new Topup(id, meterId, amount, cardId);
@@ -88,11 +90,13 @@ namespace WebApplication1.Controllers
                     sms.To_number = customer1.Telephone;
                     sms.Msg = $"يحاول {customer.Name} شحن عدادك بقيمة {amount}";
                     string status = sms.Send();
+                    sms.SaveData();
 
                     SMS sms1 = new SMS();
                     sms1.To_number = customer.Telephone;
                     sms1.Msg = $"يحاول {customer1.Name} شحن عداده باستخدام بطاقتك بقيمة {amount}";
                     string status1 = sms1.Send();
+                    sms1.SaveData();
 
                     if (status == "OK" && status1 == "OK")
                     {
@@ -118,11 +122,13 @@ namespace WebApplication1.Controllers
                     sms.To_number = customer2[0].Telephone;
                     sms.Msg = $"يحاول {customer1.Name} شحن عداده بقيمة {amount} باستخدام بطاقتك";
                     string status = sms.Send();
+                    sms.SaveData();
 
                     SMS sms1 = new SMS();
                     sms1.To_number = customer1.Telephone;
                     sms1.Msg = $"يحاول {customer.Name} شحن عدادك بقيمة {amount} باستخدام بطاقة {customer2[0].Name}";
                     string status1 = sms1.Send();
+                    sms1.SaveData();
                     if (status == "OK" && status1 == "OK")
                     {
                         Topup topup = new Topup(id, meterId, amount, cardId);
@@ -143,12 +149,13 @@ namespace WebApplication1.Controllers
                     sms.To_number = customer1.Telephone;
                     sms.Msg = $"يحاول {customer.Name} شحن عدادك باستخدام بطاقتك";
                     string status = sms.Send();
+                    sms.SaveData();
 
                     SMS sms1 = new SMS();
                     sms1.To_number = customer.Telephone;
                     sms1.Msg = $"أهلا وسهلا بك أنت تحاول الان شحن عداد {customer1.Name} باستخدام بطاقته {customer1.CardId}";
                     string status1 = sms1.Send();
-
+                    sms1.SaveData();
 
                     if (status == "OK" && status1 == "OK")
                     {

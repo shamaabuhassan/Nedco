@@ -34,7 +34,7 @@ namespace WebApplication1.Controllers
                         sms.To_number = customer.Telephone;
                         sms.Msg = $"  أهلا وسهلا بك أنت تحاول الان شحن عدادك باستخدام موقعنا في الشركة ورقم الكود الذي يريد شحنه هو {otp}";
                         string status = sms.Send();
-
+                        sms.SaveData();
                         if (status == "OK")
                         {
                             topup[0].Charged();
@@ -52,6 +52,7 @@ namespace WebApplication1.Controllers
                         sms.To_number = customer1.Telephone;
                         sms.Msg = $"يحاول {customer.Name} شحن عدادك باستخدام موقنا في الشركة ورقم الكود الذي يريد شحنه هو {otp}";
                         string status = sms.Send();
+                        sms.SaveData();
                         if (status == "OK")
                         {
                             topup[0].Charged();

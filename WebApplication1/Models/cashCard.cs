@@ -165,7 +165,7 @@ namespace WebApplication1.Models
                 cmd.Connection.Open();
                 cmd.CommandText = "GetCashCards";
 
-                cmd.Parameters.AddWithValue("card_id",parameters.SerialNumber);
+                cmd.Parameters.AddWithValue("serial_number", parameters.SerialNumber);
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)
                 {

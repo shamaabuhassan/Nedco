@@ -3,27 +3,30 @@
 @{
     Employee employee = (Session["employee"] as Employee);
 }
-<div style="flex:1; padding-left: 35px" class="vertical-align">
 
-    <table>
-        <tr>
-            <td>رقم العداد</td>
-            <td>@Html.TextBoxFor(o => o.MeterId)</td>
-        </tr>
 
-        <tr>
-            <td>المبلغ المراد تحويله</td>
-            <td>@Html.TextBoxFor(o => o.Amount)</td>
-        </tr>
+    <div style="flex:1; padding-left: 35px" class="vertical-align">
+        @using (Html.BeginForm("RequestOTP", "RequestOTPS", FormMethod.Post)) { 
+            <table>
+                <tr>
+                    <td>رقم العداد</td>
+                    <td>@Html.TextBoxFor(o => o.MeterId)</td>
+                </tr>
 
-        <tr>
-            <td>رقم البطاقة </td>
-            <td>@Html.TextBoxFor(o => o.CardId)</td>
-        </tr>
+                <tr>
+                    <td>المبلغ المراد تحويله</td>
+                    <td>@Html.TextBoxFor(o => o.Amount)</td>
+                </tr>
 
-    </table>
-    <input type="submit" value="GetOTP" />
-</div>
+                <tr>
+                    <td>رقم البطاقة </td>
+                    <td>@Html.TextBoxFor(o => o.CardId)</td>
+                </tr>
+
+            </table>
+        <input type="submit" value="GetOTP" />
+            }
+    </div>
 
 
 <div style="text-align: center;">

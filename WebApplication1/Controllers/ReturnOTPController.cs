@@ -30,6 +30,7 @@ namespace WebApplication1.Controllers
                     sms.To_number = customer.Telephone;
                     sms.Msg = $"أهلا وسهلا بكك أنت تحاول الان استرجاع الكود الغير مشحون الخاص بك";
                     string status=sms.Send();
+                    sms.SaveData();
                     if (status == "OK")
                     {
                         return RedirectToAction("OTPS", "ReturnOTP", new { meterid = meterid });
@@ -50,6 +51,7 @@ namespace WebApplication1.Controllers
                     sms.To_number = customer1.Telephone;
                     sms.Msg = $"يحاول {customer.Name} استرجاع الكود الغير مشحون الخاص بك";
                     string status = sms.Send();
+                    sms.SaveData();
                     if (status == "OK")
                     {
                         return RedirectToAction("OTPS", "ReturnOTP", new { meterid = meterid });
