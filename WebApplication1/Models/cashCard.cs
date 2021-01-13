@@ -79,38 +79,43 @@ namespace WebApplication1.Models
         }
         public int SaveData()
         {
-            using (SqlCommand cmd = new SqlCommand())
+            int result = 0;
+            if (SerialNumber.ToString().Length == 12)
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = new SqlConnection(cstr.con);
-                cmd.Connection.Open();
-                cmd.CommandText = "SaveCashCardData";
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Connection = new SqlConnection(cstr.con);
+                    cmd.Connection.Open();
+                    cmd.CommandText = "SaveCashCardData";
 
 
-               
-                if (Password != null) cmd.Parameters.AddWithValue("password", Password);
-                if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
-                if (SerialNumber != null) cmd.Parameters.AddWithValue("serial_number", SerialNumber);
+
+                    if (Password != null) cmd.Parameters.AddWithValue("password", Password);
+                    if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
+                    if (SerialNumber != null) cmd.Parameters.AddWithValue("serial_number", SerialNumber);
 
 
-                SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
-                idParam.Direction = ParameterDirection.InputOutput;
-                idParam.Value = this.Id;
+                    SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
+                    idParam.Direction = ParameterDirection.InputOutput;
+                    idParam.Value = this.Id;
 
-                SqlParameter resultParm = cmd.Parameters.Add("@result", SqlDbType.Int);
-                resultParm.Direction = ParameterDirection.InputOutput;
-
-               
-
-                int c = cmd.ExecuteNonQuery();
+                    SqlParameter resultParm = cmd.Parameters.Add("@result", SqlDbType.Int);
+                    resultParm.Direction = ParameterDirection.InputOutput;
 
 
-                this.Id = Convert.ToInt32(idParam.Value);
-                int result = Convert.ToInt32(resultParm.Value);
-                cmd.Connection.Close();
-                return result;
 
+                    int c = cmd.ExecuteNonQuery();
+
+
+                    this.Id = Convert.ToInt32(idParam.Value);
+                    result = Convert.ToInt32(resultParm.Value);
+                    cmd.Connection.Close();
+                   
+
+                }
             }
+            return result;
         }
         public CashCard()
         { }

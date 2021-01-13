@@ -79,33 +79,38 @@ namespace WebApplication1.Models
 
         public int SaveData()
         {
-            using (SqlCommand cmd = new SqlCommand())
+            int result = 0;
+            if (Meterid.ToString().Length == 12)
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = new SqlConnection(cstr.con);
-                cmd.Connection.Open();
-                cmd.CommandText = "SaveMeterData";
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Connection = new SqlConnection(cstr.con);
+                    cmd.Connection.Open();
+                    cmd.CommandText = "SaveMeterData";
 
-                if (UserId != null) cmd.Parameters.AddWithValue("user_id", UserId);
-                if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
-                if (Meterid != null) cmd.Parameters.AddWithValue("meter_id", Meterid);
+                    if (UserId != null) cmd.Parameters.AddWithValue("user_id", UserId);
+                    if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
+                    if (Meterid != null) cmd.Parameters.AddWithValue("meter_id", Meterid);
 
-                SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
-                idParam.Direction = ParameterDirection.InputOutput;
+                    SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
+                    idParam.Direction = ParameterDirection.InputOutput;
 
-                SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
-                resultParam.Direction = ParameterDirection.InputOutput;
+                    SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
+                    resultParam.Direction = ParameterDirection.InputOutput;
 
-                idParam.Value = this.Id;
+                    idParam.Value = this.Id;
 
-                int c = cmd.ExecuteNonQuery();
+                    int c = cmd.ExecuteNonQuery();
 
-                this.Id = Convert.ToInt32(idParam.Value);
-                int result = Convert.ToInt32(resultParam.Value);
-                cmd.Connection.Close();
-                return result; ;
+                    this.Id = Convert.ToInt32(idParam.Value);
+                     result = Convert.ToInt32(resultParam.Value);
+                    cmd.Connection.Close();
+                    
 
+                }
             }
+            return result; 
         }
 
         //get using list
