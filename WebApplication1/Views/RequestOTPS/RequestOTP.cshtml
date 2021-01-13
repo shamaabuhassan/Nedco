@@ -1,7 +1,9 @@
 ﻿@using WebApplication1.Models
 @model TopupParameters
 @{
+    int rc;
     Employee employee = (Session["employee"] as Employee);
+    Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
 }
 
 
@@ -10,7 +12,7 @@
             <table>
                 <tr>
                     <td>رقم العداد</td>
-                    <td>@Html.TextBoxFor(o => o.MeterId)</td>
+                    <td>@Html.DropDownListFor(o => o.MeterId, new SelectList(meters, "Meterid", "Meterid"))</td>
                 </tr>
 
                 <tr>
