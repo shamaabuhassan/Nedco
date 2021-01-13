@@ -232,6 +232,7 @@
     <Content Include="Views\Home\index.cshtml" />
     <Content Include="Views\Transfer\Trans_from_to.cshtml" />
     <Content Include="Views\RequestOTPS\RequestOTP.cshtml" />
+    <Content Include="Views\RequestOTPS\ShowOTP.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

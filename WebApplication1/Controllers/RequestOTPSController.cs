@@ -24,7 +24,20 @@ namespace WebApplication1.Controllers
             CashCard[] cashCard = CashCard.GetCashCards(new CashCardParameters {SerialNumber = CardId }, out rc);
             Topup topup = new Topup(MeterId, Amount, cashCard[0].Id);
             topup.SaveData();
+            return RedirectToAction("ShowOTP","RequestOTPS",new { otp=topup.OTP });
+        }
+
+        public ActionResult ShowOTP(string otp)
+        {
+            if (otp != null)
+            {
+                ViewBag.otp = otp;
+            }
             return View();
+        }
+        public ActionResult Charge_this_otp()
+        {
+            return RedirectToAction("Charged", "Topups");
         }
     }
 }

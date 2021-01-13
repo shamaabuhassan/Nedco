@@ -261,9 +261,9 @@ namespace WebApplication1.Controllers
                         SMS sms = new SMS();
                         sms.To_number = customer1.Telephone;
                         sms.Msg = $"يحاول {customer.Name} شحن عدادك باستخدام موقنا في الشركة ورقم الكود الذي يريد شحنه هو {OTP}";
-                        string status = sms.Send();
+                        //string status = sms.Send();
                      
-                        if (status == "OK")
+                       // if (status == "OK")
                         {
                             topup[0].Charged();
                             return Content(JsonConvert.SerializeObject(new { result="succsess" }));
@@ -310,9 +310,9 @@ namespace WebApplication1.Controllers
                 SMS sms = new SMS();
                 sms.To_number = customer1.Telephone;
                 sms.Msg = $"يحاول {customer.Name} استرجاع الكود الغير مشحون الخاص بك";
-                string status = sms.Send();
+               // string status = sms.Send();
                
-                if (status == "OK")
+               // if (status == "OK")
                 {
                     Topup[] topups = Topup.GetTopups(new TopupParameters { MeterId = Meterid, Status = "0" }, out rc);
                     return Content(JsonConvert.SerializeObject(new { result = "success", data = topups }));
@@ -343,15 +343,15 @@ namespace WebApplication1.Controllers
                 SMS sms = new SMS();
                 sms.To_number = customer.Telephone;
                 sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {Amount} الى حساب {customer1.Name} ";
-                string status = sms.Send();
+              //  string status = sms.Send();
               
 
                 SMS sms1 = new SMS();
                 sms.To_number = customer1.Telephone;
                 sms.Msg = $"يحاول {customer.Name} تحويل قيمة {Amount} الى عدادك";
-                string status1 = sms1.Send();
+               // string status1 = sms1.Send();
                 sms1.SaveData();
-                if (status == "OK" && status1 == "OK")
+                //if (status == "OK" && status1 == "OK")
                 {
                     Transfer transfer = new Transfer(null, SenderOTP, MeterId, Amount);
                     
@@ -370,15 +370,15 @@ namespace WebApplication1.Controllers
                 SMS sms = new SMS();
                 sms.To_number = customer2.Telephone;
                 sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {Amount} الي حساب {customer1.Name} ";
-                string status = sms.Send();
+                //string status = sms.Send();
                 
 
                 SMS sms1 = new SMS();
                 sms.To_number = customer1.Telephone;
                 sms.Msg = $"يحاول {customer2.Name} تحويل قيمة {Amount} الى عدادك";
-                string status1 = sms1.Send();
+               // string status1 = sms1.Send();
                 sms1.SaveData();
-                if (status == "OK" && status1 == "OK")
+               // if (status == "OK" && status1 == "OK")
                 {
                     Transfer transfer = new Transfer(null, SenderOTP, MeterId, Amount);
                     
@@ -405,7 +405,8 @@ namespace WebApplication1.Controllers
                 amount += topup.Amount;
                 count += 1;
             }
-            return Content(JsonConvert.SerializeObject(new { result = "success", data = amount, count }));
+            decimal? result = amount / count;
+            return Content(JsonConvert.SerializeObject(new { result = "success", data = result }));
         }
 
 
@@ -414,8 +415,14 @@ namespace WebApplication1.Controllers
             int rc;
             Customer customer = new Customer(customerid);
             Meter[] meters = Meter.GetMeters(new MeterParameters { UserId = customer.Id }, out rc);
-            int? meterid = meters[0].Meterid;
-           Topup[] topups = Topup.GetTopups(new TopupParameters { MeterId = meterid }, out rc);
+            Topup[] topups = null;
+            int c = 0;
+            foreach (Meter meter in meters) {
+                int? meterid = meters[0].Meterid;
+                Topup[] topup = Topup.GetTopups(new TopupParameters { MeterId = meterid }, out rc);
+                topups[c] = topup[0];
+                c++;
+            }
             return Content(JsonConvert.SerializeObject(new { result = "success", data = topups }));
         }
 
@@ -426,12 +433,28 @@ namespace WebApplication1.Controllers
             Customer customer = new Customer(customerid);
             Meter[] meters = Meter.GetMeters(new MeterParameters { UserId = customer.Id }, out rc);
 
-            Transfer[] transfers = Transfer.GetTransfers(new TransferParameters { MeterId = meters[0].Meterid }, out rc);
-            Transfer[] transfers2 = Transfer.GetTransfersBySenderOTP(new TransferParameters { MeterId = meters[0].Meterid }, out rc);
+            Transfer[] transfers = null;
+            int c = 0;
+            foreach (Meter meter in meters)
+            {
+                int? meterid = meters[0].Meterid;
+                Transfer[] transfer = Transfer.GetTransfers(new TransferParameters { MeterId = meters[0].Meterid }, out rc);
+                transfers[c] = transfer[0];
+                c++;
+            }
 
+            Transfer[] transfers2 = null;
+            int co = 0;
+            foreach (Meter meter in meters)
+            {
+                int? meterid = meters[0].Meterid;
+                Transfer[] transfer = Transfer.GetTransfersBySenderOTP(new TransferParameters { MeterId = meters[0].Meterid }, out rc);
+                transfers2[co] = transfer[0];
+                co++;
+            }
             if (transfers != null && transfers2 == null)
             {
-                return Content(JsonConvert.SerializeObject(new { result = "success", data = transfers }));
+                return Content(JsonConvert.SerializeObject(new { result = "success", data =transfers }));
             }
             if (transfers == null && transfers2 != null)
             {
