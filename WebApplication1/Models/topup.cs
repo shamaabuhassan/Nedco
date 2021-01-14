@@ -162,7 +162,7 @@ namespace WebApplication1.Models
         public string GenerateRandom()
         {
             Random generator = new Random();
-            String r = generator.Next(0, 1000000).ToString("D6");
+            String r = generator.Next(100000, 999999).ToString("D6");
             return r;
         }
         public int SaveData()
@@ -202,10 +202,15 @@ namespace WebApplication1.Models
                     SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
                         resultParam.Direction = ParameterDirection.InputOutput;
 
-                   
 
+                    //try
+                    //{
                         int c = cmd.ExecuteNonQuery();
-                    
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    return 0;
+                    //}
                         this.Id = Convert.ToInt32(idParam.Value);
                         result = Convert.ToInt32(resultParam.Value);
                         cmd.Connection.Close();

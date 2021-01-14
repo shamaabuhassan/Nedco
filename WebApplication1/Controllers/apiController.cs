@@ -350,13 +350,14 @@ namespace WebApplication1.Controllers
                 sms.To_number = customer1.Telephone;
                 sms.Msg = $"يحاول {customer.Name} تحويل قيمة {Amount} الى عدادك";
                // string status1 = sms1.Send();
-                sms1.SaveData();
+               
                 //if (status == "OK" && status1 == "OK")
                 {
                     Transfer transfer = new Transfer(null, SenderOTP, MeterId, Amount);
+
+                    Topup[] topupp = new Topup[] { };
                     
-                    Topup[] topupp = null;
-                    topupp = transfer.SaveData();
+                    topupp=transfer.SaveData();
                      
                         return Content(JsonConvert.SerializeObject(new { result = "success", data = topupp }));
                     
@@ -381,8 +382,9 @@ namespace WebApplication1.Controllers
                // if (status == "OK" && status1 == "OK")
                 {
                     Transfer transfer = new Transfer(null, SenderOTP, MeterId, Amount);
-                    
-                    Topup[] topupp = null;
+
+                    Topup[] topupp = new Topup[] { };
+
                     topupp = transfer.SaveData();
                     return Content(JsonConvert.SerializeObject(new { result = "success", data = topupp }));
                 }
@@ -390,17 +392,27 @@ namespace WebApplication1.Controllers
             return Content(JsonConvert.SerializeObject(new { result = "error" }));
         }
 
+
         public ActionResult ChargeHist(DateTime fromdate, DateTime todate, int customerid)
         {
             int rc;
             Customer customer = new Customer(customerid);
             Meter[] meters = Meter.GetMeters(new MeterParameters { UserId = customer.Id }, out rc);
 
-            Topup[] topups = Topup.GetTopups(new TopupParameters { fromdate = fromdate, todate = todate, MeterId = meters[0].Meterid }, out rc);
+            List<Topup> topups1 = new List<Topup>();
+
+            foreach (Meter meter in meters)
+            {
+                Topup[] topups = Topup.GetTopups(new TopupParameters { fromdate = fromdate, todate = todate, MeterId = meter.Meterid }, out rc);
+                foreach (Topup topup in topups)
+                {
+                    topups1.Add(topup);
+                }
+            }
 
             decimal? amount = 0;
             decimal? count = 0;
-            foreach (Topup topup in topups)
+            foreach (Topup topup in topups1)
             {
                 amount += topup.Amount;
                 count += 1;
@@ -415,13 +427,17 @@ namespace WebApplication1.Controllers
             int rc;
             Customer customer = new Customer(customerid);
             Meter[] meters = Meter.GetMeters(new MeterParameters { UserId = customer.Id }, out rc);
-            Topup[] topups = null;
-            int c = 0;
+            //  Topup[] topups = null;
+            List<Topup> topups = new List<Topup>();
+            //int c = 0;
             foreach (Meter meter in meters) {
-                int? meterid = meters[0].Meterid;
+                int? meterid = meter.Meterid;
                 Topup[] topup = Topup.GetTopups(new TopupParameters { MeterId = meterid }, out rc);
-                topups[c] = topup[0];
-                c++;
+                foreach (Topup topup1 in topup)
+                {
+                    topups.Add(topup1);
+                }
+              //  c++;
             }
             return Content(JsonConvert.SerializeObject(new { result = "success", data = topups }));
         }
@@ -433,36 +449,40 @@ namespace WebApplication1.Controllers
             Customer customer = new Customer(customerid);
             Meter[] meters = Meter.GetMeters(new MeterParameters { UserId = customer.Id }, out rc);
 
-            Transfer[] transfers = null;
-            int c = 0;
+            List<Transfer> transfers1 = new List<Transfer>();
             foreach (Meter meter in meters)
             {
-                int? meterid = meters[0].Meterid;
+                int? meterid = meter.Meterid;
                 Transfer[] transfer = Transfer.GetTransfers(new TransferParameters { MeterId = meters[0].Meterid }, out rc);
-                transfers[c] = transfer[0];
-                c++;
+                foreach (Transfer transfer1 in transfer)
+                {
+                    transfers1.Add(transfer1);
+                }
+                
             }
 
-            Transfer[] transfers2 = null;
-            int co = 0;
+            List<Transfer> transfers2 = new List<Transfer>();
             foreach (Meter meter in meters)
             {
-                int? meterid = meters[0].Meterid;
-                Transfer[] transfer = Transfer.GetTransfersBySenderOTP(new TransferParameters { MeterId = meters[0].Meterid }, out rc);
-                transfers2[co] = transfer[0];
-                co++;
+                int? meterid = meter.Meterid;
+                Transfer[] transfert = Transfer.GetTransfersBySenderOTP(new TransferParameters { MeterId = meters[0].Meterid }, out rc);
+                foreach (Transfer transfer2 in transfert)
+                {
+                    transfers2.Add(transfer2);
+                }
+                
             }
-            if (transfers != null && transfers2 == null)
+            if (transfers1 != null && transfers2 == null)
             {
-                return Content(JsonConvert.SerializeObject(new { result = "success", data =transfers }));
+                return Content(JsonConvert.SerializeObject(new { result = "success", data =transfers1 }));
             }
-            if (transfers == null && transfers2 != null)
+            if (transfers1 == null && transfers2 != null)
             {
-                return Content(JsonConvert.SerializeObject(new { result = "success", data = transfers2 }));
+                return Content(JsonConvert.SerializeObject(new { result = "success", data = transfers2}));
             }
-            if (transfers != null && transfers2 != null)
+            if (transfers1 != null && transfers2 != null)
             {
-                return Content(JsonConvert.SerializeObject(new { result = "success", data = transfers2, transfers }));
+                return Content(JsonConvert.SerializeObject(new { result = "success", data = transfers2, transfers1 }));
             }
             return Content(JsonConvert.SerializeObject(new { result = "error"}));
         }
