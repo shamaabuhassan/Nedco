@@ -47,7 +47,7 @@ namespace WebApplication1.Controllers
 
                     else if (customer.Id != meters[0].UserId)
                     {
-                        Customer customer1 = new Customer(meters[0].UserId);
+                        Customer customer1 = new Customer(meters[0].UserId.Value);
                         SMS sms = new SMS();
                         sms.To_number = customer1.Telephone;
                         sms.Msg = $"يحاول {customer.Name} شحن عدادك باستخدام موقنا في الشركة ورقم الكود الذي يريد شحنه هو {otp}";

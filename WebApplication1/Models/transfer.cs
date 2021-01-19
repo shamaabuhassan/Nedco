@@ -143,6 +143,7 @@ public class Transfer
                         Topup topup2 = new Topup(null,MeterId, Amount, topup.CardId);
                         topup2.SaveData();
                         topup.Delete();
+
                         t.Add(topup1);
                         t.Add(topup2);
                         

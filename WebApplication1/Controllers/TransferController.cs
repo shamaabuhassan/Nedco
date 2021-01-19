@@ -35,7 +35,7 @@ namespace WebApplication1.Controllers
             Meter[] meters = Meter.GetMeters(new MeterParameters {Meterid=topup[0].MeterId}, out rc);//get meterid customer
             Customer customer = (Session["customer"] as Customer);//check if senderotp customer as session customer
             Meter[] meters1 = Meter.GetMeters(new MeterParameters { Meterid =meterId }, out rc);// get userid will take the amount
-            Customer customer1 = new Customer(meters1[0].UserId);//get customer info
+            Customer customer1 = new Customer(meters1[0].UserId.Value);//get customer info
 
 
             if (Session["customer"] != null)
@@ -68,7 +68,7 @@ namespace WebApplication1.Controllers
              
                 else if(customer.Id != meters[0].UserId)
                 {
-                   Customer customer2=new Customer (meters[0].UserId);
+                   Customer customer2=new Customer (meters[0].UserId.Value);
                     SMS sms = new SMS();
                     sms.To_number = customer2.Telephone;
                     sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {amount} الي حساب {customer1.Name} ";

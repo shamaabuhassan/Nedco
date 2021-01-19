@@ -38,7 +38,7 @@ namespace WebApplication1.Controllers
             Customer customer = (Session["customer"] as Customer);
             CashCard []cashCards =  CashCard.GetCashCards(new CashCardParameters { SerialNumber = cardId }, out rc) ;
             CashCard cashCard = new CashCard(cashCards[0].Id);
-            Customer customer1 = new Customer(meter[0].UserId);
+            Customer customer1 = new Customer(meter[0].UserId.Value);
             if (Session["customer"] != null)
             {
                 if (customer.Id == meter[0].UserId && customer.CardId == cashCard.Id)//for himself from his card

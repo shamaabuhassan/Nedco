@@ -167,9 +167,12 @@ namespace WebApplication1.Models
         }
         public int SaveData()
             {
-            CashCard cashCard = new CashCard(CardId);
+            int rc;
+            CashCard[] cashCards =  CashCard.GetCashCards(new CashCardParameters{SerialNumber=CardId },out rc);
+            CashCard cashCard = cashCards[0];
             int result = 0;
-            Customer customer = new Customer(CardId);
+            Customer[] customers = Customer.GetCustomers(new CustomerParameters { CardId = cashCard.Id.Value },out rc);
+
             //Meter meter = new Meter(MeterId);
             //if (meter.UserId == customer.Id)
             //{
@@ -203,15 +206,15 @@ namespace WebApplication1.Models
                         resultParam.Direction = ParameterDirection.InputOutput;
 
 
-                    //try
-                    //{
+                    try
+                    {
                         int c = cmd.ExecuteNonQuery();
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    return 0;
-                    //}
-                        this.Id = Convert.ToInt32(idParam.Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        return 0;
+                    }
+                    this.Id = Convert.ToInt32(idParam.Value);
                         result = Convert.ToInt32(resultParam.Value);
                         cmd.Connection.Close();
 

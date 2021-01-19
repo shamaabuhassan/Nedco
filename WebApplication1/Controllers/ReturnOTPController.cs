@@ -45,7 +45,7 @@ namespace WebApplication1.Controllers
                 else if (customer.Id == meter[0].UserId)
                 {
                     
-                    Customer customer1 = new Customer(meter[0].UserId);
+                    Customer customer1 = new Customer(meter[0].UserId.Value);
 
                     SMS sms = new SMS();
                     sms.To_number = customer1.Telephone;

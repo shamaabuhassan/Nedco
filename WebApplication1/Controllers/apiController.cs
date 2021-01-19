@@ -36,7 +36,7 @@ namespace WebApplication1.Controllers
             Customer customer1=null;
             if (meter != null)
             {
-                 customer1 = new Customer(meter[0].UserId);
+                 customer1 = new Customer(meter[0].UserId.Value);
             }
 
             if (customer.Id == meter[0].UserId && customer.CardId == cashCards[0].Id)//for himself from his card
@@ -48,7 +48,7 @@ namespace WebApplication1.Controllers
                 
                // if(status == "OK")
                 {
-                    Topup topup = new Topup(null, MeterId, Amount, cashCards[0].Id);
+                    Topup topup = new Topup(null, MeterId, Amount, cashCards[0].SerialNumber);
                     
                     int result;
                     result = topup.SaveData();
@@ -93,7 +93,7 @@ namespace WebApplication1.Controllers
                 sms1.To_number = customer.Telephone;
                 sms1.Msg = $"يحاول {customer1.Name} شحن عداده باستخدام بطاقتك بقيمة {Amount}";
                 // string status1 = sms1.Send();
-                sms1.SaveData();
+                
                 //if (status == "OK" && status1 == "OK")
                 {
 
@@ -124,7 +124,7 @@ namespace WebApplication1.Controllers
                 sms1.To_number = customer1.Telephone;
                 sms1.Msg = $"يحاول {customer.Name} شحن عدادك بقيمة {Amount} باستخدام بطاقة {customer2[0].Name}";
                 // string status1 = sms1.Send();
-                sms1.SaveData();
+                
                 //if (status == "OK" && status1 == "OK")
                 {
                     Topup topup = new Topup(null, MeterId, Amount, cashCards[0].Id);
@@ -149,7 +149,7 @@ namespace WebApplication1.Controllers
                 sms1.To_number = customer.Telephone;
                 sms1.Msg = $"أهلا وسهلا بك أنت تحاول الان شحن عداد {customer1.Name} باستخدام بطاقته {customer1.CardId}";
                 // string status1 = sms1.Send();
-                sms1.SaveData();
+               
                 
 
                 //if (status == "OK" && status1 == "OK")
@@ -199,7 +199,7 @@ namespace WebApplication1.Controllers
 
                 else if (customer.Id != meters[0].UserId)
                 {
-                    Customer customer1 = new Customer(meters[0].UserId);
+                    Customer customer1 = new Customer(meters[0].UserId.Value);
                     SMS sms = new SMS();
                     sms.To_number = customer1.Telephone;
                     sms.Msg = $"يحاول {customer.Name} شحن عدادك باستخدام موقنا في الشركة ورقم الكود الذي يريد شحنه هو {OTP}";
@@ -257,7 +257,7 @@ namespace WebApplication1.Controllers
                 {
                     if (meters[0].UserId == meter[0].UserId)
                     {
-                        Customer customer1 = new Customer(meters[0].UserId);
+                        Customer customer1 = new Customer(meters[0].UserId.Value);
                         SMS sms = new SMS();
                         sms.To_number = customer1.Telephone;
                         sms.Msg = $"يحاول {customer.Name} شحن عدادك باستخدام موقنا في الشركة ورقم الكود الذي يريد شحنه هو {OTP}";
@@ -305,7 +305,7 @@ namespace WebApplication1.Controllers
             else if (customer.Id == meter[0].UserId)
             {
 
-                Customer customer1 = new Customer(meter[0].UserId);
+                Customer customer1 = new Customer(meter[0].UserId.Value);
 
                 SMS sms = new SMS();
                 sms.To_number = customer1.Telephone;
@@ -334,7 +334,7 @@ namespace WebApplication1.Controllers
             Meter[] meters = Meter.GetMeters(new MeterParameters { Meterid = topup[0].MeterId }, out rc);//get meterid customer
 
             Meter[] meters1 = Meter.GetMeters(new MeterParameters { Meterid = MeterId }, out rc);// get userid will take the amount
-            Customer customer1 = new Customer(meters1[0].UserId);//get customer info
+            Customer customer1 = new Customer(meters1[0].UserId.Value);//get customer info
 
 
             if (customer.Id == meters[0].UserId)
@@ -367,7 +367,7 @@ namespace WebApplication1.Controllers
 
             else if (customer.Id != meters[0].UserId)
             {
-                Customer customer2 = new Customer(meters[0].UserId);
+                Customer customer2 = new Customer(meters[0].UserId.Value);
                 SMS sms = new SMS();
                 sms.To_number = customer2.Telephone;
                 sms.Msg = $"أهلا وسلا بك في تطبيقنا أنت تحاول الان تحويل قيمة {Amount} الي حساب {customer1.Name} ";
@@ -378,7 +378,7 @@ namespace WebApplication1.Controllers
                 sms.To_number = customer1.Telephone;
                 sms.Msg = $"يحاول {customer2.Name} تحويل قيمة {Amount} الى عدادك";
                // string status1 = sms1.Send();
-                sms1.SaveData();
+              
                // if (status == "OK" && status1 == "OK")
                 {
                     Transfer transfer = new Transfer(null, SenderOTP, MeterId, Amount);
