@@ -478,11 +478,15 @@ namespace WebApplication1.Controllers
             }
             if (transfers1 == null && transfers2 != null)
             {
-                return Content(JsonConvert.SerializeObject(new { result = "success", data = transfers2}));
+                transfers1.Clear();
+                transfers1.AddRange(transfers2);
+                return Content(JsonConvert.SerializeObject(new { result = "success", data = transfers1}));
             }
             if (transfers1 != null && transfers2 != null)
             {
-                return Content(JsonConvert.SerializeObject(new { result = "success", data = transfers2, transfers1 }));
+
+                transfers1.AddRange(transfers2);
+                return Content(JsonConvert.SerializeObject(new { result = "success", data = transfers1}));
             }
             return Content(JsonConvert.SerializeObject(new { result = "error"}));
         }
