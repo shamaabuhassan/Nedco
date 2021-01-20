@@ -46,7 +46,7 @@ namespace WebApplication1.Controllers
                 sms.Msg = $"أهلا وسهلا بك أنت تقوم بشحن {Amount} الى عدادك الان";
                // string status = sms.Send();
                 
-               // if(status == "OK")
+              // if(status == "OK")
                 {
                     Topup topup = new Topup(null, MeterId, Amount, cashCards[0].SerialNumber);
                     
@@ -67,11 +67,11 @@ namespace WebApplication1.Controllers
                 SMS sms = new SMS();
                 sms.To_number = customer2[0].Telephone;
                 sms.Msg = $" يحاول {customer.Name} شحن عداده باستخدام البطاقة الخاصة بك بقيمة {Amount}";
-                //  string status = sms.Send();
+              //   string status = sms.Send();
                 
-                //  if (status == "OK")
+              //   if (status == "OK")
                 {
-                    Topup topup = new Topup(null, MeterId, Amount, cashCards[0].Id);
+                    Topup topup = new Topup(null, MeterId, Amount, cashCards[0].SerialNumber);
                     int result;
                     result = topup.SaveData();
                     if (result == 1)
@@ -86,18 +86,18 @@ namespace WebApplication1.Controllers
                 SMS sms = new SMS();
                 sms.To_number = customer1.Telephone;
                 sms.Msg = $"يحاول {customer.Name} شحن عدادك بقيمة {Amount}";
-               // string status = sms.Send();
+              //  string status = sms.Send();
                 
 
                 SMS sms1 = new SMS();
                 sms1.To_number = customer.Telephone;
                 sms1.Msg = $"يحاول {customer1.Name} شحن عداده باستخدام بطاقتك بقيمة {Amount}";
-                // string status1 = sms1.Send();
+              //  string status1 = sms1.Send();
                 
-                //if (status == "OK" && status1 == "OK")
+               // if (status == "OK" && status1 == "OK")
                 {
 
-                    Topup topup = new Topup(null, MeterId, Amount, cashCards[0].Id);
+                    Topup topup = new Topup(null, MeterId, Amount, cashCards[0].SerialNumber);
                     int result;
                     result = topup.SaveData();
                     if (result == 1)
@@ -117,17 +117,17 @@ namespace WebApplication1.Controllers
                 SMS sms = new SMS();
                 sms.To_number = customer2[0].Telephone;
                 sms.Msg = $"يحاول {customer1.Name} شحن عداده بقيمة {Amount} باستخدام بطاقتك";
-               // string status = sms.Send();
+             //  string status = sms.Send();
                 
 
                 SMS sms1 = new SMS();
                 sms1.To_number = customer1.Telephone;
                 sms1.Msg = $"يحاول {customer.Name} شحن عدادك بقيمة {Amount} باستخدام بطاقة {customer2[0].Name}";
-                // string status1 = sms1.Send();
+               // string status1 = sms1.Send();
                 
-                //if (status == "OK" && status1 == "OK")
+               // if (status == "OK" && status1 == "OK")
                 {
-                    Topup topup = new Topup(null, MeterId, Amount, cashCards[0].Id);
+                    Topup topup = new Topup(null, MeterId, Amount, cashCards[0].SerialNumber);
                     int result;
                     result = topup.SaveData();
                     if (result == 1)
@@ -148,13 +148,13 @@ namespace WebApplication1.Controllers
                 SMS sms1 = new SMS();
                 sms1.To_number = customer.Telephone;
                 sms1.Msg = $"أهلا وسهلا بك أنت تحاول الان شحن عداد {customer1.Name} باستخدام بطاقته {customer1.CardId}";
-                // string status1 = sms1.Send();
+               // string status1 = sms1.Send();
                
                 
 
-                //if (status == "OK" && status1 == "OK")
+               // if (status == "OK" && status1 == "OK")
                 {
-                    Topup topup = new Topup(null, MeterId, Amount, cashCards[0].Id);
+                    Topup topup = new Topup(null, MeterId, Amount, cashCards[0].SerialNumber);
                     int result;
                     result = topup.SaveData();
                     if (result == 1)
@@ -266,13 +266,13 @@ namespace WebApplication1.Controllers
                        // if (status == "OK")
                         {
                             topup[0].Charged();
-                            return Content(JsonConvert.SerializeObject(new { result="succsess" }));
+                            return Content(JsonConvert.SerializeObject(new { result="success" }));
                         }
 
                     }
                     else
                     {
-                        return Content(JsonConvert.SerializeObject(new { result = "succsess" }));
+                        return Content(JsonConvert.SerializeObject(new { result = "success" }));
                     }
                 }
 
