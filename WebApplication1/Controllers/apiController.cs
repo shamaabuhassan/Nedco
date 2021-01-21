@@ -31,15 +31,23 @@ namespace WebApplication1.Controllers
         {
             int rc;
             Customer customer = new Customer(customerid);
-            Meter[] meter = Meter.GetMeters(new MeterParameters { Meterid = MeterId }, out rc);//user of meter
-            CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { SerialNumber = SerialNumber }, out rc);
-            Customer customer1=null;
-            if (meter != null)
+            Meter[] meters = Meter.GetMeters(new MeterParameters { Meterid = MeterId }, out rc);//user of meter
+            if (meters.Length == 0)
             {
-                 customer1 = new Customer(meter[0].UserId.Value);
+                return Content(JsonConvert.SerializeObject(new { result = "invalid-meter"}));
+            }
+            CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { SerialNumber = SerialNumber }, out rc);
+            if (cashCards.Length == 0)
+            {
+                return Content(JsonConvert.SerializeObject(new { result = "invalid-cashcard" }));
+            }
+            Customer customer1=null;
+            if (meters != null)
+            {
+                 customer1 = new Customer(meters[0].UserId.Value);
             }
 
-            if (customer.Id == meter[0].UserId && customer.CardId == cashCards[0].Id)//for himself from his card
+            if (customer.Id == meters[0].UserId && customer.CardId == cashCards[0].Id)//for himself from his card
             {
                 SMS sms = new SMS();
                 sms.To_number = customer.Telephone;
@@ -56,11 +64,15 @@ namespace WebApplication1.Controllers
                     {
                         return Content(JsonConvert.SerializeObject(new { result = "success", data = topup }));
                     }
+                    if (result == 0)
+                    {
+                        return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance" }));
+                    }
                 }
                 
             }
 
-            else if (customer.Id == meter[0].UserId && customer.CardId != cashCards[0].Id) //for himself from another card
+            else if (customer.Id == meters[0].UserId && customer.CardId != cashCards[0].Id) //for himself from another card
             {
 
                 Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cashCards[0].Id }, out rc);
@@ -81,7 +93,7 @@ namespace WebApplication1.Controllers
                 }
             }
 
-            else if (customer.Id != meter[0].UserId && customer.CardId == cashCards[0].Id)//for another from his card
+            else if (customer.Id != meters[0].UserId && customer.CardId == cashCards[0].Id)//for another from his card
             {
                 SMS sms = new SMS();
                 sms.To_number = customer1.Telephone;
@@ -109,7 +121,7 @@ namespace WebApplication1.Controllers
             }
 
 
-            else if (customer.Id != meter[0].UserId && customer.CardId != cashCards[0].Id && customer1.CardId != cashCards[0].Id)//for another from another card
+            else if (customer.Id != meters[0].UserId && customer.CardId != cashCards[0].Id && customer1.CardId != cashCards[0].Id)//for another from another card
             {
                 int rrc;
                 Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cashCards[0].Id }, out rrc);
@@ -136,7 +148,7 @@ namespace WebApplication1.Controllers
                     }
                 }
             }
-            else if (customer.Id != meter[0].UserId && customer.CardId != cashCards[0].Id && customer1.CardId == cashCards[0].Id)//for another from the another card
+            else if (customer.Id != meters[0].UserId && customer.CardId != cashCards[0].Id && customer1.CardId == cashCards[0].Id)//for another from the another card
             {
 
                 SMS sms = new SMS();
@@ -302,7 +314,7 @@ namespace WebApplication1.Controllers
 
             }
 
-            else if (customer.Id == meter[0].UserId)
+            else if (customer.Id != meter[0].UserId)
             {
 
                 Customer customer1 = new Customer(meter[0].UserId.Value);

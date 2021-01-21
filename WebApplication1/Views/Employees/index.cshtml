@@ -19,7 +19,7 @@
             @*<input type="text" placeholder="الاسم" />*@
             @Html.TextBoxFor(o => o.Username, new { placeholder = "الاسم" })
             @*<input type="text" placeholder="كلمة المرور" />*@
-            @Html.TextBoxFor(o => o.Password, new { placeholder = "كلمة المرور" })
+            @Html.TextBoxFor(o => o.Password, new { placeholder = "كلمة المرور" ,@type="password" })
             <input type="submit" value="checklogin" class="brand-button" />
             @*<a href="./form.html" class="brand-button">تسجيل الدخول</a>*@
         }

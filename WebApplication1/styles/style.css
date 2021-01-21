@@ -134,6 +134,14 @@ input[type="text"] {
     font-weight: bold;
     width: 100%;
 }
+input[type="password"] {
+    height: 45px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    width: 100%;
+}
 
 .vertical-align{
     display: flex;
