@@ -15,7 +15,7 @@ namespace WebApplication1.Models
         public int? MeterId { get; set; }
         public decimal? Amount { get; set; }
         public int? CardId { get; set; }
-        public string OTP { get; set; }
+        public int? OTP { get; set; }
         public DateTime? ChargeDate { get; set; }
         public DateTime? ActivationDate { get; set; }
         public string Status { get; set; }
@@ -33,7 +33,7 @@ namespace WebApplication1.Models
             public int? MeterId { get; set; }
             public decimal? Amount { get; set; }
             public int? CardId { get; set; }
-            public string OTP { get; set; }
+            public int? OTP { get; set; }
             public DateTime? ChargeDate { get; set; }
             public DateTime? ActivationDate { get; set; }
             public string Status { get; set; }
@@ -84,7 +84,8 @@ namespace WebApplication1.Models
                         if (r["meter_id"] != DBNull.Value) this.MeterId = Convert.ToInt32(r["meter_id"]);
                         if (r["amount"] != DBNull.Value) this.Amount = Convert.ToDecimal(r["amount"]);
                         if (r["card_id"] != DBNull.Value) this.CardId = Convert.ToInt32(r["card_id"]);
-                        this.OTP = Convert.ToString(r["otp"]);
+                    if (r["otp"] != DBNull.Value) this.OTP = Convert.ToInt32(r["otp"]);
+                   // this.OTP = Convert.ToString(r["otp"]);
                         if (r["chargeDate"] != DBNull.Value) this.ChargeDate = Convert.ToDateTime(r["chargeDate"]);
                         if (r["activationDate"] != DBNull.Value) this.ActivationDate = Convert.ToDateTime(r["activationDate"]);
                         this.Status = Convert.ToString(r["status"]);
@@ -112,7 +113,8 @@ namespace WebApplication1.Models
                     if (r["meter_id"] != DBNull.Value) this.MeterId = Convert.ToInt32(r["meter_id"]);
                     if (r["amount"] != DBNull.Value) this.Amount = Convert.ToDecimal(r["amount"]);
                     if (r["card_id"] != DBNull.Value) this.CardId = Convert.ToInt32(r["card_id"]);
-                    this.OTP = Convert.ToString(r["otp"]);
+                    if (r["otp"] != DBNull.Value) this.OTP = Convert.ToInt32(r["otp"]);
+                    //this.OTP = Convert.ToString(r["otp"]);
                     if (r["chargeDate"] != DBNull.Value) this.ChargeDate = Convert.ToDateTime(r["chargeDate"]);
                     if (r["activationDate"] != DBNull.Value) this.ActivationDate = Convert.ToDateTime(r["activationDate"]);
                     this.Status = Convert.ToString(r["status"]);
@@ -159,26 +161,28 @@ namespace WebApplication1.Models
 
         }
 
-        public string GenerateRandom()
-        {
-            Random generator = new Random();
-            String r = generator.Next(100000, 999999).ToString("D6");
-            return r;
-        }
+        //public string GenerateRandom()
+        //{
+        //    Random generator = new Random();
+        //    String r = generator.Next(100000, 999999).ToString("D6");
+        //    return r;
+        //}
         public int SaveData()
             {
             int rc;
             CashCard[] cashCards =  CashCard.GetCashCards(new CashCardParameters{SerialNumber=CardId },out rc);
             CashCard cashCard = cashCards[0];
             int result = 0;
-            Customer[] customers = Customer.GetCustomers(new CustomerParameters { CardId = cashCard.Id.Value },out rc);
+
+            //Customer[] customers = Customer.GetCustomers(new CustomerParameters { CardId = cashCard.Id.Value },out rc);
 
             //Meter meter = new Meter(MeterId);
             //if (meter.UserId == customer.Id)
             //{
+            
                 if (cashCard.Amount > Amount)
                 {
-                    OTP = GenerateRandom();
+                    //OTP = 0;
                     ChargeDate = DateTime.Now;
                     Status = "0";
 
@@ -193,7 +197,7 @@ namespace WebApplication1.Models
                         if (MeterId != null) cmd.Parameters.AddWithValue("meter_id", MeterId);
                         if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
                         if (CardId != null) cmd.Parameters.AddWithValue("card_id", cashCard.SerialNumber);
-                        if (OTP != null) cmd.Parameters.AddWithValue("otp", OTP);
+                       // if (OTP != null) cmd.Parameters.AddWithValue("otp", OTP);
                         if (ChargeDate != null) cmd.Parameters.AddWithValue("chargeDate", ChargeDate);
                         if (ActivationDate != null) cmd.Parameters.AddWithValue("activationDate", ActivationDate);
                         if (Status != null) cmd.Parameters.AddWithValue("status", Status);
@@ -202,20 +206,25 @@ namespace WebApplication1.Models
                         idParam.Direction = ParameterDirection.InputOutput;
                         idParam.Value = this.Id;
 
+                    SqlParameter otpParam = cmd.Parameters.Add("@otp", SqlDbType.Int);
+                    otpParam.Direction = ParameterDirection.InputOutput;
+
                     SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
                         resultParam.Direction = ParameterDirection.InputOutput;
 
 
-                    try
-                    {
+                        //try
+                        // {
                         int c = cmd.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        return 0;
-                    }
-                    this.Id = Convert.ToInt32(idParam.Value);
-                        result = Convert.ToInt32(resultParam.Value);
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    return 0;
+                        //}
+
+                        this.Id = Convert.ToInt32(idParam.Value);
+                    this.OTP = Convert.ToInt32(otpParam.Value);
+                    result = Convert.ToInt32(resultParam.Value);
                         cmd.Connection.Close();
 
                     }
@@ -224,8 +233,9 @@ namespace WebApplication1.Models
                     cash.SaveData();
 
                 }
+           
             //}
-            
+
             return result;
            
         }
@@ -256,8 +266,10 @@ namespace WebApplication1.Models
                         if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
                         if (r["meter_id"] != DBNull.Value) c.MeterId = Convert.ToInt32(r["meter_id"]);
                         if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
+                       
                         if (r["card_id"] != DBNull.Value) c.CardId = Convert.ToInt32(r["card_id"]);
-                        if (r["otp"] != DBNull.Value) c.OTP = Convert.ToString(r["otp"]);
+                        if (r["otp"] != DBNull.Value) c.OTP = Convert.ToInt32(r["otp"]);
+                        // if (r["otp"] != DBNull.Value) c.OTP = Convert.ToString(r["otp"]);
                         if (r["chargeDate"] != DBNull.Value) c.ChargeDate = Convert.ToDateTime(r["chargeDate"]);
                         if (r["activationDate"] != DBNull.Value) c.ActivationDate = Convert.ToDateTime(r["activationDate"]);
                         if (r["status"] != DBNull.Value) c.Status = Convert.ToString(r["status"]);
@@ -299,8 +311,9 @@ namespace WebApplication1.Models
                             if (r["meter_id"] != DBNull.Value) c.MeterId = Convert.ToInt32(r["meter_id"]);
                             if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
                             if (r["card_id"] != DBNull.Value) c.CardId = Convert.ToInt32(r["card_id"]);
-                            if (r["otp"] != DBNull.Value) c.OTP = Convert.ToString(r["otp"]);
-                            if (r["chargeDate"] != DBNull.Value) c.ChargeDate = Convert.ToDateTime(r["chargeDate"]);
+                        if (r["otp"] != DBNull.Value) c.OTP = Convert.ToInt32(r["otp"]);
+                        // if (r["otp"] != DBNull.Value) c.OTP = Convert.ToString(r["otp"]);
+                        if (r["chargeDate"] != DBNull.Value) c.ChargeDate = Convert.ToDateTime(r["chargeDate"]);
                             if (r["activationDate"] != DBNull.Value) c.ActivationDate = Convert.ToDateTime(r["activationDate"]);
                             if (r["status"] != DBNull.Value) c.Status = Convert.ToString(r["status"]);
 

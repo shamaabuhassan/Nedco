@@ -17,7 +17,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Charge(string otp)
+        public ActionResult Charge(int? otp)
         {
             Customer customer = null;
             int rc;

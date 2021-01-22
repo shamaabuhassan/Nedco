@@ -11,70 +11,71 @@
     }
 }
 
-
-@if (ViewBag.transfers2 != null && ViewBag.transfers != null)
-{
     <div style="flex:1; padding-left: 35px" class="vertical-align">
-        <table>
-            <thead>
-                <tr>
-                    <td>رقم العملية</td>
-                    <td>الكود المستخدم في التحويل </td>
-                    <td> العداد المستخدم في التحويل <td>
-                    <td>رقم العداد المحول اليه</td>
-                    <td>كمية التحويل</td>
-                </tr>
+        @if (ViewBag.transfers2 != null && ViewBag.transfers != null)
+        {
 
-            </thead>
-            <tbody>
-                @foreach (Transfer transfer in transfers2)
-                {
-                <tr>
-                    <td>@transfer.Id</td>
-                    <td>@transfer.SenderOTP</td>
-                    <td>@transfer.Sender_meter</td>
-                    <td>@transfer.MeterId</td>
-                    <td>@transfer.Amount</td>
-
-                </tr>
-
-                }
-
-            </tbody>
-
-
-        </table>
-
-        <table>
-            <thead>
-                <tr>
-                    <td>رقم العملية</td>
-                    <td>الكود المستخدم في التحويل </td>
-                    <td>رقم العداد المحول اليه</td>
-                    <td>كمية التحويل</td>
-                </tr>
-
-            </thead>
-            <tbody>
-                @foreach (Transfer transfer in transfers)
-                {
+            <table>
+                <thead>
                     <tr>
-                        <td>@transfer.Id</td>
-                        <td>@transfer.SenderOTP</td>
-                        <td>@transfer.MeterId</td>
-                        <td>@transfer.Amount</td>
-
+                        <td>رقم العملية</td>
+                        <td>الكود المستخدم في التحويل </td>
+                        <td> العداد المستخدم في التحويل
+                        <td>
+                        <td>رقم العداد المحول اليه</td>
+                        <td>كمية التحويل</td>
                     </tr>
 
-                }
+                </thead>
+                <tbody>
+                    @foreach (Transfer transfer in transfers2)
+                    {
+                        <tr>
+                            <td>@transfer.Id</td>
+                            <td>@transfer.SenderOTP</td>
+                            <td>@transfer.Sender_meter</td>
+                            <td>@transfer.MeterId</td>
+                            <td>@transfer.Amount</td>
 
-            </tbody>
+                        </tr>
+
+                    }
+
+                </tbody>
 
 
-        </table>
+            </table>
+
+            <table>
+                <thead>
+                    <tr>
+                        <td>رقم العملية</td>
+                        <td>الكود المستخدم في التحويل </td>
+                        <td>رقم العداد المحول اليه</td>
+                        <td>كمية التحويل</td>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    @foreach (Transfer transfer in transfers)
+                    {
+                        <tr>
+                            <td>@transfer.Id</td>
+                            <td>@transfer.SenderOTP</td>
+                            <td>@transfer.MeterId</td>
+                            <td>@transfer.Amount</td>
+
+                        </tr>
+
+                    }
+
+                </tbody>
+
+
+            </table>
+
+        }
     </div>
-}
-
 
 <div style="text-align: center;">
 

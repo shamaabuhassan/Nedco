@@ -22,7 +22,7 @@ namespace WebApplication1.Controllers
         {
             int rc;
             CashCard[] cashCard = CashCard.GetCashCards(new CashCardParameters {SerialNumber = CardId }, out rc);
-            Topup topup = new Topup(MeterId, Amount, cashCard[0].Id);
+            Topup topup = new Topup(MeterId, Amount, cashCard[0].SerialNumber);
             topup.SaveData();
             return RedirectToAction("ShowOTP","RequestOTPS",new { otp=topup.OTP });
         }
@@ -37,7 +37,7 @@ namespace WebApplication1.Controllers
         }
         public ActionResult Charge_this_otp()
         {
-            return RedirectToAction("Charged", "Topups");
+            return RedirectToAction("Charged", "Topups"); 
         }
     }
 }

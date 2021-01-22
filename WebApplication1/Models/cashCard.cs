@@ -80,7 +80,7 @@ namespace WebApplication1.Models
         public int SaveData()
         {
             int result = 0;
-            if (SerialNumber.ToString().Length == 12)
+            if (SerialNumber.ToString().Length== 12)
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {
@@ -133,8 +133,6 @@ namespace WebApplication1.Models
                 cmd.Connection = new SqlConnection(cstr.con);
                 cmd.Connection.Open();
                 cmd.CommandText = "GetCashCardForCustomer";
-
-                cmd.Parameters.AddWithValue("id",parameters.Id);
 
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)

@@ -15,7 +15,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult NewCard( string Password, int? CustomerId, decimal? Amount, int? SerialNumber)
+        public ActionResult NewCard(string Password, decimal? Amount, int? SerialNumber)
         {
 
             if (Password != null)

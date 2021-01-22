@@ -28,20 +28,21 @@ namespace WebApplication1.Controllers
             if (MeterId != null)
             {
                 Transfer[] transfers = Transfer.GetTransfers(new TransferParameters { MeterId = MeterId }, out rc);
-                Transfer[] transfers2 = Transfer.GetTransfersBySenderOTP(new TransferParameters { MeterId = MeterId }, out rc);
-                if (transfers != null && transfers2==null)
+                Transfer[] transfers2 = Transfer.GetTransfersBySenderOTP(new TransferParameters { MeterId = MeterId }, out rc); //get meter of senderotp
+
+                if (transfers.Length!=0  && transfers2.Length==0)
                 {
                     ViewBag.transfers = transfers;
                     ViewBag.MeterId = MeterId;
                     return View();
                 }
-                else if(transfers == null && transfers2 != null)
+                else if(transfers.Length == 0 && transfers2.Length != 0)
                 {
-                    return RedirectToAction("Transfrom", "Transfers", new {transfers2=transfers2});
+                    return RedirectToAction("Transfrom", "Transfer", new {transfers2=transfers2});
                 }
-                else if (transfers != null && transfers2 != null)
+                else if (transfers.Length != 0 && transfers2.Length != 0)
                 {
-                    return RedirectToAction("Trans_from_to", "Transfers", new { transfers2 = transfers2,transfers=transfers });
+                    return RedirectToAction("Trans_from_to", "Transfer", new { transfers2 = transfers2,transfers=transfers });
                 }
             }
             

@@ -28,7 +28,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Save(int? id, string senderOTP, int? meterId, decimal? amount)
+        public ActionResult Save(int? id, int? senderOTP, int? meterId, decimal? amount)
         {
             int rc;
             Topup[] topup = Topup.GetTopups(new TopupParameters {OTP =senderOTP }, out rc);//get senderotp meterid 

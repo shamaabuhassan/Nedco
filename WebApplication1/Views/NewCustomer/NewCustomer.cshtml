@@ -9,7 +9,7 @@
     {
         result = ViewBag.result;
     }
-    CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { }, out rc);
+    CashCard[] cashCards = CashCard.GetCashCardForCustomer(new CashCardParameters { }, out rc);
     Area[] areas = Area.getarea(new AreaParameters { Type = "s" }, out rc);
     Area[] area = Area.getarea(new AreaParameters { Type = "c" }, out rc);
     Area[] areass = Area.getarea(new AreaParameters { Type = "t" }, out rc);

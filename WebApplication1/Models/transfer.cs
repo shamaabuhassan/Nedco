@@ -10,7 +10,7 @@ namespace WebApplication1.Models
  
     public class TransferParameters{
         public int? Id { get; set; }
-        public string SenderOTP { get; set; }
+        public int? SenderOTP { get; set; }
         public int? MeterId { get; set; }
         public decimal? Amount { get; set; }
 
@@ -20,7 +20,7 @@ public class Transfer
     {
         public string Status { get; set; }
         public int? Id { get; set; }
-        public string SenderOTP { get; set; }
+        public int? SenderOTP { get; set; }
         public int? MeterId { get; set; }
         public decimal? Amount { get; set; }
 
@@ -47,7 +47,8 @@ public class Transfer
                 {
                     r.Read();
                     if (r["id"] != DBNull.Value) this.Id = Convert.ToInt32(r["id"]);
-                    this.SenderOTP = Convert.ToString(r["senderOTP"]);
+                    if (r["senderOTP"] != DBNull.Value) this.SenderOTP = Convert.ToInt32(r["senderOTP"]);
+                    //this.SenderOTP = Convert.ToString(r["senderOTP"]);
                     if (r["meter_id"] != DBNull.Value) this.MeterId = Convert.ToInt32(r["meter_id"]);
                     if (r["amount"] != DBNull.Value) this.Amount = Convert.ToDecimal(r["amount"]);
                     cmd.Connection.Close();
@@ -60,7 +61,7 @@ public class Transfer
 
         //constructor
 
-        public Transfer(int? id, string senderOTP, int? meterId, decimal? amount)
+        public Transfer(int? id, int? senderOTP, int? meterId, decimal? amount)
         {
             this.Id = id;
             this.SenderOTP = senderOTP;
@@ -69,21 +70,21 @@ public class Transfer
 
         }
 
-        public int RandomNumber(int digits)
-        {
-            int count = 0;
-            int rand = 0;
-            while (count != 1)
-            {
-                Random random = new Random();
-                rand = random.Next();
-                int len = rand.ToString().Length;
+        //public int RandomNumber(int digits)
+        //{
+        //    int count = 0;
+        //    int rand = 0;
+        //    while (count != 1)
+        //    {
+        //        Random random = new Random();
+        //        rand = random.Next();
+        //        int len = rand.ToString().Length;
 
-                if (len == digits)
-                    count = 1;
-            }
-            return rand;
-        }
+        //        if (len == digits)
+        //            count = 1;
+        //    }
+        //    return rand;
+        //}
 
         public void Delete()
         {
@@ -142,7 +143,9 @@ public class Transfer
                         topup1.SaveData();
                         Topup topup2 = new Topup(null,MeterId, Amount, topup.CardId);
                         topup2.SaveData();
-                        topup.Delete();
+
+                        Topup topupnotvalid = new Topup(topup.Id);
+                        topupnotvalid.SaveData();
 
                         t.Add(topup1);
                         t.Add(topup2);
@@ -173,7 +176,8 @@ public class Transfer
                     {
                         Transfer c = new Transfer();
                         if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
-                        if (r["senderOTP"] != DBNull.Value) c.SenderOTP = Convert.ToString(r["senderOTP"]);
+                        if (r["senderOTP"] != DBNull.Value) c.SenderOTP = Convert.ToInt32(r["senderOTP"]);
+                      //  if (r["senderOTP"] != DBNull.Value) c.SenderOTP = Convert.ToString(r["senderOTP"]);
                         if (r["meter_id"] != DBNull.Value) c.MeterId = Convert.ToInt32(r["meter_id"]);
                         if (r["sender_meter"] != DBNull.Value) c.Sender_meter = Convert.ToInt32(r["sender_meter"]); 
                         if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
@@ -207,7 +211,8 @@ public class Transfer
                     {
                         Transfer c = new Transfer();
                         if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
-                        if (r["senderOTP"] != DBNull.Value) c.SenderOTP = Convert.ToString(r["senderOTP"]);
+                        if (r["senderOTP"] != DBNull.Value) c.SenderOTP = Convert.ToInt32(r["senderOTP"]);
+                        // if (r["senderOTP"] != DBNull.Value) c.SenderOTP = Convert.ToString(r["senderOTP"]);
                         if (r["meter_id"] != DBNull.Value) c.MeterId = Convert.ToInt32(r["meter_id"]);
                         if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
 
