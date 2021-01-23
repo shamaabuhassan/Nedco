@@ -131,24 +131,28 @@ namespace WebApplication1.Models
             this.Name = name;
 
         }
+public Customer(int? id, string password) {
+            this.Id = id;
+            this.Password = password;
+        }
         public int SaveData()
         {
-            int rc;
-            int count = 0;
-            Customer[] customers = Customer.GetCustomers(new CustomerParameters {CardId= CardId }, out rc);
-            foreach(Customer customer in customers)
-            {
-                if(CardId==customer.CardId)
-                {
-                    count = 1;
-                }
-                else
-                {
-                    count = 0;
-                }
-            }
-            if (count == 0)
-            {
+            //int rc;
+            //int count = 0;
+            //Customer[] customers = Customer.GetCustomers(new CustomerParameters {}, out rc);
+            //foreach(Customer customer in customers)
+            //{
+            //    if(CardId==customer.CardId)
+            //    {
+            //        count = 1;
+            //    }
+            //    else
+            //    {
+            //        count = 0;
+            //    }
+            //}
+            //if (count == 0)
+            //{
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -183,12 +187,12 @@ namespace WebApplication1.Models
                     return result;
 
                 }
-            }
-            else
-            {
-                int result = 0;
-                return result;
-            }
+            //}
+            //else
+            //{
+            //    int result = 0;
+            //    return result;
+            //}
         }
 
         //get using 

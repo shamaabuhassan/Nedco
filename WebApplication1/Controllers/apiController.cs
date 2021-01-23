@@ -572,5 +572,21 @@ namespace WebApplication1.Controllers
             }
             return Content(JsonConvert.SerializeObject(new { result = "error"}));
         }
+
+        public ActionResult ChangePassword(string password, int customerid)
+        {
+            int result = 0;
+            Customer customer = new Customer(customerid,password);
+            result=customer.SaveData();
+            if (result == 1)
+            {
+                return Content(JsonConvert.SerializeObject(new { result = "success" }));
+            }
+            else
+            {
+                return Content(JsonConvert.SerializeObject(new { result = "error" }));
+            }
+            
+        }
     }
 }
