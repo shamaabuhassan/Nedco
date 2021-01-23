@@ -173,6 +173,7 @@ public Customer(int? id, string password) {
 
                     SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
                     idParam.Direction = ParameterDirection.InputOutput;
+                     idParam.Value = this.Id;
 
                     SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
                     resultParam.Direction = ParameterDirection.InputOutput;

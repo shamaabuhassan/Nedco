@@ -15,12 +15,12 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult NewCard(string Password, decimal? Amount, int? SerialNumber)
+        public ActionResult NewCard(decimal? Amount, int? SerialNumber)
         {
 
-            if (Password != null)
+            if (Amount != null)
             {
-                CashCard cashCard = new CashCard(null, Password, Amount, SerialNumber);
+                CashCard cashCard = new CashCard(null, Amount, SerialNumber);
                 int result;
                 result = cashCard.SaveData();
                 ViewBag.result = result;

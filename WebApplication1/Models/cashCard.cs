@@ -54,10 +54,10 @@ namespace WebApplication1.Models
         }
 
         //constructor
-        public CashCard(int?id, string password, decimal? amount,int? SerialNumber)
+        public CashCard(int?id, decimal? amount,int? SerialNumber)
         {
             this.Id = id;
-            this.Password = password;
+           // this.Password = password;
             this.Amount = amount;
             this.SerialNumber = SerialNumber;
 

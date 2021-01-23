@@ -68,7 +68,8 @@ namespace WebApplication1.Controllers
                     }
                     else if (result == 0)
                     {
-                        return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance" }));
+                        
+                        return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance" ,data= cashCards[0].Amount}));
                     }
                 }
                 
@@ -94,7 +95,7 @@ namespace WebApplication1.Controllers
                     }
                     else if (result == 0)
                     {
-                        return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance" }));
+                        return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance", data = cashCards[0].Amount }));
                     }
                 }
             }
@@ -124,7 +125,7 @@ namespace WebApplication1.Controllers
                     }
                     else if (result == 0)
                     {
-                        return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance" }));
+                        return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance", data = cashCards[0].Amount }));
                     }
                 }
 
@@ -158,7 +159,7 @@ namespace WebApplication1.Controllers
                     }
                     else if (result == 0)
                     {
-                        return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance" }));
+                        return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance", data = cashCards[0].Amount }));
                     }
                 }
             }
@@ -189,7 +190,7 @@ namespace WebApplication1.Controllers
                     }
                     else if (result == 0)
                     {
-                        return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance" }));
+                        return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance", data = cashCards[0].Amount }));
                     }
                 }
 
@@ -573,7 +574,7 @@ namespace WebApplication1.Controllers
             return Content(JsonConvert.SerializeObject(new { result = "error"}));
         }
 
-        public ActionResult ChangePassword(string password, int customerid)
+        public ActionResult ChangePassword(string password, int? customerid)
         {
             int result = 0;
             Customer customer = new Customer(customerid,password);

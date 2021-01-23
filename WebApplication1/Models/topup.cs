@@ -229,7 +229,7 @@ namespace WebApplication1.Models
 
                     }
                     decimal? amount = cashCard.Amount - Amount;
-                    CashCard cash = new CashCard(CardId, cashCard.Password, amount, cashCard.SerialNumber);
+                    CashCard cash = new CashCard(CardId, amount, cashCard.SerialNumber);
                     cash.SaveData();
 
                 }

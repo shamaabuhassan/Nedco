@@ -29,11 +29,11 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Save(int? Id,string Password, int? CustomerId, decimal? Amount,int ? SerialNumber)
+        public ActionResult Save(int? Id, int? CustomerId, decimal? Amount,int ? SerialNumber)
         {
-            if (Password != null)
+            if (Amount != null)
             {
-                CashCard cashCard = new CashCard(Id, Password, Amount, SerialNumber);
+                CashCard cashCard = new CashCard(Id, Amount, SerialNumber);
                 int result;
                 result = cashCard.SaveData();
                 ViewBag.result = result;
