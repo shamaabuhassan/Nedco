@@ -9,8 +9,12 @@ namespace WebApplication1.Controllers
     public class MainpageController : Controller
     {
         // GET: Mainpage
-        public ActionResult Index()
+        public ActionResult Index(string error)
         {
+            if (error == "2")
+            {
+                return RedirectToAction("index", "Employees");
+            }
             return View();
         }
 

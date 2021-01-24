@@ -12,6 +12,10 @@ namespace WebApplication1.Controllers
         // GET: Employees
         public ActionResult Index(string error)
         {
+            if (Session["employee"] != null)
+            {
+                return RedirectToAction("index", "Mainpage");
+            }
             ViewBag.error = error;
             return View();
         }
