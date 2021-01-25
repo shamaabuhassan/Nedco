@@ -17,7 +17,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Search(int? MeterId)
+        public ActionResult Search(string MeterId)
         {
             int rc;
             if (MeterId != null)
@@ -31,13 +31,15 @@ namespace WebApplication1.Controllers
 
 
 
-        public ActionResult Save(int? id, int? meterId, decimal? amount, int? cardId)
+        public ActionResult Save(int? id, string meterId, decimal? amount, string SerialNUM)
         {
             int rc;
             Meter[] meter = Meter.GetMeters(new MeterParameters { Meterid = meterId }, out rc);//user of meter
             Customer customer = (Session["customer"] as Customer);
-            CashCard []cashCards =  CashCard.GetCashCards(new CashCardParameters { SerialNumber = cardId }, out rc) ;
+
+            CashCard []cashCards =  CashCard.GetCashCards(new CashCardParameters { SerialNumber = SerialNUM }, out rc) ;
             CashCard cashCard = new CashCard(cashCards[0].Id);
+
             Customer customer1 = new Customer(meter[0].UserId.Value);
             if (Session["customer"] != null)
             {
@@ -50,7 +52,7 @@ namespace WebApplication1.Controllers
                     sms.SaveData();
                     if (status == "OK")
                     {
-                        Topup topup = new Topup(id, meterId, amount, cardId);
+                        Topup topup = new Topup(id, meterId, amount, SerialNUM);
                         int result;
                         result = topup.SaveData();
                         ViewBag.result = result;
@@ -64,7 +66,7 @@ namespace WebApplication1.Controllers
                 else if (customer.Id == meter[0].UserId && customer.CardId != cashCard.Id) //for himself from another card
                 {
 
-                    Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cardId }, out rc);
+                    Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cashCard.Id }, out rc);
                     SMS sms = new SMS();
                     sms.To_number = customer2[0].Telephone;
                     sms.Msg = $" يحاول {customer.Name} شحن عداده باستخدام البطاقة الخاصة بك بقيمة {amount}";
@@ -72,7 +74,7 @@ namespace WebApplication1.Controllers
                     sms.SaveData();
                     if (status == "OK")
                     {
-                        Topup topup = new Topup(id, meterId, amount, cardId);
+                        Topup topup = new Topup(id, meterId, amount, SerialNUM);
                         int result;
                         result = topup.SaveData();
                         ViewBag.result = result;
@@ -101,7 +103,7 @@ namespace WebApplication1.Controllers
                     if (status == "OK" && status1 == "OK")
                     {
 
-                        Topup topup = new Topup(id, meterId, amount, cardId);
+                        Topup topup = new Topup(id, meterId, amount, SerialNUM);
                         int result;
                         result = topup.SaveData();
                         ViewBag.result = result;
@@ -116,7 +118,7 @@ namespace WebApplication1.Controllers
                 else if (customer.Id != meter[0].UserId && customer.CardId != cashCard.Id && customer1.CardId != cashCard.Id)//for another from another card
                 {
                     int rrc;
-                    Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cardId }, out rrc);
+                    Customer[] customer2 = Customer.GetCustomers(new CustomerParameters { CardId = cashCard.Id }, out rrc);
 
                     SMS sms = new SMS();
                     sms.To_number = customer2[0].Telephone;
@@ -131,7 +133,7 @@ namespace WebApplication1.Controllers
                     sms1.SaveData();
                     if (status == "OK" && status1 == "OK")
                     {
-                        Topup topup = new Topup(id, meterId, amount, cardId);
+                        Topup topup = new Topup(id, meterId, amount, SerialNUM);
                         int result;
                         result = topup.SaveData();
                         ViewBag.result = result;
@@ -159,7 +161,7 @@ namespace WebApplication1.Controllers
 
                     if (status == "OK" && status1 == "OK")
                     {
-                        Topup topup = new Topup(id, meterId, amount, cardId);
+                        Topup topup = new Topup(id, meterId, amount, SerialNUM);
                         int result;
                         result = topup.SaveData();
                         ViewBag.result = result;

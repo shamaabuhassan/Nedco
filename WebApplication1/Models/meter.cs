@@ -9,17 +9,17 @@ namespace WebApplication1.Models
 {
     public class MeterParameters
     {
-        public int? Id { get; set; }
+       // public int? Id { get; set; }
         public int? UserId { get; set; }
         public decimal? Amount { get; set; }
-        public int? Meterid { get; set; }
+        public string Meterid { get; set; }
     }
     public class Meter
     {
-        public int? Id { get; set; }
+       // public int? Id { get; set; }
         public int? UserId { get; set; }
         public decimal? Amount { get; set; }
-        public int? Meterid { get; set; }
+        public string Meterid { get; set; }
 
         public Meter() { }
 
@@ -32,14 +32,40 @@ namespace WebApplication1.Models
                 cmd.Connection.Open();
                 cmd.CommandText = "DeleteMeter";
 
-                cmd.Parameters.AddWithValue("@id", this.Id);
+                cmd.Parameters.AddWithValue("@meterid", this.Meterid);
 
                 cmd.ExecuteNonQuery();
 
 
             }
         }
-        public Meter(int? id)
+
+
+        //public int CheckMeterForOTPReturn(int? meterid)
+        //{
+        //    int result = 0;
+        //    using (SqlCommand cmd = new SqlCommand())
+        //    {
+        //        cmd.CommandType = CommandType.StoredProcedure;
+        //        cmd.Connection = new SqlConnection(cstr.con);
+        //        cmd.Connection.Open();
+        //        cmd.CommandText = "CheckMeter";
+
+        //        cmd.Parameters.AddWithValue("@meterid", meterid);
+
+        //        SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
+        //        resultParam.Direction = ParameterDirection.InputOutput;
+
+        //        int c = cmd.ExecuteNonQuery();
+
+              
+        //        result = Convert.ToInt32(resultParam.Value);
+        //        cmd.Connection.Close();
+
+        //    }
+        //    return result;
+        //}
+        public Meter(int? meterid)
         {
 
             using (SqlCommand cmd = new SqlCommand())
@@ -48,16 +74,16 @@ namespace WebApplication1.Models
                 cmd.Connection = new SqlConnection(cstr.con);
                 cmd.Connection.Open();
                 cmd.CommandText = "GetMetersByID";
-                cmd.Parameters.AddWithValue("@ID", id);
+                cmd.Parameters.AddWithValue("@meter_id", meterid);
 
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)
                 {
                     r.Read();
-                    if (r["id"] != DBNull.Value) this.Id = Convert.ToInt32(r["id"]);
+                    //if (r["id"] != DBNull.Value) this.Id = Convert.ToInt32(r["id"]);
                     if (r["user_id"] != DBNull.Value) this.UserId = Convert.ToInt32(r["user_id"]);
                     if (r["amount"] != DBNull.Value) this.Amount = Convert.ToDecimal(r["amount"]);
-                    if (r["meter_id"] != DBNull.Value) this.Meterid = Convert.ToInt32(r["meter_id"]);
+                    if (r["meter_id"] != DBNull.Value) this.Meterid = Convert.ToString(r["meter_id"]);
 
                     cmd.Connection.Close();
 
@@ -68,9 +94,9 @@ namespace WebApplication1.Models
 
         //counstructor
 
-        public Meter(int? id, int? userId, decimal? amount,int ?meterid)
+        public Meter(int? userId, decimal? amount,string meterid)
         {
-            this.Id = id;
+            //this.Id = id;
             this.UserId = userId;
             this.Amount = amount;
             this.Meterid = meterid;
@@ -80,7 +106,7 @@ namespace WebApplication1.Models
         public int SaveData()
         {
             int result = 0;
-            if (Meterid.ToString().Length == 12)
+            if (Meterid.Length == 12)
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {
@@ -93,17 +119,17 @@ namespace WebApplication1.Models
                     if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
                     if (Meterid != null) cmd.Parameters.AddWithValue("meter_id", Meterid);
 
-                    SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
-                    idParam.Direction = ParameterDirection.InputOutput;
+                    //SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
+                    //idParam.Direction = ParameterDirection.InputOutput;
 
                     SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
                     resultParam.Direction = ParameterDirection.InputOutput;
 
-                    idParam.Value = this.Id;
+                    //idParam.Value = this.Id;
 
                     int c = cmd.ExecuteNonQuery();
 
-                    this.Id = Convert.ToInt32(idParam.Value);
+                    //this.Id = Convert.ToInt32(idParam.Value);
                      result = Convert.ToInt32(resultParam.Value);
                     cmd.Connection.Close();
                     
@@ -132,10 +158,10 @@ namespace WebApplication1.Models
                     while (r.Read())
                     {
                         Meter c = new Meter();
-                        if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
+                       // if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
                         if (r["user_id"] != DBNull.Value) c.UserId = Convert.ToInt32(r["user_id"]);
                         if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
-                        if (r["meter_id"] != DBNull.Value) c.Meterid = Convert.ToInt32(r["meter_id"]);
+                        if (r["meter_id"] != DBNull.Value) c.Meterid = Convert.ToString(r["meter_id"]);
 
                         l.Add(c);
                     }

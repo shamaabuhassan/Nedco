@@ -17,7 +17,7 @@ namespace WebApplication1.Controllers
             return View();
         }
         
-        public ActionResult Search(int? MeterId)
+        public ActionResult Search(string MeterId)
         {
             int rc;
             if (MeterId != null)
@@ -28,7 +28,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Save(int? id, int? senderOTP, int? meterId, decimal? amount)
+        public ActionResult Save(int? id, int? senderOTP, string meterId, decimal? amount)
         {
             int rc;
             Topup[] topup = Topup.GetTopups(new TopupParameters {OTP =senderOTP }, out rc);//get senderotp meterid 

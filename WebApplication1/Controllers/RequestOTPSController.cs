@@ -18,10 +18,10 @@ namespace WebApplication1.Controllers
         {
             return View();
         }
-        public ActionResult GetOTP(int ? MeterId, int Amount,int CardId)
+        public ActionResult GetOTP(string MeterId, int Amount,string SerialNUM)
         {
             int rc;
-            CashCard[] cashCard = CashCard.GetCashCards(new CashCardParameters {SerialNumber = CardId }, out rc);
+            CashCard[] cashCard = CashCard.GetCashCards(new CashCardParameters {SerialNumber = SerialNUM }, out rc);
             Topup topup = new Topup(MeterId, Amount, cashCard[0].SerialNumber);
             topup.SaveData();
             return RedirectToAction("ShowOTP","RequestOTPS",new { otp=topup.OTP });

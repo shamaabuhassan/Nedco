@@ -16,7 +16,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Return( int meterid)
+        public ActionResult Return( string meterid)
         {
             if (Session["customer"] != null)
             {

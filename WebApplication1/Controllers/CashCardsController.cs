@@ -18,7 +18,7 @@ namespace WebApplication1.Controllers
         }
         
 
-        public ActionResult Search(int? SerialNumber)
+        public ActionResult Search(string SerialNumber)
         {
             int rc;
             if (SerialNumber != null)
@@ -29,7 +29,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Save(int? Id, int? CustomerId, decimal? Amount,int ? SerialNumber)
+        public ActionResult Save(int? Id, int? CustomerId, decimal? Amount,string SerialNumber)
         {
             if (Amount != null)
             {

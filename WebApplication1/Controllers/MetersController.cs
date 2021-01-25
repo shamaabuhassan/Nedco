@@ -27,11 +27,11 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Save(int? id, int? userId, decimal? amount,int?meterid)
+        public ActionResult Save( int? userId, decimal? amount,string meterid)
         {
             if (userId != null)
             {
-                Meter meter = new Meter(id, userId, amount, meterid);
+                Meter meter = new Meter( userId, amount, meterid);
                 int result;
                 result = meter.SaveData();
                 ViewBag.result = result;

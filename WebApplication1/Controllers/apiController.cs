@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -25,7 +27,7 @@ namespace WebApplication1.Controllers
 
         }
 
-        public ActionResult RequestOTP(int? MeterId, int? Amount, int SerialNumber, int customerid)
+        public ActionResult RequestOTP(string MeterId, int? Amount, string SerialNumber, int customerid)
         //this should reach the website button which request OTP 
 
         {
@@ -91,7 +93,7 @@ namespace WebApplication1.Controllers
                     result = topup.SaveData();
                     if (result == 1)
                     {
-                        return Content(JsonConvert.SerializeObject(new { result = "sucsess", data = topup }));
+                        return Content(JsonConvert.SerializeObject(new { result = "success", data = topup }));
                     }
                     else if (result == 0)
                     {
@@ -251,7 +253,7 @@ namespace WebApplication1.Controllers
 
         }
 
-        public ActionResult ChargeFromMainPage(int? OTP,int Meterid, int customerid)//chargr from mainpage
+        public ActionResult ChargeFromMainPage(int? OTP,string Meterid, int customerid)//chargr from mainpage
         {
 
             int rc;
@@ -326,15 +328,15 @@ namespace WebApplication1.Controllers
 
         }
 
-        public ActionResult ReturnOTPFromMainPage(int Meterid, int customerid)
+        public ActionResult ReturnOTPFromMainPage(string Meterid, int customerid)
         {
             int rc;
             Customer customer = new Customer(customerid);
             Meter[] meters = Meter.GetMeters(new MeterParameters { Meterid = Meterid }, out rc);
-            if (meters.Length == 0)
-            {
-                return Content(JsonConvert.SerializeObject(new { result = "meter-not-valid" }));
-            }
+            //if (meters.Length == 0)
+            //{
+            //    return Content(JsonConvert.SerializeObject(new { result = "meter-not-valid" }));
+            //}
 
             if (customer.Id == meters[0].UserId)
             {
@@ -377,7 +379,7 @@ namespace WebApplication1.Controllers
 
 
 
-        public ActionResult TransferOTP(int? SenderOTP, int MeterId,int Amount, int customerid)
+        public ActionResult TransferOTP(int? SenderOTP, string MeterId,int Amount, int customerid)
         {
 
             int rc;
@@ -514,7 +516,7 @@ namespace WebApplication1.Controllers
             List<Topup> topups = new List<Topup>();
             //int c = 0;
             foreach (Meter meter in meters) {
-                int? meterid = meter.Meterid;
+                string meterid = meter.Meterid;
                 Topup[] topup = Topup.GetTopups(new TopupParameters { MeterId = meterid }, out rc);
                 foreach (Topup topup1 in topup)
                 {
@@ -535,7 +537,7 @@ namespace WebApplication1.Controllers
             List<Transfer> transfers1 = new List<Transfer>();
             foreach (Meter meter in meters)
             {
-                int? meterid = meter.Meterid;
+                string meterid = meter.Meterid;
                 Transfer[] transfer = Transfer.GetTransfers(new TransferParameters { MeterId = meters[0].Meterid }, out rc);
                 foreach (Transfer transfer1 in transfer)
                 {
@@ -547,7 +549,7 @@ namespace WebApplication1.Controllers
             List<Transfer> transfers2 = new List<Transfer>();
             foreach (Meter meter in meters)
             {
-                int? meterid = meter.Meterid;
+                string meterid = meter.Meterid;
                 Transfer[] transfert = Transfer.GetTransfersBySenderOTP(new TransferParameters { MeterId = meters[0].Meterid }, out rc);
                 foreach (Transfer transfer2 in transfert)
                 {
@@ -588,6 +590,41 @@ namespace WebApplication1.Controllers
                 return Content(JsonConvert.SerializeObject(new { result = "error" }));
             }
             
+        }
+
+        public ActionResult CheckMeter(int? meterid)
+        {
+            int result = 0;
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = new SqlConnection(cstr.con);
+                cmd.Connection.Open();
+                cmd.CommandText = "CheckMeter";
+
+                cmd.Parameters.AddWithValue("@meterid", meterid);
+
+                SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
+                resultParam.Direction = ParameterDirection.InputOutput;
+
+               
+
+                int c = cmd.ExecuteNonQuery();
+
+
+                result = Convert.ToInt32(resultParam.Value);
+                cmd.Connection.Close();
+
+            }
+
+            if (result == 1)
+            {
+                return Content(JsonConvert.SerializeObject(new { result = "success" }));
+            }
+            else
+            {
+                return Content(JsonConvert.SerializeObject(new { result = "meter-not-valid" }));
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult NewCard(decimal? Amount, int? SerialNumber)
+        public ActionResult NewCard(decimal? Amount, string SerialNumber)
         {
 
             if (Amount != null)
@@ -41,11 +41,11 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult NewMeter( int? userId, decimal? amount, int? meterid)
+        public ActionResult NewMeter( int? userId, decimal? amount, string meterid)
         {
             if (userId != null)
             {
-                Meter meter = new Meter(null, userId, amount, meterid);
+                Meter meter = new Meter( userId, amount, meterid);
                 int result;
                 result = meter.SaveData();
                 ViewBag.result = result;

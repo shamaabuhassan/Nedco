@@ -22,7 +22,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Transfers(int? MeterId)
+        public ActionResult Transfers(string MeterId)
         {
             int rc;
             if (MeterId != null)
@@ -51,7 +51,7 @@ namespace WebApplication1.Controllers
             
         }
 
-        public ActionResult MonthlyCharge(DateTime ?fromdate,DateTime ?todate,int ?MeterId)
+        public ActionResult MonthlyCharge(DateTime ?fromdate,DateTime ?todate,string MeterId)
         {
 
             int rc;

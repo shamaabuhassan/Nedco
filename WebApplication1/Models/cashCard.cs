@@ -15,7 +15,7 @@ namespace WebApplication1.Models
         public string Password { get; set; }
         public decimal? Amount { get; set; }
         public string Status { get; set; }
-        public int? SerialNumber { get; set; }
+        public string SerialNumber { get; set; }
 
 
     }
@@ -25,7 +25,7 @@ namespace WebApplication1.Models
         public string Password { get; set; }
         public decimal ?Amount { get; set; }
         public string Status { get; set; }
-        public int? SerialNumber { get; set; }
+        public string SerialNumber { get; set; }
         //get element bu=y id 
         public CashCard(int? id)
         {
@@ -45,7 +45,7 @@ namespace WebApplication1.Models
                     if (r["id"] != DBNull.Value) this.Id = Convert.ToInt32(r["id"]);
                     this.Password = Convert.ToString(r["password"]);
                     if (r["amount"] != DBNull.Value) this.Amount = Convert.ToDecimal(r["amount"]);
-                    if (r["serial_number"] != DBNull.Value) this.SerialNumber = Convert.ToInt32(r["serial_number"]);
+                    if (r["serial_number"] != DBNull.Value) this.SerialNumber = Convert.ToString(r["serial_number"]);
                     cmd.Connection.Close();
 
 
@@ -54,7 +54,7 @@ namespace WebApplication1.Models
         }
 
         //constructor
-        public CashCard(int?id, decimal? amount,int? SerialNumber)
+        public CashCard(int?id, decimal? amount,string SerialNumber)
         {
             this.Id = id;
            // this.Password = password;
@@ -144,7 +144,7 @@ namespace WebApplication1.Models
                         if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
                         if (r["password"] != DBNull.Value) c.Password = Convert.ToString(r["password"]);
                         if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
-                        if (r["serial_number"] != DBNull.Value) c.SerialNumber = Convert.ToInt32(r["serial_number"]);
+                        if (r["serial_number"] != DBNull.Value) c.SerialNumber = Convert.ToString(r["serial_number"]);
 
                         l.Add(c);
                     }
@@ -179,7 +179,7 @@ namespace WebApplication1.Models
                         if (r["id"] != DBNull.Value) c.Id = Convert.ToInt32(r["id"]);
                         if (r["password"] != DBNull.Value) c.Password = Convert.ToString(r["password"]);
                         if (r["amount"] != DBNull.Value) c.Amount = Convert.ToDecimal(r["amount"]);
-                        if (r["serial_number"] != DBNull.Value) c.SerialNumber = Convert.ToInt32(r["serial_number"]);
+                        if (r["serial_number"] != DBNull.Value) c.SerialNumber = Convert.ToString(r["serial_number"]);
 
                         l.Add(c);
                     }
