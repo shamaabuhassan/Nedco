@@ -3,7 +3,7 @@
 
 @{ Topup[] topups = null;
     int rc;
-    int? meterid = 0;
+    string meterid = "";
 
 }
 
@@ -42,7 +42,7 @@
                             <td>@topup.Id</td>
                             <td>@topup.MeterId</td>
                             <td>@topup.Amount</td>
-                            <td>@topup.CardId</td>
+                            <td>@topup.SerialNUM</td>
                             <td>@topup.OTP</td>
                             <td>@topup.ChargeDate</td>
                             <td>@topup.ActivationDate</td>

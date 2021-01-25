@@ -15,10 +15,10 @@
 
     Customer customer = (Session["customer"] as Customer);
 
-
+    CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters {Id=customer.CardId }, out rc);
     Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
 
-    Topup[] topups = Topup.GetTopups(new TopupParameters {CardId=customer.CardId, Status="0"}, out rc);//get ots for the customer in ession
+    Topup[] topups = Topup.GetTopups(new TopupParameters {SerialNUM=cashCards[0].SerialNumber, Status="0"}, out rc);//get ots for the customer in ession
 
 }
 

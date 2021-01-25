@@ -12,7 +12,7 @@
 @if (Session["customer"] != null)
 {
     Meter[] meters = Meter.GetMeters(new MeterParameters { UserId = customer.Id }, out rc);
-    int ?meterid = meters[0].Meterid;
+    string meterid = meters[0].Meterid;
     topups = Topup.GetTopups(new TopupParameters { MeterId =meterid }, out rc);
 
 <table>
@@ -36,7 +36,7 @@
                 <td>@topup.Id</td>
                 <td>@topup.MeterId</td>
                 <td>@topup.Amount</td>
-                <td>@topup.CardId</td>
+                <td>@topup.SerialNUM</td>
                 <td>@topup.OTP</td>
                 <td>@topup.ChargeDate</td>
                 <td>@topup.ActivationDate</td>

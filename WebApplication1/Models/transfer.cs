@@ -104,7 +104,9 @@ public class Transfer
         public Topup[] SaveData()
         {
             int result = 0;
-            Topup topup = new Topup(SenderOTP);
+            int rc;
+            Topup[] topups = Topup.GetTopups(new TopupParameters { OTP = SenderOTP },out rc);
+            Topup topup = topups[0];
             List<Topup> t = new List<Topup>();
             if (topup.Status == "0")
 

@@ -94,34 +94,34 @@ namespace WebApplication1.Models
             }
         }
 
-        public Topup(string otp)
-        {
+        //public Topup(string otp)
+        //{
 
-            using (SqlCommand cmd = new SqlCommand())
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = new SqlConnection(cstr.con);
-                cmd.Connection.Open();
-                cmd.CommandText = "GetTopupsByOTP";
-                cmd.Parameters.AddWithValue("@otp", otp);
+        //    using (SqlCommand cmd = new SqlCommand())
+        //    {
+        //        cmd.CommandType = CommandType.StoredProcedure;
+        //        cmd.Connection = new SqlConnection(cstr.con);
+        //        cmd.Connection.Open();
+        //        cmd.CommandText = "GetTopupsByOTP";
+        //        cmd.Parameters.AddWithValue("@otp", otp);
 
-                SqlDataReader r = cmd.ExecuteReader();
-                if (r.HasRows)
-                {
-                    r.Read();
-                    if (r["id"] != DBNull.Value) this.Id = Convert.ToInt32(r["id"]);
-                    if (r["meter_id"] != DBNull.Value) this.MeterId = Convert.ToString(r["meter_id"]);
-                    if (r["amount"] != DBNull.Value) this.Amount = Convert.ToDecimal(r["amount"]);
-                    if (r["card_serialnum"] != DBNull.Value) this.SerialNUM = Convert.ToString(r["card_serialnum"]);
-                    if (r["otp"] != DBNull.Value) this.OTP = Convert.ToInt32(r["otp"]);
-                    //this.OTP = Convert.ToString(r["otp"]);
-                    if (r["chargeDate"] != DBNull.Value) this.ChargeDate = Convert.ToDateTime(r["chargeDate"]);
-                    if (r["activationDate"] != DBNull.Value) this.ActivationDate = Convert.ToDateTime(r["activationDate"]);
-                    this.Status = Convert.ToString(r["status"]);
-                    cmd.Connection.Close();
-                }
-            }
-        }
+        //        SqlDataReader r = cmd.ExecuteReader();
+        //        if (r.HasRows)
+        //        {
+        //            r.Read();
+        //            if (r["id"] != DBNull.Value) this.Id = Convert.ToInt32(r["id"]);
+        //            if (r["meter_id"] != DBNull.Value) this.MeterId = Convert.ToString(r["meter_id"]);
+        //            if (r["amount"] != DBNull.Value) this.Amount = Convert.ToDecimal(r["amount"]);
+        //            if (r["card_serialnum"] != DBNull.Value) this.SerialNUM = Convert.ToString(r["card_serialnum"]);
+        //            if (r["otp"] != DBNull.Value) this.OTP = Convert.ToInt32(r["otp"]);
+        //            //this.OTP = Convert.ToString(r["otp"]);
+        //            if (r["chargeDate"] != DBNull.Value) this.ChargeDate = Convert.ToDateTime(r["chargeDate"]);
+        //            if (r["activationDate"] != DBNull.Value) this.ActivationDate = Convert.ToDateTime(r["activationDate"]);
+        //            this.Status = Convert.ToString(r["status"]);
+        //            cmd.Connection.Close();
+        //        }
+        //    }
+        //}
 
         //constructor
 
@@ -296,7 +296,7 @@ namespace WebApplication1.Models
                 cmd.Connection.Open();
                 cmd.CommandText = "GetTopups";
 
-                cmd.Parameters.AddWithValue("@card_id", parameters.SerialNUM);
+                cmd.Parameters.AddWithValue("@card_serialnum", parameters.SerialNUM);
                 cmd.Parameters.AddWithValue("@status", parameters.Status);
                 cmd.Parameters.AddWithValue("@otp", parameters.OTP);
                 cmd.Parameters.AddWithValue("@meter_id", parameters.MeterId);
@@ -345,7 +345,7 @@ namespace WebApplication1.Models
                     if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
                     if (SerialNUM != null) cmd.Parameters.AddWithValue("card_serialnum", SerialNUM);
                     // if (OTP != null) cmd.Parameters.AddWithValue("otp", OTP);
-                    if (ChargeDate != null) cmd.Parameters.AddWithValue("chargeDate", ChargeDate);
+                    //if (ChargeDate != null) cmd.Parameters.AddWithValue("chargeDate", ChargeDate);
                     if (ActivationDate != null) cmd.Parameters.AddWithValue("activationDate", ActivationDate);
                     if (Status != null) cmd.Parameters.AddWithValue("status", Status);
 
@@ -355,8 +355,13 @@ namespace WebApplication1.Models
 
                     SqlParameter otpParam = cmd.Parameters.Add("@otp", SqlDbType.Int);
                     otpParam.Direction = ParameterDirection.InputOutput;
+                otpParam.Value = this.OTP;
 
-                    SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
+                SqlParameter chargeParam = cmd.Parameters.Add("@chargedate", SqlDbType.Int);
+                chargeParam.Direction = ParameterDirection.InputOutput;
+                chargeParam.Value = this.ChargeDate;
+
+                SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
                     resultParam.Direction = ParameterDirection.InputOutput;
 
 
@@ -364,7 +369,8 @@ namespace WebApplication1.Models
 
                     this.Id = Convert.ToInt32(idParam.Value);
                     this.OTP = Convert.ToInt32(otpParam.Value);
-                    result = Convert.ToInt32(resultParam.Value);
+                this.ChargeDate = Convert.ToDateTime(ChargeDate.Value);
+                result = Convert.ToInt32(resultParam.Value);
                     cmd.Connection.Close();
 
                 }
