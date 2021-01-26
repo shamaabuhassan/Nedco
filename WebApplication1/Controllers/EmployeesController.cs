@@ -16,6 +16,7 @@ namespace WebApplication1.Controllers
             {
                 return RedirectToAction("index", "Mainpage");
             }
+           
             ViewBag.error = error;
             return View();
         }

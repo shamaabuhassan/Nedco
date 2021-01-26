@@ -9,8 +9,8 @@
     int rc;
     Meter[] meters = Meter.GetMeters(new MeterParameters { UserId = customer.Id }, out rc);
 
-    Transfer[] transfers = null;
-    Transfer[] transfers2 = null;
+    Transfer[] transfers = new Transfer[] { };
+    Transfer[] transfers2 = new Transfer[] { };
 
 }
 

@@ -45,7 +45,8 @@
 
             if (count != 0)
             {
-                <p>معدل الشحن الشهري هو:@(amount / count)</p>
+                decimal? result = decimal.Round(amount.Value / count.Value, 2);
+                <p>معدل الشحن الشهري هو:@(result)</p>
             }
         }
 

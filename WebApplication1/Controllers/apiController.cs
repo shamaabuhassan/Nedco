@@ -502,7 +502,7 @@ namespace WebApplication1.Controllers
                 amount += topup.Amount;
                 count += 1;
             }
-            decimal? result = amount / count;
+            decimal? result =decimal.Round( amount.Value/count.Value,2);
             return Content(JsonConvert.SerializeObject(new { result = "success", data = result }));
         }
 

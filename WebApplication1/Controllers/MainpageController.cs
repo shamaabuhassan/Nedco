@@ -15,6 +15,10 @@ namespace WebApplication1.Controllers
             {
                 return RedirectToAction("index", "Employees");
             }
+            if (Session["employee"] == null)
+            {
+                return RedirectToAction("index", "Employees");
+            }
             return View();
         }
 

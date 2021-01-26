@@ -2,8 +2,8 @@
 @model TransferParameters
 
 @{
-    Transfer[] transfers2 = null;
-    Transfer[] transfers = null;
+    Transfer[] transfers2 = new Transfer[] { };
+    Transfer[] transfers = new Transfer[] { };
     if (ViewBag.transfers2 != null && ViewBag.transfers!= null)
     {
         transfers2 = ViewBag.transfers2;

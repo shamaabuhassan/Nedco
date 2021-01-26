@@ -6,11 +6,12 @@
     Layout = null;
     decimal? amount = 0;
     decimal? count = 0;
-   
+    decimal? result = 0;
     if (ViewBag.amount != null)
     {
         amount = ViewBag.amount;
         count = ViewBag.count;
+         result = decimal.Round(amount.Value / count.Value, 2);
     }
 }
 <div style="flex:1; padding-left: 35px" class="vertical-align">
@@ -26,6 +27,6 @@
         <input type="submit" value="MonthlyCharge" />
 
 
-        <p>معدل الشحن الشهري هو:@amount/@count</p>
+        <p>معدل الشحن الشهري هو:@result</p>
 
     }

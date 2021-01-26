@@ -353,11 +353,11 @@ namespace WebApplication1.Models
                     idParam.Direction = ParameterDirection.InputOutput;
                     idParam.Value = this.Id;
 
-                    SqlParameter otpParam = cmd.Parameters.Add("@otp", SqlDbType.Int);
+                    SqlParameter otpParam = cmd.Parameters.Add("@otp", SqlDbType.VarChar,6);
                     otpParam.Direction = ParameterDirection.InputOutput;
                 otpParam.Value = this.OTP;
 
-                SqlParameter chargeParam = cmd.Parameters.Add("@chargedate", SqlDbType.Int);
+                SqlParameter chargeParam = cmd.Parameters.Add("@chargedate", SqlDbType.DateTime);
                 chargeParam.Direction = ParameterDirection.InputOutput;
                 chargeParam.Value = this.ChargeDate;
 
@@ -369,7 +369,7 @@ namespace WebApplication1.Models
 
                     this.Id = Convert.ToInt32(idParam.Value);
                     this.OTP = Convert.ToInt32(otpParam.Value);
-                this.ChargeDate = Convert.ToDateTime(ChargeDate.Value);
+                this.ChargeDate = Convert.ToDateTime(chargeParam.Value);
                 result = Convert.ToInt32(resultParam.Value);
                     cmd.Connection.Close();
 

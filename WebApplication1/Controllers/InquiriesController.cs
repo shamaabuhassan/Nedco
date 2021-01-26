@@ -16,7 +16,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Charges(int? MeterId)
+        public ActionResult Charges(string MeterId)
         {
             ViewBag.MeterId = MeterId;
             return View();
@@ -28,6 +28,7 @@ namespace WebApplication1.Controllers
             if (MeterId != null)
             {
                 Transfer[] transfers = Transfer.GetTransfers(new TransferParameters { MeterId = MeterId }, out rc);
+
                 Transfer[] transfers2 = Transfer.GetTransfersBySenderOTP(new TransferParameters { MeterId = MeterId }, out rc); //get meter of senderotp
 
                 if (transfers.Length!=0  && transfers2.Length==0)
