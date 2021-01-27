@@ -190,7 +190,7 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                return RedirectToAction("index", "Mainpage", new { error = 2 });
+                return RedirectToAction("index", "Employees", new { error = 2 });
             }
         }
 
@@ -202,16 +202,22 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                return RedirectToAction("index", "MainPage");
+                return RedirectToAction("index", "Employees");
             }
         }
 
         public ActionResult ChargeMeter(int id)
         {
-            Topup topup = new Topup(id);
-            topup.Charged();
-            return RedirectToAction("Charged", "Topups");
-
+            if (Session["employee"] == null)
+            {
+                return RedirectToAction("index", "Employees");
+            }
+            else
+            {
+                Topup topup = new Topup(id);
+                topup.Charged();
+                return RedirectToAction("Charged", "Topups");
+            }
         }
 
         public ActionResult ChargeHist()

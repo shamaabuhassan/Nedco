@@ -13,6 +13,7 @@ namespace WebApplication1.Controllers
         // GET: ReturnOTP
         public ActionResult Index()
         {
+
             return View();
         }
 

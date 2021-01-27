@@ -25,7 +25,7 @@ namespace WebApplication1.Controllers
                 if (customer != null)
                 {
                     Session["customer"] = customer;
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home",new {id=customer.Id});
                 }
                 else
                 {

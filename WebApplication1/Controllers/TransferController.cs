@@ -111,7 +111,7 @@ namespace WebApplication1.Controllers
 
             else
             {
-                return RedirectToAction("index", "Mainpage", new { error = 2 });
+                return RedirectToAction("index", "Employees", new { error = 2 });
             }
         }
 

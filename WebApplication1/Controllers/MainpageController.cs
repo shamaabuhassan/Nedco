@@ -9,7 +9,7 @@ namespace WebApplication1.Controllers
     public class MainpageController : Controller
     {
         // GET: Mainpage
-        public ActionResult Index(string error)
+        public ActionResult Index(string error, int Id)
         {
             if (error == "2")
             {
@@ -19,6 +19,7 @@ namespace WebApplication1.Controllers
             {
                 return RedirectToAction("index", "Employees");
             }
+           // ViewBag.Id = Id;
             return View();
         }
 
@@ -31,7 +32,6 @@ namespace WebApplication1.Controllers
    
         public ActionResult MainPage()
         {
-
             return RedirectToAction("index", "Mainpage");
         }
 
