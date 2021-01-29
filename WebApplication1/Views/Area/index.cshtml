@@ -1,45 +1,125 @@
 ﻿@using WebApplication1.Models;
 @model AreaParameters
 
-@{ 
-    int state = 0;
-    ViewBag.state = state;
+@{
+
+    int first = 1;
+    if (ViewBag.first != null)
+    {
+        first = ViewBag.first;
+    }
+
     string[] type = { "s", "c", "t" };
 }
 
 <script type="text/javascript">
 
-    $("#dropdownlist").change(
-        $.ajax({})
+    $("#dropdownlist").change(function () {
+        $.ajax({
+            url: "/Area/Getparent",
+            type: 'post',
+            data: { "type": $("dropdownlist").val() },
+            success: function (response) {
+                if (response == "this is parent") {
+                    alert("the choesn type is parent (state)");
 
-    )
+                    $("add area").click(function () {
+
+                        var type = $("dropdownlist").val();
+                        var id = $("id").val();
+                        var name = $("name").val();
+                        $.ajax({
+                            url: "/Area/SaveNew",
+                            type: 'post',
+                            data: {
+                                    "type": type, "id": id, "name": name
+                                },
+                            
+                            success: function (response) {
+                                if (response == 0) { alert("somthing wrong"); }
+                                else { alert("the area saved"); }
+                                
+
+                            }
+                        });
+
+                    });
+                   
+
+                }
+                else {
+                    $.each(response.d, function (key, value) {
+                        $("#parent").append($("<option></option>").val(value.Name));
+                    });
+
+                    $("add area").click(function () {
+
+                        var type = $("dropdownlist").val();
+                        var id = $("id").val();
+                        var name = $("name").val();
+                        var parent = $(this).find(":selected").text();
+
+                        $.ajax({
+                            url: "/Area/ SaveNewParent",
+                            type: 'post',
+                            data: {
+                                    "type": type, "id": id, "name": name, "parentid": parent
+                                },
+                            success: function (response) {
+                                if (response == 0) { alert("somthing wrong"); }
+                                else { alert("the area saved"); }
+
+                            }
+                        });
+                       
+
+
+
+                    });
+
+                }
+
+            },
+            error: function (xhr) {
+                alert("somthing wrong");
+            }
+
+        })
+    });
+
+   
+
+
 </script>
 
-    @using (Html.BeginForm("SaveArea", "Area", FormMethod.Post))
-{
+@using (Html.BeginForm("SaveArea", "Area", FormMethod.Post))
+    {
 
-    <table style="">
-        <thead>
-            <tr>
-                @*<td>id</td>*@
-                <td>رقم المنطقة </td>
-                <td>اسم المنطقة</td>
-                <td>نوع المنطقة </td>
-                <td>رقم المنطقة الأب </td>
 
-            </tr>
-        </thead>
-        <tbody>
-           
-            <tr>
-                @*<td>@meter.Id</td>*@
-                <td>@Html.TextBoxFor(o => o.Id)</td>
-                <td>@Html.TextBoxFor(o => o.Name)</td>
-                <td>@Html.DropDownListFor(o => o.Type, new SelectList(type),"dropdownlist")</td>
-                <td>@Html.TextBoxFor(o => o.Id)</td>
+<table style="">
+    <thead>
+        <tr>
+            @*<td>id</td>*@
+            <td>رقم المنطقة </td>
+            <td>اسم المنطقة</td>
+            <td>نوع المنطقة </td>
+            <td>رقم المنطقة الأب </td>
 
-            </tr>
-            
-        </tbody>
-    </table>
-}
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            @*<td>@meter.Id</td>*@
+            <td>@Html.TextBoxFor(o => o.Id, new{@id="id"})</td>
+            <td>@Html.TextBoxFor(o => o.Name  new{@id="name"})</td>
+            <td>@Html.DropDownListFor(o => o.Type, new SelectList(type), "dropdownlist")</td>
+            <td id="parent"></td>
+
+        </tr>
+
+    </tbody>
+</table>
+<input type="submit" id="add area" placeholder="Add Area" />
+        }
+    }

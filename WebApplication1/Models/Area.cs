@@ -67,6 +67,39 @@ namespace WebApplication1.Models
                 }
             }
         }
+
+          public int SaveData()
+        { int result = 0;
+             using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Connection = new SqlConnection(cstr.con);
+                    cmd.Connection.Open();
+                    cmd.CommandText = "SaveArea";
+
+
+
+                    if (Id != null) cmd.Parameters.AddWithValue("id", Id);
+                    if (Name != null) cmd.Parameters.AddWithValue("name", Name);
+                    if (Type != null) cmd.Parameters.AddWithValue("type", Type);
+                     if (ParentId != null) cmd.Parameters.AddWithValue("parent_id", ParentId);
+
+                    SqlParameter resultParm = cmd.Parameters.Add("@result", SqlDbType.Int);
+                    resultParm.Direction = ParameterDirection.InputOutput;
+
+
+
+                    int c = cmd.ExecuteNonQuery();
+
+                    result = Convert.ToInt32(resultParm.Value);
+                    cmd.Connection.Close();
+                  
+            }
+            return result;
+        }
+
+
+
         public static Area[] getarea(AreaParameters parameters, out int rowsCount)
         {
             List<Area> l = new List<Area>();
