@@ -19,6 +19,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult NewCard(decimal? Amount, string SerialNumber)
         {
             if (Session["employee"] == null)
@@ -27,16 +28,32 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                if (Amount != null)
-                {
+                if (ModelState.IsValid)
+                { //checking model state
+
+                    //check whether name is already exists in the database or not
                     CashCard cashCard = new CashCard(null, Amount, SerialNumber);
                     int result;
                     result = cashCard.SaveData();
-                    ViewBag.result = result;
-                }
-                return View();
-            }
 
+
+                    if (result == 0)
+                    {
+                        //adding error message to ModelState
+                        ModelState.AddModelError("card id", "card id is less than 12 digits");
+
+                        return View();
+                    }
+
+                    else
+                    {
+                        ViewBag.result = result;
+                        return View();
+                    }
+
+                }
+                return RedirectToAction("NewCard", "NewCustomer");
+            }
         }
 
         public ActionResult Newcustomer(string username, int? cardId, string telephone, int? countryId, int? cityId, string town, string street, string password, string name)

@@ -20,23 +20,15 @@
 
             <tbody>
 
-                @*<tr>
-                    <td>Id</td>
-                    <td>@Html.TextBoxFor(o => o.Id)</td>
-                </tr>*@
-
-                @*<tr>
-                    <td>Password</td>
-                    <td>@Html.TextBoxFor(o => o.Password)</td>
-                </tr>*@
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
                 <tr>
                     <td>Amount</td>
-                    <td>@Html.TextBoxFor(o => o.Amount)</td>
+                    <td>@Html.ValidationMessageFor(o => o.Amount)</td>
                 </tr>
                 <tr>
                     <td>serial number</td>
-                     <td>@Html.TextBoxFor(o => o.SerialNumber)</td>
+                    <td>@Html.EditorFor(o => o.SerialNumber)</td>
                 </tr>
 
             </tbody>

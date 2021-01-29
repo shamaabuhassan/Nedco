@@ -36,13 +36,13 @@
 
                 <tr>
                 <td>Amount</td>
-                <td>@Html.TextBoxFor(o => o.Amount)</td>
+                <td>@Html.ValidationMessageFor(o => o.Amount,"plase enter initial value", new { @class = "amount" } )</td>
                 </tr>
 
 
                 <tr>
                 <td>meterid</td>
-                <td>@Html.TextBoxFor(o => o.Meterid)</td>
+                <td>@Html.ValidationMessageFor(o => o.Meterid,"please enter meter id", new { @class = "meterid" } )</td>
                 </tr>
 
             </tbody>

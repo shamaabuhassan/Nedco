@@ -1,6 +1,7 @@
 ﻿using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -14,7 +15,6 @@ namespace WebApplication1.Models
         public int? Id { get; set; }
         public string Password { get; set; }
         public decimal? Amount { get; set; }
-        public string Status { get; set; }
         public string SerialNumber { get; set; }
 
 
@@ -23,10 +23,15 @@ namespace WebApplication1.Models
     {
         public int? Id { get; set; }
         public string Password { get; set; }
+
+        [Required]
         public decimal ?Amount { get; set; }
-        public string Status { get; set; }
+       
+        [Required]
         public string SerialNumber { get; set; }
         //get element bu=y id 
+
+
         public CashCard(int? id)
         {
 

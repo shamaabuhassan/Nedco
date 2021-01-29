@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -26,14 +27,26 @@ namespace WebApplication1.Models
     public class Customer
     {
         public int? Id { get; set; }
+
+        [Required]
         public string Username { get; set; }
+
+        [Required]
         public int? CardId { get; set; }
+
+        [Required]
         public string Telephone { get; set; }
         public int? CountryId { get; set; }
         public int? CityId { get; set; }
         public string Town { get; set; }
+
+        [Required]
         public string Street { get; set; }
+
+        [Required]
         public string Password { get; set; }
+
+        [Required]
         public string Name { get; set; }
 
         public string CountryName { get; set; }
@@ -153,6 +166,21 @@ public Customer(int? id, string password) {
             //}
             //if (count == 0)
             //{
+            int rc;
+            int count = 0;
+            int result = 0;
+            Customer[] customers = Customer.GetCustomers(new CustomerParameters { }, out rc);
+
+            foreach(Customer customer in customers)
+            {
+                if (customer.Username == Username)
+                {
+                    count = 1;
+                }
+            }
+
+            if (count == 0)
+            {
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -173,7 +201,7 @@ public Customer(int? id, string password) {
 
                     SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
                     idParam.Direction = ParameterDirection.InputOutput;
-                     idParam.Value = this.Id;
+                    idParam.Value = this.Id;
 
                     SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
                     resultParam.Direction = ParameterDirection.InputOutput;
@@ -183,11 +211,13 @@ public Customer(int? id, string password) {
                     int c = cmd.ExecuteNonQuery();
 
                     this.Id = Convert.ToInt32(idParam.Value);
-                    int result = Convert.ToInt32(resultParam.Value);
+                     result = Convert.ToInt32(resultParam.Value);
                     cmd.Connection.Close();
-                    return result;
-
                 }
+                   
+                }
+            return result;
+
             //}
             //else
             //{
