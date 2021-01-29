@@ -32,7 +32,7 @@ namespace WebApplication1.Models
         public Area()
         { }
 
-        public Area(int id,string name,int parentid,string type)
+        public Area(int? id,string name,int? parentid,string type)
         {
             this.Id = id;
             this.Name = name;

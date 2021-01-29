@@ -22,7 +22,7 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public JsonResult Getparent(string type)
         {
-          // int state = 1;
+          int state = 0;
             int rc = 0;
             if (type == "s" || type == "S") {
               
@@ -45,7 +45,10 @@ namespace WebApplication1.Controllers
                 ViewBag.first = 0;*/
                 return Json(areas);
             }
-            //return View();
+            else{
+                return Json(state);
+            }
+            
         }
 
         [HttpPost]

@@ -9,7 +9,7 @@ namespace WebApplication1.Controllers
     public class MainpageController : Controller
     {
         // GET: Mainpage
-        public ActionResult Index(string error, int Id)
+        public ActionResult Index(string error)
         {
             if (error == "2")
             {
