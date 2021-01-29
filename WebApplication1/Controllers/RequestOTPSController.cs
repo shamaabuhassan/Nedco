@@ -60,14 +60,15 @@ namespace WebApplication1.Controllers
                 if (otp != null && success == null)
                 {
                     ViewBag.otp = otp;
-
+                    
                 }
-                else if (success != null)
+                else if (success != null )
                 {
                     ViewBag.success = success;
+                  
                 }
-
                 return View();
+
             }
         
         }

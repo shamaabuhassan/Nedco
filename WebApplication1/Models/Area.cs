@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading;
 using System.Web;
 
 namespace WebApplication1.Models
@@ -69,8 +70,28 @@ namespace WebApplication1.Models
         }
 
           public int SaveData()
-        { int result = 0;
-             using (SqlCommand cmd = new SqlCommand())
+        {
+            int rc, count=0, count2=0;
+            int result = 0;
+            Area[] areas = Area.getarea(new AreaParameters { }, out rc);
+            foreach(Area area in areas) { 
+            if (Id == area.Id)
+                {
+                    count= 1;
+                }
+            }
+            foreach (Area area in areas)
+            {
+                if (Name == area.Name)
+                {
+                    count2 = 1;
+                }
+            }
+            if (Id.ToString().Length == 3 && count==0 && count2==0)
+            {
+
+               
+                using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Connection = new SqlConnection(cstr.con);
@@ -82,7 +103,7 @@ namespace WebApplication1.Models
                     if (Id != null) cmd.Parameters.AddWithValue("id", Id);
                     if (Name != null) cmd.Parameters.AddWithValue("name", Name);
                     if (Type != null) cmd.Parameters.AddWithValue("type", Type);
-                     if (ParentId != null) cmd.Parameters.AddWithValue("parent_id", ParentId);
+                    if (ParentId != null) cmd.Parameters.AddWithValue("parent_id", ParentId);
 
                     SqlParameter resultParm = cmd.Parameters.Add("@result", SqlDbType.Int);
                     resultParm.Direction = ParameterDirection.InputOutput;
@@ -93,7 +114,8 @@ namespace WebApplication1.Models
 
                     result = Convert.ToInt32(resultParm.Value);
                     cmd.Connection.Close();
-                  
+
+                }
             }
             return result;
         }

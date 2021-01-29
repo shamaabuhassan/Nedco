@@ -60,13 +60,13 @@ namespace WebApplication1.Controllers
                     }
                     else if (transfers.Length != 0 && transfers2.Length != 0)
                     {
+                        
                         return RedirectToAction("Trans_from_to", "Transfer", new { transfers2 = transfers2, transfers = transfers });
                     }
                 }
             }
-                return View();
-            
-            
+
+            return View();
         }
 
         public ActionResult MonthlyCharge(DateTime? fromdate, DateTime? todate, string MeterId)

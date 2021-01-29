@@ -5,6 +5,8 @@
 
     int rc;
     Transfer[] transfers = Transfer.GetTransfers(new TransferParameters { }, out rc);
+   // Transfer[] transfers1 = Transfer.GetTransfersBySenderOTP(new TransferParameters { },out rc);
+
 }
 <div style="flex:1; padding-left: 35px" class="vertical-align">
 
@@ -13,7 +15,7 @@
         <thead>
             <tr>
                 <td>رقم العملية</td>
-                <td>الكود المستخدم في التحويل </td>
+                <td>رقم العداد الذي تم التحويل منه </td>
                 <td>رقم العداد المحول اليه</td>
                 <td>كمية التحويل</td>
             </tr>
