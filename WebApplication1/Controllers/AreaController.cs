@@ -11,6 +11,10 @@ namespace WebApplication1.Controllers
         // GET: Area
         public ActionResult Index()
         {
+            if (Session["employee"] == null)
+            {
+                return RedirectToAction("index", "Employees");
+            }
             return View();
         }
     }

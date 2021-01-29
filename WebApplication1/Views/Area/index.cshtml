@@ -1,7 +1,45 @@
-﻿
-@{
-    ViewBag.Title = "index";
+﻿@using WebApplication1.Models;
+@model AreaParameters
+
+@{ 
+    int state = 0;
+    ViewBag.state = state;
+    string[] type = { "s", "c", "t" };
 }
 
-<h2>index</h2>
+<script type="text/javascript">
 
+    $("#dropdownlist").change(
+        $.ajax({})
+
+    )
+</script>
+
+    @using (Html.BeginForm("SaveArea", "Area", FormMethod.Post))
+{
+
+    <table style="">
+        <thead>
+            <tr>
+                @*<td>id</td>*@
+                <td>رقم المنطقة </td>
+                <td>اسم المنطقة</td>
+                <td>نوع المنطقة </td>
+                <td>رقم المنطقة الأب </td>
+
+            </tr>
+        </thead>
+        <tbody>
+           
+            <tr>
+                @*<td>@meter.Id</td>*@
+                <td>@Html.TextBoxFor(o => o.Id)</td>
+                <td>@Html.TextBoxFor(o => o.Name)</td>
+                <td>@Html.DropDownListFor(o => o.Type, new SelectList(type),"dropdownlist")</td>
+                <td>@Html.TextBoxFor(o => o.Id)</td>
+
+            </tr>
+            
+        </tbody>
+    </table>
+}
