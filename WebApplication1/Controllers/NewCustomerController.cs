@@ -19,7 +19,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult NewCard(decimal? Amount, string SerialNumber)
+        public ActionResult NewCard(decimal? Amount, string SerialNumber, int? rresult)
         {
             if (Session["employee"] == null)
             {
@@ -27,6 +27,12 @@ namespace WebApplication1.Controllers
             }
             else
             {
+                if (rresult == 1)
+                {
+                    ViewBag.result = rresult;
+                    return View();
+
+                }
                 CashCard cashCard = new CashCard(null, Amount, SerialNumber);
                 //   int result;
                 //result = cashCard.SaveData();
@@ -41,6 +47,8 @@ namespace WebApplication1.Controllers
         public ActionResult NewCard(CashCard cashCard)
         {
             int? result = 0;
+
+            
             if (ModelState.IsValid)
             { //checking model state
 
@@ -62,9 +70,9 @@ namespace WebApplication1.Controllers
                 }
                 else
                 {
-                    ModelState.Clear();
-                    ViewBag.result = result;
-                    return View(cashCard);
+                    //ModelState.Clear();
+                    // ViewBag.result = result;
+                    return RedirectToAction("NewCard", "NewCustomer", new { rresult = result });
                 }
             }
 
@@ -76,7 +84,7 @@ namespace WebApplication1.Controllers
             
         }
 
-        public ActionResult Newcustomer(string username, int? cardId, string telephone, int? countryId, int? cityId, string town, string street, string password, string name)
+        public ActionResult Newcustomer(string username, int? cardId, string telephone, int? countryId, int? cityId, string town, string street, string password, string name, int? rresult)
         {
 
             if (Session["employee"] == null)
@@ -85,8 +93,14 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                
-                    Customer customer = new Customer(null, username, cardId, telephone, countryId, cityId, town, street, password, name);
+                if (rresult == 1)
+                {
+                    ViewBag.result = rresult;
+                    return View();
+
+                }
+
+                Customer customer = new Customer(null, username, cardId, telephone, countryId, cityId, town, street, password, name);
 
                 return View(customer);
             }
@@ -100,6 +114,7 @@ namespace WebApplication1.Controllers
         {
             
             int? result = 0;
+           
             if (ModelState.IsValid)
             { //checking model state
 
@@ -128,8 +143,10 @@ namespace WebApplication1.Controllers
                 else
                 {
 
-                    ViewBag.result = result;
-                    return View(customer);
+                    return RedirectToAction("Newcustomer", "NewCustomer", new { rresult = result });
+                    //ViewBag.result = result;
+                    //return View(customer);
+
                 }
             }
 
@@ -142,7 +159,7 @@ namespace WebApplication1.Controllers
         }
 
 
-        public ActionResult NewMeter( int? userId, decimal? amount, string meterid)
+        public ActionResult NewMeter( int? userId, decimal? amount, string meterid, int? rresult)
         {
             if (Session["employee"] == null)
             {
@@ -150,7 +167,13 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                 Meter meter = new Meter(userId, amount, meterid);
+                if (rresult == 1)
+                {
+                    ViewBag.result = rresult;
+                    return View();
+
+                }
+                Meter meter = new Meter(userId, amount, meterid);
                 return View(meter);
             }
         }
@@ -161,6 +184,7 @@ namespace WebApplication1.Controllers
         public ActionResult NewMeter(Meter meter)
         {
             int? result = 0;
+           
             if (ModelState.IsValid)
             { //checking model state
 
@@ -182,9 +206,10 @@ namespace WebApplication1.Controllers
                 }
                 else
                 {
-                    
-                    ViewBag.result = result;
-                    return View(meter);
+
+                    //ViewBag.result = result;
+                    //return View(meter);
+                    return RedirectToAction("NewMeter", "NewCustomer", new { rresult = result });
                 }
             }
 

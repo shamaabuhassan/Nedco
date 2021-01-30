@@ -78,10 +78,11 @@ namespace WebApplication1.Models
             int result = 0;
             Area[] areas = Area.getarea(new AreaParameters { }, out rc);
 
-            if (Id.ToString().Length != 3)//not3 digit
+            if (Id.ToString().Length == 3)//3 digit
             {
-                count3 = 1;
+                count3 = 0;
             }
+
             if (count3 == 0)
             {
                 foreach (Area area in areas)

@@ -16,37 +16,38 @@ namespace WebApplication1.Controllers
         public ActionResult Index(Area area)
         {
 
-            int? result = 0;
+            int? resultt = 0;
             int rc;
             Area[] areas = Area.getarea(new AreaParameters { ParentId = area.ParentId }, out rc);
-            if (ModelState.IsValid)
+           
+            if (ModelState.IsValid )
             { //checking model state
 
                 //check whether id is already exists in the database or not
 
-                result = area.SaveData();
+                resultt = area.SaveData();
             
                 
-                if (result == 4)
+                if (resultt == 4)
                 {
                     ModelState.AddModelError("Name", "name is exist ");
-                    ViewBag.result = result;
+                    ViewBag.result = resultt;
                     ViewBag.type = area.Type;
                     ViewBag.areas=areas;
                     return View(area);
                 }
-                else if (result == 2)
+                else if (resultt == 2)
                 {
                     ModelState.AddModelError("Id", "id must be 3 digits");
-                    ViewBag.result = result;
+                    ViewBag.result = resultt;
                     ViewBag.type = area.Type;
                     ViewBag.areas = areas;
                     return View(area);
                 }
-                else if (result == 3)
+                else if (resultt == 3)
                 {
                     ModelState.AddModelError("Id", "id is exist");
-                    ViewBag.result = result;
+                    ViewBag.result = resultt;
                     ViewBag.type = area.Type;
                     ViewBag.areas = areas;
                     return View(area);
@@ -54,16 +55,17 @@ namespace WebApplication1.Controllers
                 else
                 {
 
-                    ViewBag.result = result;
-                    ViewBag.type = area.Type;
-                    ViewBag.areas = areas;
-                    return View();
+                   // ViewBag.result = resultt;
+                    //ViewBag.type = area.Type;
+                    //ViewBag.areas = areas;
+                    return RedirectToAction("Index", "Area",new { result = resultt});
+                   // return View();
                 }
             }
 
             else
             {
-                ViewBag.result = result;
+                ViewBag.result = resultt;
                 ViewBag.type = area.Type;
                 ViewBag.areas = areas;
                 return View(area);
@@ -72,7 +74,7 @@ namespace WebApplication1.Controllers
         }
 
 
-        public ActionResult Index(string type, int? Id, string Name, int? ParentId, string Type)
+        public ActionResult Index(string type, int? Id, string Name, int? ParentId, string Type, int? result)
         {
             if (Session["employee"] == null)
             {
@@ -82,6 +84,11 @@ namespace WebApplication1.Controllers
             
             else
             {
+                if (result == 1)
+                {
+                    ViewBag.result = result;
+                    return View();
+                }
                 Area[] areas = new Area[] { };
                 if (type == "s")
                 {
