@@ -3,10 +3,16 @@
 
 @{
     int rc;
-    int result = 0;
-    if (ViewBag.result != null)
-    {
+    int? result = 0;
+
+    if (ViewBag != null) {
         result = ViewBag.result;
+    }
+    if (result == 1)
+    {
+        <script>
+            alert('the card is added successfuly');
+        </script>
     }
     Customer[] customers = Customer.GetCustomers(new CustomerParameters { }, out rc);
 }
@@ -24,14 +30,14 @@
                 @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
 
                 <tr>
-                    <td>Amount</td>
+                    <td>Amount *</td>
                     <td>
                         @Html.EditorFor(o => o.Amount)
                         @Html.ValidationMessageFor(o => o.Amount, "", new { @class = "text-danger" })
                     </td>
                 </tr>
                 <tr>
-                    <td>serial number</td>
+                    <td>serial number *</td>
                     <td>
                         @Html.EditorFor(o => o.SerialNumber)
                         @Html.ValidationMessageFor(o => o.SerialNumber, "", new { @class = "text-danger" })

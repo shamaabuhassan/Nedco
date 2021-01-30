@@ -27,10 +27,10 @@ namespace WebApplication1.Models
         public int? Id { get; set; }
         public string Password { get; set; }
 
-        [Required]
+        [Required (ErrorMessage ="amount is required please enter an initial amount")]
         public decimal ?Amount { get; set; }
        
-        [Required]
+        [Required (ErrorMessage ="The serial number is required and must be 12 digits")]
         public string SerialNumber { get; set; }
         //get element bu=y id 
 
@@ -88,39 +88,57 @@ namespace WebApplication1.Models
         public int SaveData()
         {
             int result = 0;
+            int rc;
+            int count = 0;
             if (SerialNumber.ToString().Length== 12)
             {
-                using (SqlCommand cmd = new SqlCommand())
+                
+                CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { }, out rc);
+                foreach(CashCard cashCard in cashCards)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Connection = new SqlConnection(cstr.con);
-                    cmd.Connection.Open();
-                    cmd.CommandText = "SaveCashCardData";
+                    if (SerialNumber == cashCard.SerialNumber)
+                    {
+                        count = 1;
+                    }
+                }
+                if (count == 0)
+                {
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Connection = new SqlConnection(cstr.con);
+                        cmd.Connection.Open();
+                        cmd.CommandText = "SaveCashCardData";
 
 
 
-                    if (Password != null) cmd.Parameters.AddWithValue("password", Password);
-                    if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
-                    if (SerialNumber != null) cmd.Parameters.AddWithValue("serial_number", SerialNumber);
+                        if (Password != null) cmd.Parameters.AddWithValue("password", Password);
+                        if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
+                        if (SerialNumber != null) cmd.Parameters.AddWithValue("serial_number", SerialNumber);
 
 
-                    SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
-                    idParam.Direction = ParameterDirection.InputOutput;
-                    idParam.Value = this.Id;
+                        SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
+                        idParam.Direction = ParameterDirection.InputOutput;
+                        idParam.Value = this.Id;
 
-                    SqlParameter resultParm = cmd.Parameters.Add("@result", SqlDbType.Int);
-                    resultParm.Direction = ParameterDirection.InputOutput;
-
-
-
-                    int c = cmd.ExecuteNonQuery();
+                        SqlParameter resultParm = cmd.Parameters.Add("@result", SqlDbType.Int);
+                        resultParm.Direction = ParameterDirection.InputOutput;
 
 
-                    this.Id = Convert.ToInt32(idParam.Value);
-                    result = Convert.ToInt32(resultParm.Value);
-                    cmd.Connection.Close();
-                   
 
+                        int c = cmd.ExecuteNonQuery();
+
+
+                        this.Id = Convert.ToInt32(idParam.Value);
+                        result = Convert.ToInt32(resultParm.Value);
+                        cmd.Connection.Close();
+
+
+                    }
+                }
+                else
+                {
+                    result = 2;
                 }
             }
             return result;

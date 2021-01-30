@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
@@ -28,25 +29,25 @@ namespace WebApplication1.Models
     {
         public int? Id { get; set; }
 
-        [Required]
+        [Required (ErrorMessage ="the username is required please enter")]
         public string Username { get; set; }
 
-        [Required]
+        
         public int? CardId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "the telephone is required and must be 10 numbers statr with (059) or (056)")]
         public string Telephone { get; set; }
         public int? CountryId { get; set; }
         public int? CityId { get; set; }
         public string Town { get; set; }
 
-        [Required]
+        [Required (ErrorMessage ="street is required please enter your street") ]
         public string Street { get; set; }
 
-        [Required]
+        [Required (ErrorMessage ="Password is Required please enter")]
         public string Password { get; set; }
 
-        [Required]
+        [Required (ErrorMessage ="please enter your full name")]
         public string Name { get; set; }
 
         public string CountryName { get; set; }
@@ -206,16 +207,20 @@ public Customer(int? id, string password) {
                     SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
                     resultParam.Direction = ParameterDirection.InputOutput;
 
-                   // idParam.Value = this.Id;
+                    // idParam.Value = this.Id;
 
                     int c = cmd.ExecuteNonQuery();
 
                     this.Id = Convert.ToInt32(idParam.Value);
-                     result = Convert.ToInt32(resultParam.Value);
+                    result = Convert.ToInt32(resultParam.Value);
                     cmd.Connection.Close();
                 }
-                   
-                }
+
+            }
+            else
+            {
+                result = 2;
+            }
             return result;
 
             //}

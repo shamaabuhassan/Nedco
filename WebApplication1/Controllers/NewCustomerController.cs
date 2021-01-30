@@ -28,30 +28,51 @@ namespace WebApplication1.Controllers
             else
             {
                 CashCard cashCard = new CashCard(null, Amount, SerialNumber);
-             //   int result;
+                //   int result;
                 //result = cashCard.SaveData();
+               
                 return View(cashCard);
+
+             
             }
         }
 
         [HttpPost]
         public ActionResult NewCard(CashCard cashCard)
         {
-                if (ModelState.IsValid)
-                { //checking model state
+            int? result = 0;
+            if (ModelState.IsValid)
+            { //checking model state
 
-                    //check whether id is already exists in the database or not
-                    int result;
-                    result = cashCard.SaveData();
+                //check whether id is already exists in the database or not
+              
+                result = cashCard.SaveData();
 
-                    if (result == 0)
-                    {
-                        ModelState.AddModelError("SerialNumber", "card id is less than 12 digits");
+                if (result == 0)
+                {
+                    ModelState.AddModelError("SerialNumber", "serial number  is less or more than 12 digits");
+                    ViewBag.result = result;
                     return View(cashCard);
-                    }
-                return RedirectToAction("NewCard");
                 }
+                else if (result == 2)
+                {
+                    ModelState.AddModelError("SerialNumber", "serial number is exist");
+                    ViewBag.result = result;
+                    return View(cashCard);
+                }
+                else
+                {
+                    ModelState.Clear();
+                    ViewBag.result = result;
+                    return View(cashCard);
+                }
+            }
+
+            else
+            {
+                ViewBag.result = result;
                 return View(cashCard);
+            }
             
         }
 
@@ -83,15 +104,51 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                if (userId != null)
-                {
-                    Meter meter = new Meter(userId, amount, meterid);
-                    int result;
-                    result = meter.SaveData();
-                    ViewBag.result = result;
-                }
-                return View();
+                 Meter meter = new Meter(userId, amount, meterid);
+                return View(meter);
             }
         }
+
+
+
+        [HttpPost]
+        public ActionResult NewMeter(Meter meter)
+        {
+            int? result = 0;
+            if (ModelState.IsValid)
+            { //checking model state
+
+                //check whether id is already exists in the database or not
+
+                result = meter.SaveData();
+
+                if (result == 0)
+                {
+                    ModelState.AddModelError("Meterid", "meter id is less or more than 12 digits");
+                    ViewBag.result = result;
+                    return View(meter);
+                }
+                else if (result == 2)
+                {
+                    ModelState.AddModelError("Meterid", "meter id is exist");
+                    ViewBag.result = result;
+                    return View(meter);
+                }
+                else
+                {
+                    meter = null;
+                    ViewBag.result = result;
+                    return View(meter);
+                }
+            }
+
+            else
+            {
+                ViewBag.result = result;
+                return View(meter);
+            }
+
+        }
+
     }
 }

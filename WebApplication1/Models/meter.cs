@@ -25,10 +25,10 @@ namespace WebApplication1.Models
             [Required]
         public int? UserId { get; set; }
 
-        [Required]
+        [Required (ErrorMessage ="amount is required please enter an initial amount")]
         public decimal? Amount { get; set; }
 
-        [Required]
+        [Required (ErrorMessage ="meter id required ad must be 12 digits")]
         public string Meterid { get; set; }
 
         public Meter() { }
@@ -116,34 +116,53 @@ namespace WebApplication1.Models
         public int SaveData()
         {
             int result = 0;
+            int rc;
+            int count = 0;
             if (Meterid.Length == 12)
             {
-                using (SqlCommand cmd = new SqlCommand())
+
+                Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
+                foreach (Meter meter in meters)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Connection = new SqlConnection(cstr.con);
-                    cmd.Connection.Open();
-                    cmd.CommandText = "SaveMeterData";
+                    if ( Meterid== meter.Meterid)
+                    {
+                        count = 1;
+                    }
+                }
+                if (count == 0)
+                {
 
-                    if (UserId != null) cmd.Parameters.AddWithValue("user_id", UserId);
-                    if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
-                    if (Meterid != null) cmd.Parameters.AddWithValue("meter_id", Meterid);
+                    using (SqlCommand cmd = new SqlCommand())
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Connection = new SqlConnection(cstr.con);
+                        cmd.Connection.Open();
+                        cmd.CommandText = "SaveMeterData";
 
-                    //SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
-                    //idParam.Direction = ParameterDirection.InputOutput;
+                        if (UserId != null) cmd.Parameters.AddWithValue("user_id", UserId);
+                        if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
+                        if (Meterid != null) cmd.Parameters.AddWithValue("meter_id", Meterid);
 
-                    SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
-                    resultParam.Direction = ParameterDirection.InputOutput;
+                        //SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
+                        //idParam.Direction = ParameterDirection.InputOutput;
 
-                    //idParam.Value = this.Id;
+                        SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
+                        resultParam.Direction = ParameterDirection.InputOutput;
 
-                    int c = cmd.ExecuteNonQuery();
+                        //idParam.Value = this.Id;
 
-                    //this.Id = Convert.ToInt32(idParam.Value);
-                     result = Convert.ToInt32(resultParam.Value);
-                    cmd.Connection.Close();
-                    
+                        int c = cmd.ExecuteNonQuery();
 
+                        //this.Id = Convert.ToInt32(idParam.Value);
+                        result = Convert.ToInt32(resultParam.Value);
+                        cmd.Connection.Close();
+
+
+                    }
+                }
+                if (count == 1)
+                {
+                    result = 2;
                 }
             }
             return result; 
