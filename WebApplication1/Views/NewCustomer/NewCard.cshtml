@@ -16,7 +16,7 @@
     
     @using (Html.BeginForm("NewCard", "NewCustomer", FormMethod.Post))
     {
-        @Html.AntiForgeryToken();
+        @*@Html.AntiForgeryToken();*@
         <table>
 
             <tbody>
@@ -27,14 +27,14 @@
                     <td>Amount</td>
                     <td>
                         @Html.EditorFor(o => o.Amount)
-                        @Html.ValidationMessageFor(o => o.Amount, "Amuont is required", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(o => o.Amount, "", new { @class = "text-danger" })
                     </td>
                 </tr>
                 <tr>
                     <td>serial number</td>
                     <td>
                         @Html.EditorFor(o => o.SerialNumber)
-                        @Html.ValidationMessageFor(o => o.SerialNumber, "the serial number is required", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(o => o.SerialNumber, "", new { @class = "text-danger" })
 
                     </td>
                 </tr>

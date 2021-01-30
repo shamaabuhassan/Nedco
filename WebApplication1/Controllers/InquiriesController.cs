@@ -56,12 +56,12 @@ namespace WebApplication1.Controllers
                     }
                     else if (transfers.Length == 0 && transfers2.Length != 0)
                     {
-                        return RedirectToAction("Transfrom", "Transfer", new { transfers2 = transfers2 });
+                        return RedirectToAction("Transfrom", "Transfer", new { MeterId=MeterId });
                     }
                     else if (transfers.Length != 0 && transfers2.Length != 0)
                     {
                         
-                        return RedirectToAction("Trans_from_to", "Transfer", new { transfers2 = transfers2, transfers = transfers });
+                        return RedirectToAction("Trans_from_to", "Transfer", new {MeterId=MeterId });
                     }
                 }
             }

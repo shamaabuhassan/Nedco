@@ -46,7 +46,7 @@ namespace WebApplication1.Controllers
 
                     if (result == 0)
                     {
-                        ModelState.AddModelError("card id", "card id is less than 12 digits");
+                        ModelState.AddModelError("SerialNumber", "card id is less than 12 digits");
                     return View(cashCard);
                     }
                 return RedirectToAction("NewCard");

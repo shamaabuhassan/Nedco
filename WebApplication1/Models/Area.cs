@@ -107,7 +107,7 @@ namespace WebApplication1.Models
 
                     SqlParameter resultParm = cmd.Parameters.Add("@result", SqlDbType.Int);
                     resultParm.Direction = ParameterDirection.InputOutput;
-
+                    
 
 
                     int c = cmd.ExecuteNonQuery();

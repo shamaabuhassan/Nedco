@@ -206,7 +206,7 @@ public Customer(int? id, string password) {
                     SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
                     resultParam.Direction = ParameterDirection.InputOutput;
 
-                    idParam.Value = this.Id;
+                   // idParam.Value = this.Id;
 
                     int c = cmd.ExecuteNonQuery();
 

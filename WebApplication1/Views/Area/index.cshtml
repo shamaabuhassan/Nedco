@@ -3,16 +3,22 @@
 
 @{
 
-    int first = 1;
-    if (ViewBag.first != null)
+    //int first = 1;
+    Area[] areas = new Area[] { };
+    string type = "";
+    int? result = 0;
+    if (ViewBag!= null)
+
     {
-        first = ViewBag.first;
+        result = ViewBag.result;
+        type = ViewBag.type;
+        areas = ViewBag.areas;
     }
 
-    string[] type = { "s", "c", "t" };
+    //string[] type = { "s", "c", "t" };
 }
 
-<script type="text/javascript">
+@*<script type="text/javascript">
 
     function selectedindexchange () {
         $.ajax({
@@ -90,23 +96,32 @@
 
 
 
-</script>
+</script>*@
 
 
 <div style="flex:1; padding-left: 35px" class="vertical-align">
+    @*state: s, city: c, town: t*@
+    <a href="?type=s">Add state</a> 
+    <a href="?type=c">Add city</a> 
+    <a href="?type=t">Add town</a> 
+    
+    @if (result == 1)
+    {
+        <script>
 
-
-    @using (Html.BeginForm("SaveArea", "Area", FormMethod.Post))
+            alert('the Area was Added successfuly ');
+        </script>
+    }
+    @using (Html.BeginForm("Save", "Area", FormMethod.Post))
     {
 
-
-        <table style="">
+            <table style="">
             <thead>
                 <tr>
                     @*<td>id</td>*@
                     <td>رقم المنطقة </td>
                     <td>اسم المنطقة</td>
-                    <td>نوع المنطقة </td>
+                    @*<td>نوع المنطقة </td>*@
                     <td>رقم المنطقة الأب </td>
 
                 </tr>
@@ -115,16 +130,17 @@
 
                 <tr>
                     @*<td>@meter.Id</td>*@
-                    <td>@Html.TextBoxFor(o => o.Id, new { @id = "id" })</td>
-                    <td>@Html.TextBoxFor(o => o.Name, new { @id = "name" })</td>
-                    <td>@Html.DropDownListFor(o => o.Type, new SelectList(type), new {Class="ddlStyle", onchange= "selectedindexchange()" })</td>
-                    <td >@Html.DropDownList("parent",Enumerable.Empty<SelectListItem>(),"--select")</td>
-
+                    <td>@Html.TextBoxFor(o => o.Id)</td>
+                    <td>@Html.TextBoxFor(o => o.Name)</td>
+                    @*<td>@Html.DropDownListFor(o => o.Type, new SelectList(type), new { Class = "ddlStyle", onchange = "selectedindexchange()" })</td>*@
+                    @if (areas!=null)
+                    {
+                    <td>@Html.DropDownListFor(o=>o.ParentId, new SelectList(areas,"Id", "Name"))</td>
+                    }
                 </tr>
-
             </tbody>
         </table>
-        <input type="submit" id="add area" placeholder="Add Area" />
+        <input type="submit" value="Save()"  placeholder="AddArea" />
     }
 </div>
 

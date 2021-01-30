@@ -115,16 +115,20 @@ namespace WebApplication1.Controllers
             }
         }
 
-        public ActionResult Transfrom(Transfer[] transfers2)
+        public ActionResult Transfrom( string MeterId )
         {
-          
+            int rc;
+            Transfer[] transfers2 = Transfer.GetTransfersBySenderOTP(new TransferParameters { MeterId = MeterId }, out rc);
             ViewBag.transfers2 = transfers2;
             return View();
         }
 
-        public ActionResult Trans_from_to(Transfer[] transfers2, Transfer[] transfers)
+        public ActionResult Trans_from_to(string MeterId)
         {
+            int rc;
+            Transfer[] transfers2 = Transfer.GetTransfersBySenderOTP(new TransferParameters { MeterId = MeterId }, out rc);
 
+            Transfer[] transfers = Transfer.GetTransfers(new TransferParameters { MeterId = MeterId }, out rc);
             ViewBag.transfers2 = transfers2;
             ViewBag.transfers = transfers;
             return View();
