@@ -177,13 +177,18 @@ namespace WebApplication1.Models
         public int SaveData()
         {
             int rc, count4 = 0;
+            CashCard cashCard=new CashCard();
             CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { SerialNumber = SerialNUM }, out rc);
-            CashCard cashCard = cashCards[0];
+           
             if (cashCards.Length == 0)
             {
                 count4 = 1;  
             }
 
+            else
+            {
+                 cashCard = cashCards[0];
+            }
             CashCard[] cashCards1 = CashCard.GetCashCards(new CashCardParameters { }, out rc);
             int result = 0;
             int count = 0, count2 = 0, count3 = 1;
@@ -199,7 +204,7 @@ namespace WebApplication1.Models
                 }
             }
 
-            if (cashCard.Id != customer.CardId && count3==1 && count4 == 0)//card not for meter
+            if (cashCard.Id != customer.CardId && count3==0 && count4 == 0)//card not for meter
             {
                 count2 = 1;
             }

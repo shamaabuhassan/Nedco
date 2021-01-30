@@ -29,8 +29,12 @@ namespace WebApplication1.Controllers
             else
             {
                 int rc;
-                CashCard[] cashCard = CashCard.GetCashCards(new CashCardParameters { SerialNumber = SerialNUM }, out rc);
-                Topup topup = new Topup(MeterId, Amount, cashCard[0].SerialNumber);
+                Topup topup = new Topup();
+                if (SerialNUM != null)
+                {
+                    CashCard[] cashCard = CashCard.GetCashCards(new CashCardParameters { SerialNumber = SerialNUM }, out rc);
+                     topup = new Topup(MeterId, Amount, cashCard[0].SerialNumber);
+                }
                 return View(topup);
             }
         }
@@ -63,7 +67,7 @@ namespace WebApplication1.Controllers
                 {
 
                     ViewBag.result = result;
-                    return RedirectToAction("ShowOTP", "RequestOTPS", new { success = "success", otp = topup.OTP });
+                    return RedirectToAction("ShowOTP", "RequestOTPS", new { otp = topup.OTP });
                    }
                  else
                 {

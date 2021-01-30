@@ -19,7 +19,7 @@
         <table>
             <tr>
 
-                <td> الكود </td>
+                <td>الكود</td>
 
                 <td> @Html.TextBox("otp", (string)otp) </td>
 
@@ -32,7 +32,8 @@
         if (success != null )
         {
 <script>
-     alert('The meter is charged'); 
+    alert('The meter is charged');
+    window.location.href = '@Url.Action("RequestOTP", "RequestOTPS")';
 </script>
         }
     }
