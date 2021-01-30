@@ -14,7 +14,10 @@ namespace WebApplication1.Models
     {
         public int? Id { get; set; }
         public string Password { get; set; }
+        [Required]
         public decimal? Amount { get; set; }
+
+        [Required]
         public string SerialNumber { get; set; }
 
 

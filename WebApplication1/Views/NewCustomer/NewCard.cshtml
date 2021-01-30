@@ -1,5 +1,5 @@
 ﻿@using WebApplication1.Models
-@model CashCardParameters
+@model CashCard
 
 @{
     int rc;
@@ -16,19 +16,27 @@
     
     @using (Html.BeginForm("NewCard", "NewCustomer", FormMethod.Post))
     {
+        @Html.AntiForgeryToken();
         <table>
 
             <tbody>
 
-                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
 
                 <tr>
                     <td>Amount</td>
-                    <td>@Html.ValidationMessageFor(o => o.Amount)</td>
+                    <td>
+                        @Html.EditorFor(o => o.Amount)
+                        @Html.ValidationMessageFor(o => o.Amount, "Amuont is required", new { @class = "text-danger" })
+                    </td>
                 </tr>
                 <tr>
                     <td>serial number</td>
-                    <td>@Html.EditorFor(o => o.SerialNumber)</td>
+                    <td>
+                        @Html.EditorFor(o => o.SerialNumber)
+                        @Html.ValidationMessageFor(o => o.SerialNumber, "the serial number is required", new { @class = "text-danger" })
+
+                    </td>
                 </tr>
 
             </tbody>

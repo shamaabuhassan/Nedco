@@ -30,7 +30,7 @@
 
                     <tr>
                     <td>username</td>
-                    <td>@Html.ValidationMessageFor(o => o.Username,"please enter a unique username", new { @class = "username" } )</td>
+                    <td>@Html.ValidationMessageFor(o => o.Username,"please enter a unique username", new { @class = "text-danger" } )</td>
                     </tr>
 
                     <tr>
@@ -40,7 +40,7 @@
 
                     <tr>
                      <td>telephone</td>
-                 <td>@Html.ValidationMessageFor(o => o.Telephone,"please enter your phone number", new { @class = "telephone" })</td>
+                 <td>@Html.ValidationMessageFor(o => o.Telephone,"please enter your phone number", new { @class = "text-danger" })</td>
                      </tr>
 
                     <tr>
@@ -60,17 +60,17 @@
 
                     <tr>
                      <td>street</td>
-                    <td>@Html.ValidationMessageFor(o => o.Street, "please enter your street", new { @class = "street" })</td>
+                    <td>@Html.ValidationMessageFor(o => o.Street, "please enter your street", new { @class = "text-danger" })</td>
                     </tr>
 
                     <tr>
                     <td>password</td>
-                    <td>@Html.ValidationMessageFor(o => o.Password,"plese enter password", new { @class = "password" })</td>
+                    <td>@Html.ValidationMessageFor(o => o.Password,"plese enter password", new { @class = "text-danger" })</td>
                     </tr>
 
                     <tr>
                      <td>name</td>
-                    <td>@Html.ValidationMessageFor(o => o.Name,"please enter your full name", new { @class = "name" })</td>
+                    <td>@Html.ValidationMessageFor(o => o.Name,"please enter your full name", new { @class = "text-danger" })</td>
                     </tr>
 
                 </tbody>
