@@ -10,7 +10,7 @@ namespace WebApplication1.Controllers
     public class AreaController : Controller
     {
         // GET: Area
-        public ActionResult Index(string type)
+        public ActionResult Index(string type,int? result)
         {
             if (Session["employee"] == null)
             {
@@ -38,7 +38,9 @@ namespace WebApplication1.Controllers
                     areas = Area.getarea(new AreaParameters { Type = "c" }, out rc);
                     ViewBag.areas = areas;
                     ViewBag.type = type;
+                   
                 }
+                ViewBag.result = result;
                 return View();
             }
         }
@@ -94,13 +96,13 @@ namespace WebApplication1.Controllers
 
 
 
-        public ActionResult Save(int? Id, string Name, int? ParentId)
+        public ActionResult Save(int? Id, string Name, int? ParentId,string Type)
         {
             
-            Area area = new Area(Id, Name, ParentId, type);
+            Area area = new Area(Id, Name, ParentId, Type);
             int? result = area.SaveData();
-            ViewBag.result = result;
-            return View();
+           // ViewBag.result = result;
+            return RedirectToAction("Index", "Area",new { result = result });
         }
     }
 }

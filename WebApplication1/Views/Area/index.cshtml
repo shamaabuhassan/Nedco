@@ -7,7 +7,7 @@
     Area[] areas = new Area[] { };
     string type = "";
     int? result = 0;
-    if (ViewBag!= null)
+    if (ViewBag != null)
 
     {
         result = ViewBag.result;
@@ -18,110 +18,111 @@
     //string[] type = { "s", "c", "t" };
 }
 
+@if (result == 1)
+{
+    <script>
+
+        alert('the Area was Added successfuly ');
+    </script>
+}
+
 @*<script type="text/javascript">
 
-    function selectedindexchange () {
-        $.ajax({
-            url: "/Area/Getparent",
-            type: 'post',
-            data: { "type": $("dropdownlist").val() },
-            success: function (response) {
-                if (response == "this is parent") {
-                    alert("the choesn type is parent (state)");
+        function selectedindexchange () {
+            $.ajax({
+                url: "/Area/Getparent",
+                type: 'post',
+                data: { "type": $("dropdownlist").val() },
+                success: function (response) {
+                    if (response == "this is parent") {
+                        alert("the choesn type is parent (state)");
 
-                    $("add area").click(function () {
+                        $("add area").click(function () {
 
-                        var type = $("dropdownlist").val();
-                        var id = $("id").val();
-                        var name = $("name").val();
-                        $.ajax({
-                            url: "/Area/SaveNew",
-                            type: 'post',
-                            data: {
-                                "type": type, "id": id, "name": name
-                            },
+                            var type = $("dropdownlist").val();
+                            var id = $("id").val();
+                            var name = $("name").val();
+                            $.ajax({
+                                url: "/Area/SaveNew",
+                                type: 'post',
+                                data: {
+                                    "type": type, "id": id, "name": name
+                                },
 
-                            success: function (response) {
-                                if (response == 0) { alert("somthing wrong"); }
-                                else { alert("the area saved"); }
-
-
-                            }
-                        });
-
-                    });
+                                success: function (response) {
+                                    if (response == 0) { alert("somthing wrong"); }
+                                    else { alert("the area saved"); }
 
 
-                }
-                else {
-                    $.each(response.d, function (key, value) {
-                        $("#parent").append($("<option></option>").val(value.Name));
-                    });
+                                }
+                            });
 
-                    $("add area").click(function () {
-
-                        var type = $("dropdownlist").val();
-                        var id = $("id").val();
-                        var name = $("name").val();
-                        var parent = $(this).find(":selected").text();
-
-                        $.ajax({
-                            url: "/Area/ SaveNewParent",
-                            type: 'post',
-                            data: {
-                                "type": type, "id": id, "name": name, "parentid": parent
-                            },
-                            success: function (response) {
-                                if (response == 0) { alert("somthing wrong"); }
-                                else { alert("the area saved"); }
-
-                            }
                         });
 
 
+                    }
+                    else {
+                        $.each(response.d, function (key, value) {
+                            $("#parent").append($("<option></option>").val(value.Name));
+                        });
+
+                        $("add area").click(function () {
+
+                            var type = $("dropdownlist").val();
+                            var id = $("id").val();
+                            var name = $("name").val();
+                            var parent = $(this).find(":selected").text();
+
+                            $.ajax({
+                                url: "/Area/ SaveNewParent",
+                                type: 'post',
+                                data: {
+                                    "type": type, "id": id, "name": name, "parentid": parent
+                                },
+                                success: function (response) {
+                                    if (response == 0) { alert("somthing wrong"); }
+                                    else { alert("the area saved"); }
+
+                                }
+                            });
 
 
-                    });
 
+
+                        });
+
+                    }
+
+                },
+                error: function (xhr) {
+                    alert("somthing wrong");
                 }
 
-            },
-            error: function (xhr) {
-                alert("somthing wrong");
-            }
-
-        })
-    };
+            })
+        };
 
 
 
 
-</script>*@
+    </script>*@
 
 
 <div style="flex:1; padding-left: 35px" class="vertical-align">
     @*state: s, city: c, town: t*@
-    <a href="?type=s">Add state</a> 
-    <a href="?type=c">Add city</a> 
-    <a href="?type=t">Add town</a> 
-    
-    @if (result == 1)
-    {
-        <script>
+    <a href="?type=s">Add state</a>
+    <a href="?type=c">Add city</a>
+    <a href="?type=t">Add town</a>
 
-            alert('the Area was Added successfuly ');
-        </script>
-    }
     @using (Html.BeginForm("Save", "Area", FormMethod.Post))
     {
 
-            <table style="">
+        <table style="">
             <thead>
                 <tr>
                     @*<td>id</td>*@
                     <td>رقم المنطقة </td>
                     <td>اسم المنطقة</td>
-                    @*<td>نوع المنطقة </td>*@
+                    <td>نوع المنطقة </td>
                     <td>رقم المنطقة الأب </td>
 
                 </tr>
@@ -133,14 +134,18 @@
                     <td>@Html.TextBoxFor(o => o.Id)</td>
                     <td>@Html.TextBoxFor(o => o.Name)</td>
                     @*<td>@Html.DropDownListFor(o => o.Type, new SelectList(type), new { Class = "ddlStyle", onchange = "selectedindexchange()" })</td>*@
-                    @if (areas!=null)
+                    @if (type != null)
                     {
-                    <td>@Html.DropDownListFor(o=>o.ParentId, new SelectList(areas,"Id", "Name"))</td>
+                        <td>@Html.DropDownListFor(o => o.Type, new SelectList(type))</td>
+                    }
+                    @if (areas != null)
+                    {
+                        <td>@Html.DropDownListFor(o => o.ParentId, new SelectList(areas, "Id", "Name"))</td>
                     }
                 </tr>
             </tbody>
         </table>
-        <input type="submit" value="Save()"  placeholder="AddArea" />
+        <input type="submit" value="Save" />
     }
 </div>
 
