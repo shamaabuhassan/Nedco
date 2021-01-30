@@ -1,5 +1,5 @@
 ﻿@using WebApplication1.Models
-@model TopupParameters
+@model Meter
 
 @{ Topup[] topups = null;
     int rc;
@@ -12,7 +12,15 @@
 
         @using (Html.BeginForm("Charges", "Inquiries", FormMethod.Post))
         {
-            @Html.TextBoxFor(o => o.MeterId);
+           <table>
+               <tr>
+                   <td> meter id</td>
+                   <td>
+                       @Html.EditorFor(o => o.Meterid)
+                       @Html.ValidationMessageFor(o => o.Meterid, "", new { @class = "text-danger" })
+                   </td>
+               </tr>
+               </table> 
 
             <input type="submit" value="Charges" />
         }

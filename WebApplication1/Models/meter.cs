@@ -15,7 +15,8 @@ namespace WebApplication1.Models
 
 
         public decimal? Amount { get; set; }
-
+        [Display (Name ="meter id")]
+        [Required(ErrorMessage = "meter id required ad must be 12 digits")]
         public string Meterid { get; set; }
     }
     public class Meter
@@ -75,7 +76,7 @@ namespace WebApplication1.Models
         //    }
         //    return result;
         //}
-        public Meter(int? meterid)
+        public Meter(string MeterId)
         {
 
             using (SqlCommand cmd = new SqlCommand())
@@ -83,8 +84,9 @@ namespace WebApplication1.Models
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Connection = new SqlConnection(cstr.con);
                 cmd.Connection.Open();
-                cmd.CommandText = "GetMetersByID";
-                cmd.Parameters.AddWithValue("@meter_id", meterid);
+                cmd.CommandText = "GetMeterByID";
+
+                cmd.Parameters.AddWithValue("@meter_id", MeterId);
 
                 SqlDataReader r = cmd.ExecuteReader();
                 if (r.HasRows)

@@ -4,7 +4,13 @@
 @{
     decimal? amount = 0;
     decimal? count = 0;
-   
+
+    if (ViewBag.valid == 0)
+    {
+        <script>
+            alert('the meter id is not valid');
+        </script>
+    }
 }
 
 
@@ -15,19 +21,28 @@
             <table>
                 <tr>
                     <td>من</td>
-                    <td> @Html.TextBoxFor(o => o.fromdate, new { type = "date" })</td>
+                    <td>
+                        @Html.EditorFor(o => o.fromdate,new { Type = "date" })
+                        @Html.ValidationMessageFor(o => o.fromdate, "the date must entered", new { @class = "text-danger" })
+                    </td>
                 </tr>
 
                 <tr>
                     <td>الى</td>
-                    <td>  @Html.TextBoxFor(o => o.todate, new { type = "date" })</td>
+                    <td>
+                        @Html.EditorFor(o => o.todate, new { Type = "date" })
+                        @Html.ValidationMessageFor(o => o.todate, "the date must entered", new { @class = "text-danger" })
+                    </td>
                 </tr>
 
 
 
                 <tr>
                     <td>رقم العداد</td>
-                    <td> @Html.TextBoxFor(o => o.MeterId)</td>
+                    <td>
+                        @Html.EditorFor(o => o.MeterId)
+                        @Html.ValidationMessageFor(o => o.MeterId, "", new { @class = "text-danger" })
+                     </td>
                 </tr>
 
             </table>

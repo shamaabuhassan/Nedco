@@ -19,7 +19,7 @@ namespace WebApplication1.Controllers
             }
             return View();
         }
-        public ActionResult RequestOTP(string MeterId, int Amount, string SerialNUM)
+        public ActionResult RequestOTP(string MeterId, int? Amount, string SerialNUM)
         {
 
             if (Session["employee"] == null)
@@ -49,7 +49,7 @@ namespace WebApplication1.Controllers
 
                  if (result == 2)
                 {
-                    ModelState.AddModelError("SerialNUM", "serial number not exist");
+                    ModelState.AddModelError("SerialNUM", "this card is not valid ");
                     ViewBag.result = result;
                     return View(topup);
                 }

@@ -20,7 +20,7 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Charges(string MeterId)
+        public ActionResult Charges(string Meterid)
         {
             if (Session["employee"] == null)
             {
@@ -28,12 +28,61 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                ViewBag.MeterId = MeterId;
-                return View();
+                //ViewBag.MeterId = MeterId;
+                Meter meter = new Meter(Meterid);
+                return View(meter);
             }
         }
 
-        public ActionResult Transfers(string MeterId)
+        [HttpPost]
+        public ActionResult Charges(Meter meter)
+        {
+            //int? result = 0;
+            
+            if (ViewData.ModelState.IsValidField("meter id"))
+            { //checking model state
+
+                //check whether id is already exists in the database or not
+                int rc ,count=0;
+                Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
+
+                foreach(Meter meter1 in meters)
+                {
+                    if (meter.Meterid == meter1.Meterid)
+                    {
+                        count = 1;
+                    }
+                }
+
+                if (count == 0)
+                {
+                    ModelState.AddModelError("MeterId", "meter not valid");
+                    
+                    return View(meter);
+                }
+                else if (count == 1)
+                {
+                    
+                    ViewBag.MeterId = meter.Meterid;
+                    return View(meter);
+                }
+                else
+                {
+                    return View(meter);
+                }
+               
+            }
+
+            else
+            {
+                ModelState.AddModelError("MeterId", "meter must entered");
+                return View(meter);
+            }
+
+        }
+
+
+        public ActionResult Transfers(string Meterid)
         {
             if (Session["employee"] == null)
             {
@@ -41,33 +90,123 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                int rc;
-                if (MeterId != null)
-                {
-                    Transfer[] transfers = Transfer.GetTransfers(new TransferParameters { MeterId = MeterId }, out rc);
 
-                    Transfer[] transfers2 = Transfer.GetTransfersBySenderOTP(new TransferParameters { MeterId = MeterId }, out rc); //get meter of senderotp
+                Meter meter = new Meter(Meterid);
+                    return View(meter);
+                
+            }
+
+            //return View();
+        }
+
+        [HttpPost]
+        public ActionResult Transfers(Meter meter)
+        {
+            //int? result = 0;
+            if (ViewData.ModelState.IsValidField("meter id"))
+            { //checking model state
+
+                //check whether id is already exists in the database or not
+                int rc, count = 0;
+
+                
+                 Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
+
+                foreach (Meter meter1 in meters)
+                {
+                    if (meter.Meterid == meter1.Meterid)
+                    {
+                        count = 1;
+                    }
+                }
+
+                if (count == 0)
+                {
+                    ModelState.AddModelError("MeterId", "meter not valid");
+
+                    return View(meter);
+                }
+                else if (count == 1)
+                {
+
+                    Transfer[] transfers = Transfer.GetTransfers(new TransferParameters { MeterId = meter.Meterid}, out rc);
+
+                    Transfer[] transfers2 = Transfer.GetTransfersBySenderOTP(new TransferParameters { MeterId = meter.Meterid }, out rc); //get meter of senderotp
 
                     if (transfers.Length != 0 && transfers2.Length == 0)
                     {
                         ViewBag.transfers = transfers;
-                        ViewBag.MeterId = MeterId;
-                        return View();
+                        ViewBag.MeterId = meter.Meterid;
+                        return View(meter);
                     }
                     else if (transfers.Length == 0 && transfers2.Length != 0)
                     {
-                        return RedirectToAction("Transfrom", "Transfer", new { MeterId=MeterId });
+                        return RedirectToAction("Transfrom", "Transfer", new { MeterId = meter.Meterid });
                     }
                     else if (transfers.Length != 0 && transfers2.Length != 0)
                     {
-                        
-                        return RedirectToAction("Trans_from_to", "Transfer", new {MeterId=MeterId });
+
+                        return RedirectToAction("Trans_from_to", "Transfer", new { MeterId = meter.Meterid });
+                    }
+                    else
+                    {
+                        return View(meter);
                     }
                 }
+                else
+                {
+                    return View(meter);
+                }
+
             }
 
-            return View();
+            else
+            {
+              // ModelState.AddModelError("MeterId", "meter must entered");
+                return View(meter);
+            }
+
         }
+
+
+
+
+        //[HttpPost]
+        //public ActionResult MonthlyCharge(Topup[] topups)
+        //{
+        //    //int? result = 0;
+        //    if (ViewData.ModelState.IsValidField("meter id"))
+        //    { //checking model state
+
+        //        //check whether id is already exists in the database or not
+               
+
+        //        if (topups.Length == 0)
+        //        {
+        //            ModelState.AddModelError("MeterId", "meter not valid");
+        //            return View(topups);
+        //        }
+        //        else {
+        //            decimal? amount = 0;
+        //            decimal? count = 0;
+        //            foreach (Topup topup in topups)
+        //            {
+        //                amount += topup.Amount;
+        //                count += 1;
+        //            }
+        //            ViewBag.amount = amount;
+        //            ViewBag.count = count;
+        //            return View(topups);
+        //        }
+        //    }
+
+        //    else
+        //    {
+        //        //ModelState.AddModelError("MeterId", "meter must entered");
+        //        return View(topups);
+        //    }
+
+        //}
 
         public ActionResult MonthlyCharge(DateTime? fromdate, DateTime? todate, string MeterId)
         {
@@ -77,19 +216,42 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                int rc;
-                Topup[] topups = Topup.GetMonthlyTopups(new TopupParameters { fromdate = fromdate, todate = todate, MeterId = MeterId }, out rc);
 
-                decimal? amount = 0;
-                decimal? count = 0;
-                foreach (Topup topup in topups)
+                //check whether id is already exists in the database or not
+                int rc, count = 0;
+
+
+                Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
+
+                foreach (Meter meter1 in meters)
                 {
-                    amount += topup.Amount;
-                    count += 1;
+                    if (MeterId == meter1.Meterid)
+                    {
+                        count = 1;
+                    }
                 }
-                ViewBag.amount = amount;
-                ViewBag.count = count;
-                return View();
+                if (count == 1)
+                {
+
+                    Topup[] topups = Topup.GetMonthlyTopups(new TopupParameters { fromdate = fromdate, todate = todate, MeterId = MeterId }, out rc);
+
+                    decimal? amount = 0;
+                    decimal? countt = 0;
+                    foreach (Topup topup in topups)
+                    {
+                        amount += topup.Amount;
+                        countt += 1;
+                    }
+                    ViewBag.amount = amount;
+                    ViewBag.count = countt;
+                    return View();
+                }
+                else
+                {
+                    int valid = 0;
+                    ViewBag.valid = valid;
+                    return View();
+                }
             }
 
         }

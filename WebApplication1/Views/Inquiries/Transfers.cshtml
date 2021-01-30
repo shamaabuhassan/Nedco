@@ -1,5 +1,6 @@
 ﻿@using WebApplication1.Models
-@model TransferParameters
+@*@model Transfer*@
+@model Meter
 
 
 @{
@@ -7,47 +8,55 @@
     
 }
 
-<div style="flex:1; padding-left: 35px" class="vertical-align">
+    <div style="flex:1; padding-left: 35px" class="vertical-align">
 
 
-    @using (Html.BeginForm("Transfers", "Inquiries", FormMethod.Post))
-    {
-        @Html.TextBoxFor(o => o.MeterId);
-
-        <input type="submit" value="Transfers" />
-    }
-
-    @if (ViewBag.transfers != null)
-    {
-        transfers = ViewBag.transfers;
-        <table>
-            <thead>
+        @using (Html.BeginForm("Transfers", "Inquiries", FormMethod.Post))
+        {
+            <table>
                 <tr>
-                    <td>رقم العملية</td>
-                    <td>الكود المستخدم في التحويل </td>
-                    <td>رقم العداد المحول اليه</td>
-                    <td>كمية التحويل</td>
+                    <td> meter id</td>
+                    <td>
+                        @Html.EditorFor(o => o.Meterid)
+                        @Html.ValidationMessageFor(o => o.Meterid, "", new { @class = "text-danger" })
+                    </td>
                 </tr>
+            </table>
 
-            </thead>
-            <tbody>
-                @foreach (Transfer transfer in transfers)
-                {
+            <input type="submit" value="Transfers" />
+        }
+
+        @if (ViewBag.transfers != null)
+        {
+            transfers = ViewBag.transfers;
+            <table>
+                <thead>
                     <tr>
-                        <td>@transfer.Id</td>
-                        <td>@transfer.SenderOTP</td>
-                        <td>@transfer.MeterId</td>
-                        <td>@transfer.Amount</td>
-
+                        <td>رقم العملية</td>
+                        <td>الكود المستخدم في التحويل </td>
+                        <td>رقم العداد المحول اليه</td>
+                        <td>كمية التحويل</td>
                     </tr>
 
-                }
+                </thead>
+                <tbody>
+                    @foreach (Transfer transfer in transfers)
+                    {
+                        <tr>
+                            <td>@transfer.Id</td>
+                            <td>@transfer.SenderOTP</td>
+                            <td>@transfer.MeterId</td>
+                            <td>@transfer.Amount</td>
 
-            </tbody>
+                        </tr>
 
-        </table>
-    }
-</div>
+                    }
+
+                </tbody>
+
+            </table>
+        }
+    </div>
 
 
 <div style="text-align: center;">

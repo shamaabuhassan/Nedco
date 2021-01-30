@@ -22,7 +22,6 @@ namespace WebApplication1.Models
         public string Status { get; set; }
 
         public DateTime? fromdate { get; set; }
-
         public DateTime? todate { get; set; }
 
     }
@@ -176,9 +175,13 @@ namespace WebApplication1.Models
         //}
         public int SaveData()
         {
-            int rc;
+            int rc, count4 = 0;
             CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { SerialNumber = SerialNUM }, out rc);
             CashCard cashCard = cashCards[0];
+            if (cashCards.Length == 0)
+            {
+                count4 = 1;  
+            }
 
             CashCard[] cashCards1 = CashCard.GetCashCards(new CashCardParameters { }, out rc);
             int result = 0;
@@ -189,25 +192,25 @@ namespace WebApplication1.Models
 
             foreach(CashCard cashCard1 in cashCards1)//card exist
             {
-                if (SerialNUM == cashCard1.SerialNumber)
+                if (SerialNUM == cashCard1.SerialNumber &&count4==0)
                 {
                     count3 = 0;
                 }
             }
 
-            if (cashCard.Id != customer.CardId && count3==1)//card not for meter
+            if (cashCard.Id != customer.CardId && count3==1 && count4 == 0)//card not for meter
             {
                 count2 = 1;
             }
 
 
-            if (cashCard.Amount < Amount)//not suffecient amount
+            if (cashCard.Amount < Amount &&  count4 == 0)//not suffecient amount
             {
                 count = 1;
             }
 
 
-            if (count == 0 && count2 == 0 && count3 == 0)
+            if (count == 0 && count2 == 0 && count3 == 0 && count4 == 0)
             {
                 //OTP = 0;
                 ChargeDate = DateTime.Now;
@@ -261,15 +264,16 @@ namespace WebApplication1.Models
             }
             else if(count==1)//un sufficient amount
             {
-                result = int.Parse( cashCard.Amount.ToString());
+                result = Convert.ToInt32(cashCard.Amount);
             }
-            else if (count3 == 1)//not exist card
-            {
-                result = 2;
-            }
+           
             else if (count3 == 0 && count2==1)//not for meter
             {
                 result = 4;
+            }
+            else if( count4 == 1)//card not valid
+            {
+                result = 2;
             }
             return result;
 
