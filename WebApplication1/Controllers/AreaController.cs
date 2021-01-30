@@ -10,7 +10,69 @@ namespace WebApplication1.Controllers
     public class AreaController : Controller
     {
         // GET: Area
-        public ActionResult Index(string type,int? result)
+
+
+        [HttpPost]
+        public ActionResult Index(Area area)
+        {
+
+            int? result = 0;
+            int rc;
+            Area[] areas = Area.getarea(new AreaParameters { ParentId = area.ParentId }, out rc);
+            if (ModelState.IsValid)
+            { //checking model state
+
+                //check whether id is already exists in the database or not
+
+                result = area.SaveData();
+            
+                
+                if (result == 4)
+                {
+                    ModelState.AddModelError("Name", "name is exist ");
+                    ViewBag.result = result;
+                    ViewBag.type = area.Type;
+                    ViewBag.areas=areas;
+                    return View(area);
+                }
+                else if (result == 2)
+                {
+                    ModelState.AddModelError("Id", "id must be 3 digits");
+                    ViewBag.result = result;
+                    ViewBag.type = area.Type;
+                    ViewBag.areas = areas;
+                    return View(area);
+                }
+                else if (result == 3)
+                {
+                    ModelState.AddModelError("Id", "id is exist");
+                    ViewBag.result = result;
+                    ViewBag.type = area.Type;
+                    ViewBag.areas = areas;
+                    return View(area);
+                }
+                else
+                {
+
+                    ViewBag.result = result;
+                    ViewBag.type = area.Type;
+                    ViewBag.areas = areas;
+                    return View();
+                }
+            }
+
+            else
+            {
+                ViewBag.result = result;
+                ViewBag.type = area.Type;
+                ViewBag.areas = areas;
+                return View(area);
+            }
+
+        }
+
+
+        public ActionResult Index(string type, int? Id, string Name, int? ParentId, string Type)
         {
             if (Session["employee"] == null)
             {
@@ -40,8 +102,8 @@ namespace WebApplication1.Controllers
                     ViewBag.type = type;
                    
                 }
-                ViewBag.result = result;
-                return View();
+                Area area = new Area(Id, Name, ParentId, Type);
+                return View(area);
             }
         }
 
@@ -95,14 +157,15 @@ namespace WebApplication1.Controllers
         //    }
 
 
-
-        public ActionResult Save(int? Id, string Name, int? ParentId,string Type)
-        {
+        //Id
+        //Name
+        //public ActionResult Save(int? Id, string Name, int? ParentId,string Type)
+        //{
             
-            Area area = new Area(Id, Name, ParentId, Type);
-            int? result = area.SaveData();
-           // ViewBag.result = result;
-            return RedirectToAction("Index", "Area",new { result = result });
-        }
+        //    Area area = new Area(Id, Name, ParentId, Type);
+        //   // int? result = area.SaveData();
+        //   // ViewBag.result = result;
+        //    return RedirectToAction("Index", "Area",new { result = result });
+        //}
     }
 }

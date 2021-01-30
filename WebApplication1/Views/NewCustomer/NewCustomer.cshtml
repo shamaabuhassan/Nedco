@@ -14,89 +14,95 @@
     Area[] area = Area.getarea(new AreaParameters { Type = "c" }, out rc);
     Area[] areass = Area.getarea(new AreaParameters { Type = "t" }, out rc);
 
+    if (result == 1)
+    {
+        <script>
+            alert('the card is added successfuly');
+        </script>
+    }
 }
 
-    <div style="flex:1; padding-left: 35px" class="vertical-align">
+<div style="flex:1; padding-left: 35px" class="vertical-align">
 
-        @using (Html.BeginForm("Newcustomer", "NewCustomer", FormMethod.Post))
-        {
-            <table>
+    @using (Html.BeginForm("Newcustomer", "NewCustomer", FormMethod.Post))
+    {
+        <table>
 
-                <tbody>
+            <tbody>
 
-                    @*<tr><td>Id</td></tr>
+                @*<tr><td>Id</td></tr>
 
                     <tr><td>@Html.TextBoxFor(o => o.Id)</td></tr>*@
 
-                    <tr>
+                <tr>
                     <td>username</td>
                     <td>
                         @Html.EditorFor(o => o.Username)
                         @Html.ValidationMessageFor(o => o.Username, "", new { @class = "text-danger" })
                     </td>
-                    </tr>
+                </tr>
 
-                    <tr>
+                <tr>
                     <td>cardid</td>
                     <td>@Html.DropDownListFor(o => o.CardId, new SelectList(cashCards, "Id", "SerialNumber"))</td>
-                    </tr>
+                </tr>
 
-                    <tr>
-                     <td>telephone</td>
-                     <td>
-                         @Html.EditorFor(o => o.Telephone)
-                         @Html.ValidationMessageFor(o => o.Telephone, "", new { @class = "text-danger" })
-                     </td>
-                     </tr>
+                <tr>
+                    <td>telephone</td>
+                    <td>
+                        @Html.EditorFor(o => o.Telephone)
+                        @Html.ValidationMessageFor(o => o.Telephone, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
 
-                    <tr>
+                <tr>
                     <td>countryid</td>
-                   <td>@Html.DropDownListFor(o => o.CountryId, new SelectList(areas, "Id", "Name"))</td>
-                   </tr>
+                    <td>@Html.DropDownListFor(o => o.CountryId, new SelectList(areas, "Id", "Name"))</td>
+                </tr>
 
-                    <tr>
+                <tr>
                     <td>cityid</td>
                     <td>@Html.DropDownListFor(o => o.CityId, new SelectList(area, "Id", "Name"))</td>
-                    </tr>
+                </tr>
 
-                    <tr>
+                <tr>
                     <td>Town</td>
                     <td>@Html.DropDownListFor(o => o.Town, new SelectList(areass, "Name", "Name"))</td>
-                    </tr>
+                </tr>
 
-                    <tr>
-                     <td>street</td>
-                     <td>
-                         @Html.EditorFor(o => o.Street)
-                         @Html.ValidationMessageFor(o => o.Street, "", new { @class = "text-danger" })
-                     </td>
-                    </tr>
+                <tr>
+                    <td>street</td>
+                    <td>
+                        @Html.EditorFor(o => o.Street)
+                        @Html.ValidationMessageFor(o => o.Street, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
 
-                    <tr>
+                <tr>
                     <td>password</td>
                     <td>
                         @Html.EditorFor(o => o.Password)
                         @Html.ValidationMessageFor(o => o.Password, "", new { @class = "text-danger" })
                     </td>
-                    </tr>
+                </tr>
 
-                    <tr>
-                     <td>name</td>
-                     <td>
-                         @Html.EditorFor(o => o.Name)
-                         @Html.ValidationMessageFor(o => o.Name, "", new { @class = "text-danger" })
-                     </td>
-                    </tr>
+                <tr>
+                    <td>name</td>
+                    <td>
+                        @Html.EditorFor(o => o.Name)
+                        @Html.ValidationMessageFor(o => o.Name, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
 
-                </tbody>
-            </table>
+            </tbody>
+        </table>
 
-            <input type="submit" value="Newcustomer" />
+        <input type="submit" value="Newcustomer" />
 
-            <p> the result is:@result</p>
-        }
+        <p> the result is:@result</p>
+    }
 
-    </div>
+</div>
 
 
 <div style="text-align: center;">

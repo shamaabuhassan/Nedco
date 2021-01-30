@@ -19,19 +19,7 @@ namespace WebApplication1.Controllers
             }
             return View();
         }
-        public ActionResult RequestOTP()
-        {
-
-            if (Session["employee"] == null)
-            {
-                return RedirectToAction("index", "Employees");
-            }
-            else
-            {
-                return View();
-            }
-        }
-        public ActionResult GetOTP(string MeterId, int Amount,string SerialNUM)
+        public ActionResult RequestOTP(string MeterId, int Amount, string SerialNUM)
         {
 
             if (Session["employee"] == null)
@@ -43,10 +31,74 @@ namespace WebApplication1.Controllers
                 int rc;
                 CashCard[] cashCard = CashCard.GetCashCards(new CashCardParameters { SerialNumber = SerialNUM }, out rc);
                 Topup topup = new Topup(MeterId, Amount, cashCard[0].SerialNumber);
-                topup.SaveData();
-                return RedirectToAction("ShowOTP", "RequestOTPS", new { otp = topup.OTP });
+                return View(topup);
             }
         }
+
+        [HttpPost]
+        public ActionResult RequestOTP(Topup topup)
+        {
+
+            int? result = 0;
+            if (ModelState.IsValid)
+            { //checking model state
+
+                //check whether id is already exists in the database or not
+
+                result = topup.SaveData();
+
+                 if (result == 2)
+                {
+                    ModelState.AddModelError("SerialNUM", "serial number not exist");
+                    ViewBag.result = result;
+                    return View(topup);
+                }
+                else if (result == 4)
+                {
+                    ModelState.AddModelError("SerialNUM", "this card is not for this meter ");
+                    ViewBag.result = result;
+                    return View(topup);
+                }
+                else if(result==1)
+                {
+
+                    ViewBag.result = result;
+                    return RedirectToAction("ShowOTP", "RequestOTPS", new { success = "success", otp = topup.OTP });
+                   }
+                 else
+                {
+                    ModelState.AddModelError("Amount", "there is no suffecient mony in the card");
+                    ViewBag.result = result;
+                    return View(topup);
+                }
+            }
+
+            else
+            {
+                ViewBag.result = result;
+                return View(topup);
+            }
+
+        }
+
+
+
+        //public ActionResult GetOTP(string MeterId, int Amount,string SerialNUM)
+        //{
+
+        //    if (Session["employee"] == null)
+        //    {
+        //        return RedirectToAction("index", "Employees");
+        //    }
+        //    else
+        //    {
+        //        int rc;
+        //        CashCard[] cashCard = CashCard.GetCashCards(new CashCardParameters { SerialNumber = SerialNUM }, out rc);
+        //        Topup topup = new Topup(MeterId, Amount, cashCard[0].SerialNumber);
+        //        topup.SaveData();
+        //        return RedirectToAction("ShowOTP", "RequestOTPS", new { otp = topup.OTP });
+        //    }
+        //}
 
         public ActionResult ShowOTP(string otp,string success)
         {

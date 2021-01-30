@@ -9,6 +9,12 @@
     {
         result = ViewBag.result;
     }
+    if (result == 1)
+    {
+        <script>
+            alert('the card is added successfuly');
+        </script>
+    }
 
     Customer[] customers = Customer.GetCustomers(new CustomerParameters { }, out rc);
 
@@ -26,29 +32,29 @@
 
                 @*<tr><td>Id</td></tr>
 
-                <tr><td>@Html.TextBoxFor(o => o.Id)</td></tr>*@
+                    <tr><td>@Html.TextBoxFor(o => o.Id)</td></tr>*@
 
                 <tr>
-                 <td>userid</td>
-                <td>@Html.DropDownListFor(o => o.UserId, new SelectList(customers, "Id", "name"))</td>
+                    <td>userid</td>
+                    <td>@Html.DropDownListFor(o => o.UserId, new SelectList(customers, "Id", "name"))</td>
                 </tr>
 
 
                 <tr>
-                <td>Amount</td>
-                <td>
-                    @Html.EditorFor(o => o.Amount)
-                    @Html.ValidationMessageFor(o => o.Amount, "", new { @class = "text-danger" })
-                </td>
+                    <td>Amount</td>
+                    <td>
+                        @Html.EditorFor(o => o.Amount)
+                        @Html.ValidationMessageFor(o => o.Amount, "", new { @class = "text-danger" })
+                    </td>
                 </tr>
 
 
                 <tr>
-                <td>meterid</td>
-                <td>
-                    @Html.EditorFor(o => o.Meterid)
-                    @Html.ValidationMessageFor(o => o.Meterid, "", new { @class = "text-danger" })
-                </td>
+                    <td>meterid</td>
+                    <td>
+                        @Html.EditorFor(o => o.Meterid)
+                        @Html.ValidationMessageFor(o => o.Meterid, "", new { @class = "text-danger" })
+                    </td>
                 </tr>
 
             </tbody>

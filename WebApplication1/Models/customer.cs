@@ -183,7 +183,7 @@ public Customer(int? id, string password) {
                     count = 1;
                 }
             }
-            if (Telephone.Length< 10)//not 10 numbers
+            if (Telephone.Length!=10)//not 10 numbers
             {
                 count2 = 1;
               

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -30,8 +31,14 @@ namespace WebApplication1.Models
     public class Topup
     {
         public int? Id { get; set; }
+
+        [Required (ErrorMessage ="the meter id is required ")]
         public string MeterId { get; set; }
+
+        [Required(ErrorMessage = "the amount  is required")]
         public decimal? Amount { get; set; }
+
+        [Required(ErrorMessage = "the serial number is required")]
         public string SerialNUM { get; set; }
         public int? OTP { get; set; }
         public DateTime? ChargeDate { get; set; }
@@ -172,15 +179,35 @@ namespace WebApplication1.Models
             int rc;
             CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { SerialNumber = SerialNUM }, out rc);
             CashCard cashCard = cashCards[0];
+
+            CashCard[] cashCards1 = CashCard.GetCashCards(new CashCardParameters { }, out rc);
             int result = 0;
+            int count = 0, count2 = 0, count3 = 1;
 
-            //Customer[] customers = Customer.GetCustomers(new CustomerParameters { CardId = cashCard.Id.Value },out rc);
+            Meter[] meters = Meter.GetMeters(new MeterParameters {Meterid  = MeterId },out rc);//user for meter
+            Customer customer = new Customer(meters[0].UserId.Value);//cardid for meter user
 
-            //Meter meter = new Meter(MeterId);
-            //if (meter.UserId == customer.Id)
-            //{
+            foreach(CashCard cashCard1 in cashCards1)//card exist
+            {
+                if (SerialNUM == cashCard1.SerialNumber)
+                {
+                    count3 = 0;
+                }
+            }
 
-            if (cashCard.Amount > Amount)
+            if (cashCard.Id != customer.CardId && count3==1)//card not for meter
+            {
+                count2 = 1;
+            }
+
+
+            if (cashCard.Amount < Amount)//not suffecient amount
+            {
+                count = 1;
+            }
+
+
+            if (count == 0 && count2 == 0 && count3 == 0)
             {
                 //OTP = 0;
                 ChargeDate = DateTime.Now;
@@ -231,11 +258,19 @@ namespace WebApplication1.Models
                 decimal? amount = cashCard.Amount - Amount;
                 CashCard cash = new CashCard(cashCard.Id, amount, cashCard.SerialNumber);
                 cash.SaveData();
-
             }
-
-            //}
-
+            else if(count==1)//un sufficient amount
+            {
+                result = int.Parse( cashCard.Amount.ToString());
+            }
+            else if (count3 == 1)//not exist card
+            {
+                result = 2;
+            }
+            else if (count3 == 0 && count2==1)//not for meter
+            {
+                result = 4;
+            }
             return result;
 
         }

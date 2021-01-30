@@ -1,5 +1,5 @@
 ﻿@using WebApplication1.Models;
-@model AreaParameters
+@model Area
 
 @{
 
@@ -113,7 +113,7 @@
     <a href="?type=c">Add city</a>
     <a href="?type=t">Add town</a>
 
-    @using (Html.BeginForm("Save", "Area", FormMethod.Post))
+    @using (Html.BeginForm("Index", "Area", FormMethod.Post))
     {
 
         <table style="">
@@ -131,9 +131,17 @@
 
                 <tr>
                     @*<td>@meter.Id</td>*@
-                    <td>@Html.TextBoxFor(o => o.Id)</td>
-                    <td>@Html.TextBoxFor(o => o.Name)</td>
+                    <td>
+                        @Html.EditorFor(o => o.Id)
+                        @Html.ValidationMessageFor(o => o.Id, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.EditorFor(o => o.Name)
+                        @Html.ValidationMessageFor(o => o.Name, "", new { @class = "text-danger" })
+                     </td>
+
                     @*<td>@Html.DropDownListFor(o => o.Type, new SelectList(type), new { Class = "ddlStyle", onchange = "selectedindexchange()" })</td>*@
+
                     @if (type != null)
                     {
                         <td>@Html.DropDownListFor(o => o.Type, new SelectList(type))</td>
@@ -145,7 +153,7 @@
                 </tr>
             </tbody>
         </table>
-        <input type="submit" value="Save" />
+        <input type="submit" value="Index" />
     }
 </div>
 

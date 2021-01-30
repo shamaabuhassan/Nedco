@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -21,8 +22,10 @@ namespace WebApplication1.Models
     }
     public class Area
     {
+        [Required (ErrorMessage ="Id is required and must be 3 digits please enter")]
         public int? Id { get; set; }
 
+        [Required(ErrorMessage = "Name is required please enter and it must be unique")]
         public string Name { get; set; }
 
         public int? ParentId { get; set; }
@@ -69,17 +72,27 @@ namespace WebApplication1.Models
             }
         }
 
-          public int SaveData()
+        public int SaveData()
         {
-            int rc, count=0, count2=0;
+            int rc, count = 0, count2 = 0, count3 = 0;
             int result = 0;
             Area[] areas = Area.getarea(new AreaParameters { }, out rc);
-            foreach(Area area in areas) { 
-            if (Id == area.Id)
+
+            if (Id.ToString().Length != 3)//not3 digit
+            {
+                count3 = 1;
+            }
+            if (count3 == 0)
+            {
+                foreach (Area area in areas)
                 {
-                    count= 1;
+                    if (Id == area.Id)
+                    {
+                        count = 1;
+                    }
                 }
             }
+
             foreach (Area area in areas)
             {
                 if (Name == area.Name)
@@ -87,10 +100,10 @@ namespace WebApplication1.Models
                     count2 = 1;
                 }
             }
-            if (Id.ToString().Length == 3 && count==0 && count2==0)
-            {
 
-               
+
+            if (count3 == 0 && count == 0 && count2 == 0)
+            {
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -107,7 +120,7 @@ namespace WebApplication1.Models
 
                     SqlParameter resultParm = cmd.Parameters.Add("@result", SqlDbType.Int);
                     resultParm.Direction = ParameterDirection.InputOutput;
-                    
+
 
 
                     int c = cmd.ExecuteNonQuery();
@@ -116,6 +129,18 @@ namespace WebApplication1.Models
                     cmd.Connection.Close();
 
                 }
+            }
+            else if (count3 == 1)//not 3 digit
+            {
+                result = 2;
+            }
+            else if (count3 == 0 && count == 1)// id exist
+            {
+                result = 3;
+            }
+            else if (count2 == 1)//name exist
+            {
+                result = 4;
             }
             return result;
         }
