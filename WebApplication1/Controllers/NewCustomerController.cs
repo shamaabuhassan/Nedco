@@ -85,16 +85,61 @@ namespace WebApplication1.Controllers
             }
             else
             {
-                if (username != null)
-                {
+                
                     Customer customer = new Customer(null, username, cardId, telephone, countryId, cityId, town, street, password, name);
-                    int result;
-                    result = customer.SaveData();
+
+                return View(customer);
+            }
+            
+        }
+
+
+
+        [HttpPost]
+        public ActionResult Newcustomer(Customer customer)
+        {
+            
+           
+            //    Telephone
+            //    Username
+
+
+            int? result = 0;
+            if (ModelState.IsValid)
+            { //checking model state
+
+                //check whether id is already exists in the database or not
+
+                result = customer.SaveData();
+
+                if (result == 0)
+                {
+                    ModelState.AddModelError("Meterid", "meter id is less or more than 12 digits");
                     ViewBag.result = result;
+                    return View(customer);
+                }
+                else if (result == 2)
+                {
+                    ModelState.AddModelError("Meterid", "meter id is exist");
+                    ViewBag.result = result;
+                    return View(customer);
+                }
+                else
+                {
+
+                    ViewBag.result = result;
+                    return View(customer);
                 }
             }
-            return View();
+
+            else
+            {
+                ViewBag.result = result;
+                return View(customer);
+            }
+
         }
+
 
         public ActionResult NewMeter( int? userId, decimal? amount, string meterid)
         {
@@ -136,7 +181,7 @@ namespace WebApplication1.Controllers
                 }
                 else
                 {
-                    meter = null;
+                    
                     ViewBag.result = result;
                     return View(meter);
                 }

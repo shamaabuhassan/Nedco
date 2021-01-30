@@ -170,6 +170,9 @@ public Customer(int? id, string password) {
             int rc;
             int count = 0;
             int result = 0;
+            int count2 = 0;
+            int count3 = 0;
+
             Customer[] customers = Customer.GetCustomers(new CustomerParameters { }, out rc);
 
             foreach(Customer customer in customers)
@@ -179,7 +182,10 @@ public Customer(int? id, string password) {
                     count = 1;
                 }
             }
+            if (Telephone.Length< 10)
+            {
 
+            }
             if (count == 0)
             {
                 using (SqlCommand cmd = new SqlCommand())
