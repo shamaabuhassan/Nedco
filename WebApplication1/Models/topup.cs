@@ -31,6 +31,7 @@ namespace WebApplication1.Models
     {
         public int? Id { get; set; }
 
+        [Display (Name ="meterid")]
         [Required (ErrorMessage ="the meter id is required ")]
         public string MeterId { get; set; }
 

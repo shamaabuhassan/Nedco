@@ -216,40 +216,109 @@ namespace WebApplication1.Controllers
             }
             else
             {
-
-                //check whether id is already exists in the database or not
-                int rc, count = 0;
-
-
-                Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
-
-                foreach (Meter meter1 in meters)
+               
+                if (ViewData.ModelState.IsValidField("meterid") == false&& fromdate != null && todate != null)
                 {
-                    if (MeterId == meter1.Meterid)
-                    {
-                        count = 1;
-                    }
-                }
-                if (count == 1)
-                {
-
-                    Topup[] topups = Topup.GetMonthlyTopups(new TopupParameters { fromdate = fromdate, todate = todate, MeterId = MeterId }, out rc);
-
-                    decimal? amount = 0;
-                    decimal? countt = 0;
-                    foreach (Topup topup in topups)
-                    {
-                        amount += topup.Amount;
-                        countt += 1;
-                    }
-                    ViewBag.amount = amount;
-                    ViewBag.count = countt;
+                    ModelState.AddModelError("MeterId", "meter id is required");
                     return View();
+
                 }
+                if (ViewData.ModelState.IsValidField("meterid") == false && fromdate == null && todate == null)
+                {
+                    ModelState.AddModelError("MeterId", "meter id is required");
+                    int both = 0;
+                    ViewBag.both = both;
+                    return View();
+
+                }
+                if (ViewData.ModelState.IsValidField("meterid") == false && fromdate != null && todate == null)
+                {
+                    ModelState.AddModelError("MeterId", "meter id is required");
+                    int to = 0;
+                    ViewBag.to = to;
+                    return View();
+
+                }
+                if (ViewData.ModelState.IsValidField("meterid") == false && fromdate == null && todate != null)
+                {
+                    ModelState.AddModelError("MeterId", "meter id is required");
+                    int from = 0;
+                    ViewBag.from = from;
+                    return View();
+
+                }
+                if (ViewData.ModelState.IsValidField("meterid") == true && fromdate == null && todate == null)
+                {
+                   // ModelState.AddModelError("MeterId", "meter id is required");
+                    int both = 0;
+                    ViewBag.both = both;
+                    return View();
+
+                }
+                if (ViewData.ModelState.IsValidField("meterid") == true && fromdate != null && todate == null)
+                {
+                    //ModelState.AddModelError("MeterId", "meter id is required");
+                    int to = 0;
+                    ViewBag.to = to;
+                    return View();
+
+                }
+                if (ViewData.ModelState.IsValidField("meterid") == true && fromdate == null && todate != null)
+                {
+                    //ModelState.AddModelError("MeterId", "meter id is required");
+                    int from = 0;
+                    ViewBag.from = from;
+                    return View();
+
+                }
+                else if (ViewData.ModelState.IsValidField("meterid") == true && fromdate != null && todate != null)
+                
+                {
+                    //check whether id is already exists in the database or not
+                    int rc, count = 0;
+                    Meter[] meters = Meter.GetMeters(new MeterParameters { }, out rc);
+
+                    foreach (Meter meter1 in meters)
+                    {
+                        if (MeterId == meter1.Meterid)
+                        {
+                            count = 1;
+                        }
+                    }
+
+                    if (count == 1)
+                    {
+
+                        Topup[] topups = Topup.GetMonthlyTopups(new TopupParameters { fromdate = fromdate, todate = todate, MeterId = MeterId }, out rc);
+
+                        decimal? amount = 0;
+                        decimal? countt = 0;
+                        foreach (Topup topup in topups)
+                        {
+                            amount += topup.Amount;
+                            countt += 1;
+                        }
+                        ViewBag.amount = amount;
+                        ViewBag.count = countt;
+                        return View();
+                    }
+                    else
+                    {
+                        if (MeterId != null)
+                        {
+                            int valid = 0;
+                            ViewBag.valid = valid;
+                            return View();
+                        }
+                        else
+                        {
+                            return View();
+                        }
+                    }
+                }
+
                 else
                 {
-                    int valid = 0;
-                    ViewBag.valid = valid;
                     return View();
                 }
             }
