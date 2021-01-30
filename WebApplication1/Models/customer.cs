@@ -171,7 +171,8 @@ public Customer(int? id, string password) {
             int count = 0;
             int result = 0;
             int count2 = 0;
-            int count3 = 0;
+            //int islength = 0;
+             int count3 = 0;
 
             Customer[] customers = Customer.GetCustomers(new CustomerParameters { }, out rc);
 
@@ -182,11 +183,18 @@ public Customer(int? id, string password) {
                     count = 1;
                 }
             }
-            if (Telephone.Length< 10)
+            if (Telephone.Length< 10)//not 10 numbers
             {
-
+                count2 = 1;
+              
             }
-            if (count == 0)
+           
+            if (count2 == 0 )//lenght is 10
+            {
+                if(Telephone[0].ToString()=="0" && Telephone[1].ToString()=="5" && (Telephone[2].ToString() == "6"|| Telephone[2].ToString() == "9"))
+                count3 = 1;
+            }
+            if (count == 0 && count3==1)
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {
@@ -223,9 +231,17 @@ public Customer(int? id, string password) {
                 }
 
             }
-            else
+            else if(count==1)//user exist
             {
                 result = 2;
+            }
+            else if (count2 == 1)//number not 10digit
+            {
+                result = 0;
+            }
+            else if (count2 == 0 && count3 == 0)// not standad
+            {
+                result = 3;
             }
             return result;
 

@@ -99,11 +99,6 @@ namespace WebApplication1.Controllers
         public ActionResult Newcustomer(Customer customer)
         {
             
-           
-            //    Telephone
-            //    Username
-
-
             int? result = 0;
             if (ModelState.IsValid)
             { //checking model state
@@ -114,13 +109,19 @@ namespace WebApplication1.Controllers
 
                 if (result == 0)
                 {
-                    ModelState.AddModelError("Meterid", "meter id is less or more than 12 digits");
+                    ModelState.AddModelError("Telephone", " telephone number must contains 10 numbers");
                     ViewBag.result = result;
                     return View(customer);
                 }
                 else if (result == 2)
                 {
-                    ModelState.AddModelError("Meterid", "meter id is exist");
+                    ModelState.AddModelError("Username", "Username is exist");
+                    ViewBag.result = result;
+                    return View(customer);
+                }
+                else if (result == 3)
+                {
+                    ModelState.AddModelError("Telephone", "the telphone number must start with either 056 or 059 ");
                     ViewBag.result = result;
                     return View(customer);
                 }
