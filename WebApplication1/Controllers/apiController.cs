@@ -68,7 +68,7 @@ namespace WebApplication1.Controllers
                     {
                         return Content(JsonConvert.SerializeObject(new { result = "success", data = topup }));
                     }
-                    else if (result == 0)
+                    else 
                     {
                         
                         return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance" ,data= cashCards[0].Amount}));
@@ -95,7 +95,7 @@ namespace WebApplication1.Controllers
                     {
                         return Content(JsonConvert.SerializeObject(new { result = "success", data = topup }));
                     }
-                    else if (result == 0)
+                    else
                     {
                         return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance", data = cashCards[0].Amount }));
                     }
@@ -125,7 +125,7 @@ namespace WebApplication1.Controllers
                     {
                         return Content(JsonConvert.SerializeObject(new { result = "success", data = topup }));
                     }
-                    else if (result == 0)
+                    else 
                     {
                         return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance", data = cashCards[0].Amount }));
                     }
@@ -159,7 +159,7 @@ namespace WebApplication1.Controllers
                     {
                         return Content(JsonConvert.SerializeObject(new { result = "success", data = topup }));
                     }
-                    else if (result == 0)
+                    else 
                     {
                         return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance", data = cashCards[0].Amount }));
                     }
@@ -190,7 +190,7 @@ namespace WebApplication1.Controllers
                     {
                         return Content(JsonConvert.SerializeObject(new { result = "success", data = topup }));
                     }
-                    else if (result == 0)
+                    else
                     {
                         return Content(JsonConvert.SerializeObject(new { result = "insuffecient-balance", data = cashCards[0].Amount }));
                     }
