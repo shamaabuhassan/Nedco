@@ -5,6 +5,14 @@ body {
     width: 100%;
 }
 
+.text-danger{
+    color:red;
+    
+}
+
+.field-validation-error{
+    color:red;
+}
 .page-wapper {
     background-color: #dfdfdf;
     background-image: url("../images/bg.png");
