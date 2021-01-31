@@ -384,13 +384,13 @@ namespace WebApplication1.Controllers
 
             int rc;
             Customer customer = new Customer(customerid);
-            Topup[] topup = Topup.GetTopups(new TopupParameters { OTP = SenderOTP }, out rc);//get senderotp meterid 
-            if (topup.Length == 0)
+            Topup[] topups = Topup.GetTopups(new TopupParameters { OTP = SenderOTP }, out rc);//get senderotp meterid 
+            if (topups.Length == 0)
             {
                 return Content(JsonConvert.SerializeObject(new { result = "otp-not-valid" }));
             }
 
-            Meter[] meters = Meter.GetMeters(new MeterParameters { Meterid = topup[0].MeterId }, out rc);//get meterid of otp
+            Meter[] meters = Meter.GetMeters(new MeterParameters { Meterid = topups[0].MeterId }, out rc);//get meterid of otp
             if (meters.Length == 0)
             {
                 return Content(JsonConvert.SerializeObject(new { result = "meter-ofotp-not-valid" }));
@@ -432,7 +432,7 @@ namespace WebApplication1.Controllers
                     }
                     else
                     {
-                        return Content(JsonConvert.SerializeObject(new { result = "insufficient-amount", data= topup[0].Amount}));
+                        return Content(JsonConvert.SerializeObject(new { result = "insufficient-amount", data= topups[0].Amount}));
                     }
 
 
@@ -466,7 +466,7 @@ namespace WebApplication1.Controllers
                     }
                     else
                     {
-                        return Content(JsonConvert.SerializeObject(new { result = "insufficient-amount", data = topup[0].Amount }));
+                        return Content(JsonConvert.SerializeObject(new { result = "insufficient-amount", data = topups[0].Amount }));
                     }
 
                 }
