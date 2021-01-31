@@ -579,8 +579,8 @@ namespace WebApplication1.Controllers
         public ActionResult ChangePassword(string password, int? customerid)
         {
             int result = 0;
-            Customer customer = new Customer(customerid,password);
-            result=customer.SaveData();
+            Customer customer = new Customer(customerid, null, null, null, null,null, null , null, password, null);
+            result=customer.AlterPassword();
             if (result == 1)
             {
                 return Content(JsonConvert.SerializeObject(new { result = "success" }));

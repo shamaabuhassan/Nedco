@@ -145,10 +145,10 @@ namespace WebApplication1.Models
             this.Name = name;
 
         }
-public Customer(int? id, string password) {
-            this.Id = id;
-            this.Password = password;
-        }
+//public Customer(int? id, string password) {
+//            this.Id = id;
+//            this.Password = password;
+//        }
         public int SaveData()
         {
             //int rc;
@@ -194,7 +194,7 @@ public Customer(int? id, string password) {
                 if(this.Telephone != null &&  this.Telephone[0].ToString()=="0" && this.Telephone[1].ToString()=="5" && (this.Telephone[2].ToString() == "6"|| this.Telephone[2].ToString() == "9"))
                 count3 = 1;
             }
-            if (count == 0 && count3==1)
+            if (count == 0 && count3==1 )
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {
@@ -252,6 +252,7 @@ public Customer(int? id, string password) {
             //    return result;
             //}
         }
+
 
         //get using 
         public void  Delete()
@@ -312,6 +313,49 @@ public Customer(int? id, string password) {
             }
             return l.ToArray();
 
+        }
+
+
+        public int AlterPassword()
+        {
+            int result = 0;
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Connection = new SqlConnection(cstr.con);
+                    cmd.Connection.Open();
+                    cmd.CommandText = "AlterPassword";
+
+                    if (Username != null) cmd.Parameters.AddWithValue("username", Username);
+                    if (CardId != null) cmd.Parameters.AddWithValue("card_id", CardId);
+                    if (Telephone != null) cmd.Parameters.AddWithValue("telephone", Telephone);
+                    if (CountryId != null) cmd.Parameters.AddWithValue("country_id", CountryId);
+                    if (CityId != null) cmd.Parameters.AddWithValue("city_id", CityId);
+                    if (Town != null) cmd.Parameters.AddWithValue("town", Town);
+                    if (Street != null) cmd.Parameters.AddWithValue("street", Street);
+                    if (Password != null) cmd.Parameters.AddWithValue("password", Password);
+                    if (Name != null) cmd.Parameters.AddWithValue("name", Name);
+
+
+                    SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
+                    idParam.Direction = ParameterDirection.InputOutput;
+                    idParam.Value = this.Id;
+
+                    SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
+                    resultParam.Direction = ParameterDirection.InputOutput;
+
+                    // idParam.Value = this.Id;
+
+                    int c = cmd.ExecuteNonQuery();
+
+                    this.Id = Convert.ToInt32(idParam.Value);
+                    result = Convert.ToInt32(resultParam.Value);
+                    cmd.Connection.Close();
+                }
+
+            return result;
+
+           
         }
     }
 }
