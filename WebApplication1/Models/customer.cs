@@ -183,7 +183,7 @@ public Customer(int? id, string password) {
                     count = 1;
                 }
             }
-            if (Telephone.Length!=10)//not 10 numbers
+            if ( this.Telephone != null && this.Telephone.Length !=10 )//not 10 numbers
             {
                 count2 = 1;
               
@@ -191,7 +191,7 @@ public Customer(int? id, string password) {
            
             if (count2 == 0 )//lenght is 10
             {
-                if(Telephone[0].ToString()=="0" && Telephone[1].ToString()=="5" && (Telephone[2].ToString() == "6"|| Telephone[2].ToString() == "9"))
+                if(this.Telephone != null &&  this.Telephone[0].ToString()=="0" && this.Telephone[1].ToString()=="5" && (this.Telephone[2].ToString() == "6"|| this.Telephone[2].ToString() == "9"))
                 count3 = 1;
             }
             if (count == 0 && count3==1)
