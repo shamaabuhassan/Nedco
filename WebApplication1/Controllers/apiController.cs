@@ -63,7 +63,7 @@ namespace WebApplication1.Controllers
                     Topup topup = new Topup(null, MeterId, Amount, cashCards[0].SerialNumber);
                     
                     int result;
-                    result = topup.SaveData();
+                    result = topup.SaveDataForAPP();
                     if (result == 1)
                     {
                         return Content(JsonConvert.SerializeObject(new { result = "success", data = topup }));
@@ -90,7 +90,7 @@ namespace WebApplication1.Controllers
                 {
                     Topup topup = new Topup(null, MeterId, Amount, cashCards[0].SerialNumber);
                     int result;
-                    result = topup.SaveData();
+                    result = topup.SaveDataForAPP();
                     if (result == 1)
                     {
                         return Content(JsonConvert.SerializeObject(new { result = "success", data = topup }));
@@ -120,7 +120,7 @@ namespace WebApplication1.Controllers
 
                     Topup topup = new Topup(null, MeterId, Amount, cashCards[0].SerialNumber);
                     int result;
-                    result = topup.SaveData();
+                    result = topup.SaveDataForAPP();
                     if (result == 1)
                     {
                         return Content(JsonConvert.SerializeObject(new { result = "success", data = topup }));
@@ -154,7 +154,7 @@ namespace WebApplication1.Controllers
                 {
                     Topup topup = new Topup(null, MeterId, Amount, cashCards[0].SerialNumber);
                     int result;
-                    result = topup.SaveData();
+                    result = topup.SaveDataForAPP();
                     if (result == 1)
                     {
                         return Content(JsonConvert.SerializeObject(new { result = "success", data = topup }));
@@ -185,7 +185,7 @@ namespace WebApplication1.Controllers
                 {
                     Topup topup = new Topup(null, MeterId, Amount, cashCards[0].SerialNumber);
                     int result;
-                    result = topup.SaveData();
+                    result = topup.SaveDataForAPP();
                     if (result == 1)
                     {
                         return Content(JsonConvert.SerializeObject(new { result = "success", data = topup }));

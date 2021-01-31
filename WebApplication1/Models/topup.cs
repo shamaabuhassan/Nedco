@@ -425,5 +425,81 @@ namespace WebApplication1.Models
 
         }
 
+
+
+
+        public int SaveDataForAPP()
+        {
+            int rc, count=0,result=0;
+            
+            CashCard[] cashCards = CashCard.GetCashCards(new CashCardParameters { SerialNumber = SerialNUM }, out rc);
+
+            
+
+            if (cashCards[0].Amount < Amount)//not suffecient amount
+            {
+                count = 1;
+            }
+
+
+            if (count == 0 )
+            {
+                //OTP = 0;
+                ChargeDate = DateTime.Now;
+                Status = "0";
+
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Connection = new SqlConnection(cstr.con);
+                    cmd.Connection.Open();
+                    cmd.CommandText = "SaveTopupData";
+
+
+                    if (MeterId != null) cmd.Parameters.AddWithValue("meter_id", MeterId);
+                    if (Amount != null) cmd.Parameters.AddWithValue("amount", Amount);
+                    if (SerialNUM != null) cmd.Parameters.AddWithValue("card_serialnum", cashCards[0].SerialNumber);
+                    // if (OTP != null) cmd.Parameters.AddWithValue("otp", OTP);
+                    if (ChargeDate != null) cmd.Parameters.AddWithValue("chargeDate", ChargeDate);
+                    if (ActivationDate != null) cmd.Parameters.AddWithValue("activationDate", ActivationDate);
+                    if (Status != null) cmd.Parameters.AddWithValue("status", Status);
+
+                    SqlParameter idParam = cmd.Parameters.Add("@id", SqlDbType.Int);
+                    idParam.Direction = ParameterDirection.InputOutput;
+                    idParam.Value = this.Id;
+
+                    SqlParameter otpParam = cmd.Parameters.Add("@otp", SqlDbType.Int);
+                    otpParam.Direction = ParameterDirection.InputOutput;
+
+                    SqlParameter resultParam = cmd.Parameters.Add("@result", SqlDbType.Int);
+                    resultParam.Direction = ParameterDirection.InputOutput;
+
+
+                    //try
+                    // {
+                    int c = cmd.ExecuteNonQuery();
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    return 0;
+                    //}
+
+                    this.Id = Convert.ToInt32(idParam.Value);
+                    this.OTP = Convert.ToInt32(otpParam.Value);
+                    result = Convert.ToInt32(resultParam.Value);
+                    cmd.Connection.Close();
+
+                }
+                decimal? amount = cashCards[0].Amount - Amount;
+                CashCard cash = new CashCard(cashCards[0].Id, amount, cashCards[0].SerialNumber);
+                cash.SaveData();
+            }
+         else if (count == 1)
+            {
+                result = 0;
+            }
+            return result;
+
+        }
     }
 }
