@@ -432,7 +432,7 @@ namespace WebApplication1.Controllers
                     }
                     else
                     {
-                        return Content(JsonConvert.SerializeObject(new { result = "insufficient-amount" }));
+                        return Content(JsonConvert.SerializeObject(new { result = "insufficient-amount", data= topup[0].Amount}));
                     }
 
 
@@ -466,7 +466,7 @@ namespace WebApplication1.Controllers
                     }
                     else
                     {
-                        return Content(JsonConvert.SerializeObject(new { result = "insufficient-amount" }));
+                        return Content(JsonConvert.SerializeObject(new { result = "insufficient-amount", data = topup[0].Amount }));
                     }
 
                 }
