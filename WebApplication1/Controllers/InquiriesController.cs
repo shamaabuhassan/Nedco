@@ -217,13 +217,13 @@ namespace WebApplication1.Controllers
             else
             {
                
-                if (ViewData.ModelState.IsValidField("meterid") == false&& fromdate != null && todate != null)
+                if (ViewData.ModelState.IsValidField("MeterId") == false && fromdate != null && todate != null)
                 {
                     ModelState.AddModelError("MeterId", "meter id is required");
                     return View();
 
                 }
-                if (ViewData.ModelState.IsValidField("meterid") == false && fromdate == null && todate == null)
+                if (ViewData.ModelState.IsValidField("MeterId") == false && fromdate == null && todate == null)
                 {
                     ModelState.AddModelError("MeterId", "meter id is required");
                     int both = 0;
@@ -231,7 +231,7 @@ namespace WebApplication1.Controllers
                     return View();
 
                 }
-                if (ViewData.ModelState.IsValidField("meterid") == false && fromdate != null && todate == null)
+                if (ViewData.ModelState.IsValidField("MeterId") == false && fromdate != null && todate == null)
                 {
                     ModelState.AddModelError("MeterId", "meter id is required");
                     int to = 0;
@@ -239,7 +239,7 @@ namespace WebApplication1.Controllers
                     return View();
 
                 }
-                if (ViewData.ModelState.IsValidField("meterid") == false && fromdate == null && todate != null)
+                if (ViewData.ModelState.IsValidField("MeterId") == false && fromdate == null && todate != null)
                 {
                     ModelState.AddModelError("MeterId", "meter id is required");
                     int from = 0;
@@ -247,7 +247,7 @@ namespace WebApplication1.Controllers
                     return View();
 
                 }
-                if (ViewData.ModelState.IsValidField("meterid") == true && fromdate == null && todate == null)
+                if (ViewData.ModelState.IsValidField("MeterId") == true && fromdate == null && todate == null)
                 {
                    // ModelState.AddModelError("MeterId", "meter id is required");
                     int both = 0;
@@ -255,7 +255,7 @@ namespace WebApplication1.Controllers
                     return View();
 
                 }
-                if (ViewData.ModelState.IsValidField("meterid") == true && fromdate != null && todate == null)
+                if (ViewData.ModelState.IsValidField("MeterId") == true && fromdate != null && todate == null)
                 {
                     //ModelState.AddModelError("MeterId", "meter id is required");
                     int to = 0;
@@ -263,7 +263,7 @@ namespace WebApplication1.Controllers
                     return View();
 
                 }
-                if (ViewData.ModelState.IsValidField("meterid") == true && fromdate == null && todate != null)
+                if (ViewData.ModelState.IsValidField("MeterId") == true && fromdate == null && todate != null)
                 {
                     //ModelState.AddModelError("MeterId", "meter id is required");
                     int from = 0;
@@ -271,7 +271,7 @@ namespace WebApplication1.Controllers
                     return View();
 
                 }
-                else if (ViewData.ModelState.IsValidField("meterid") == true && fromdate != null && todate != null)
+                else if (ViewData.ModelState.IsValidField("MeterId") == true && fromdate != null && todate != null)
                 
                 {
                     //check whether id is already exists in the database or not
